@@ -1,0 +1,35 @@
+spring:
+  profiles:
+    active: local
+    include: API-KEY
+  datasource:
+    # H2 Database
+    url: jdbc:h2:tcp://localhost/~/devin
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+      #ddl-auto: none
+    properties:
+      hibernate:
+        # show_sql: true
+        format_sql: true
+        use_sql_comments: true
+  messages:
+    basename: i18n/exception
+    encoding: UTF-8
+
+  #cache:
+    #type: redis
+
+  #redis:
+    #port: 6379
+    #host: localhost
+
+logging.level:
+  org.hibernate.SQL: debug
+# org.hibernate.type: trace
+
