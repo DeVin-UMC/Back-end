@@ -1,8 +1,8 @@
 package UMC.DeVin.member;
 
-import UMC.DeVin.member.division.MemberDivision;
 import UMC.DeVin.member.role.MemberRole;
 import UMC.common.base.BaseEntity;
+import UMC.config.oauth.entity.ProviderType;
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -31,19 +31,38 @@ public class Member extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "mbr_div")
-    private MemberDivision division;
+    private ProviderType division;
 
     @Column(name = "mbr_nickname")
     private String nickname;
 
+
     protected Member() { }
 
-    private void init(String name, String email, String profileImageUrl, MemberDivision division, String nickname) {
+
+    /**
+     *  회원 가입 전, OAuth를 활용한 로그인만 진행되었을 때 사용됩니다.
+     */
+    public void init(String name, String email, String profileImageUrl, ProviderType division) {
         this.name = name;
         this.email = email;
         this.profileImageUrl = profileImageUrl;
         this.division = division;
+        this.role = MemberRole.USER;
+    }
+
+    /**
+     *  회원 가입 시 OAuth를 활용한 로그인 후, 추가정보를 입력할 때 사용됩니다.
+     */
+    public void updateAdditionalInfo(String nickname) {
         this.nickname = nickname;
+    }
+
+    /**
+     *  OAuth 로그인 시, 프로필 사진이 바뀌었을 때 사용됩니다.
+     */
+    public void updateProfileImg(String profileImageUrl) {
+        this.profileImageUrl = profileImageUrl;
     }
 
     /**
@@ -52,15 +71,15 @@ public class Member extends BaseEntity {
      * @param email 이메일
      * @param profileImageUrl 프로필 사진 URL
      * @param division 사용자 구분
-     * @param nickname 닉네임
      * 해당 메서드로만 Member을 생성합니다.
      */
-    public static Member createMember(String name, String email, String profileImageUrl, MemberDivision division, String nickname) {
+    public static Member createMember(String name, String email, String profileImageUrl, ProviderType division) {
         Member member = new Member();
-        member.init(name, email, profileImageUrl, division, nickname);
+        member.init(name, email, profileImageUrl, division);
 
         return member;
     }
+
 
 
 

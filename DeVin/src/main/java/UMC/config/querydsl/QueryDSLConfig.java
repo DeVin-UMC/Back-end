@@ -1,4 +1,4 @@
-package UMC.common.querydsl;
+package UMC.config.querydsl;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.context.annotation.Bean;
