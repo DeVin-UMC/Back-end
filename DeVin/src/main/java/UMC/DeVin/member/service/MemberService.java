@@ -5,13 +5,18 @@ import UMC.DeVin.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class MemberService {
-    private final MemberRepository userRepository;
+    private final MemberRepository memberRepository;
 
-    public Member getUser(String userId) {
-        return userRepository.findByEmail(userId).get();
+    public Member getUser(String email) {
+
+        return memberRepository.findByEmail(email).isEmpty() ? null : memberRepository.findByEmail(email).get();
+
     }
 }
 

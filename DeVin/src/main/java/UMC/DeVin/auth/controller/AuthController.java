@@ -2,15 +2,15 @@ package UMC.DeVin.auth.controller;
 
 import UMC.DeVin.auth.UserRefreshToken;
 import UMC.DeVin.auth.repository.UserRefreshTokenRepository;
-import UMC.config.oauth.entity.RoleType;
-import UMC.config.oauth.entity.UserPrincipal;
-import UMC.common.ApiResponse;
-import UMC.DeVin.auth.dto.AuthReqModel;
-import UMC.config.oauth.token.AuthToken;
-import UMC.config.oauth.token.AuthTokenProvider;
-import UMC.config.oauth.utils.CookieUtil;
-import UMC.config.oauth.utils.HeaderUtil;
-import UMC.config.properties.AppProperties;
+import UMC.DeVin.config.oauth.entity.RoleType;
+import UMC.DeVin.config.oauth.entity.UserPrincipal;
+import UMC.DeVin.common.ApiResponse;
+import UMC.DeVin.auth.dto.AuthReq;
+import UMC.DeVin.config.oauth.token.AuthToken;
+import UMC.DeVin.config.oauth.token.AuthTokenProvider;
+import UMC.DeVin.config.oauth.utils.CookieUtil;
+import UMC.DeVin.config.oauth.utils.HeaderUtil;
+import UMC.DeVin.config.properties.AppProperties;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -41,16 +41,16 @@ public class AuthController {
     public ApiResponse login(
             HttpServletRequest request,
             HttpServletResponse response,
-            @RequestBody AuthReqModel authReqModel
+            @RequestBody AuthReq authReq
     ) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        authReqModel.getId(),
-                        authReqModel.getPassword()
+                        authReq.getId(),
+                        authReq.getPassword()
                 )
         );
 
-        String userId = authReqModel.getId();
+        String userId = authReq.getId();
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         Date now = new Date();

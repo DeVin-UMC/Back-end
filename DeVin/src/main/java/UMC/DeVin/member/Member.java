@@ -1,8 +1,8 @@
 package UMC.DeVin.member;
 
 import UMC.DeVin.member.role.MemberRole;
-import UMC.common.base.BaseEntity;
-import UMC.config.oauth.entity.ProviderType;
+import UMC.DeVin.common.base.BaseEntity;
+import UMC.DeVin.config.oauth.entity.ProviderType;
 import lombok.Getter;
 
 import javax.persistence.*;

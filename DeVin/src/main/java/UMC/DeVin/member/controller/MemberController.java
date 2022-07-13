@@ -1,8 +1,11 @@
 package UMC.DeVin.member.controller;
 
 import UMC.DeVin.member.Member;
-import UMC.common.ApiResponse;
+import UMC.DeVin.member.dto.MemberRes;
 import UMC.DeVin.member.service.MemberService;
+import UMC.DeVin.common.base.BaseException;
+import UMC.DeVin.common.base.BaseResponse;
+import UMC.DeVin.common.base.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -17,12 +20,24 @@ public class MemberController {
 
     private final MemberService memberService;
 
+    @GetMapping("/test")
+    public String loginTest() {
+        User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return principal.getUsername();
+    }
+
     @GetMapping
-    public ApiResponse getUser() {
-        User principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    public BaseResponse<MemberRes> getUser() throws BaseException {
+        User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        Member user = memberService.getUser(principal.getUsername());
+        Member member = memberService.getUser(principal.getUsername());
 
-        return ApiResponse.success("user", user);
+        if (member == null) {
+            throw new BaseException(BaseResponseStatus.NO_LOGIN_USER);
+        }
+
+        return new BaseResponse<>(new MemberRes(member.getEmail(), member.getProfileImageUrl(), member.getNickname(),
+                member.getDivision(), member.getRole()));
+
     }
 }

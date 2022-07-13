@@ -1,6 +1,6 @@
 package UMC.DeVin;
 
-import UMC.common.CustomRestExceptionHandler;
+import UMC.DeVin.common.CustomRestExceptionHandler;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
