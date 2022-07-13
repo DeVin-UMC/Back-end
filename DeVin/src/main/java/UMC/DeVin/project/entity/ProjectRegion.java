@@ -1,6 +1,5 @@
-package UMC.DeVin.project;
+package UMC.DeVin.project.entity;
 
-import UMC.common.base.BaseEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,19 +12,20 @@ import javax.persistence.*;
 @Table(name = "PROJECT_REGION")
 public class ProjectRegion {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "reg_id")
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name="pro_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="pro_id")
     private Project project;
 
     @Column(name = "rec_title", nullable = false)
     private String title;
 
     @Builder
-    public ProjectRegion(Project project, String title){
+    public ProjectRegion(Long id, Project project, String title){
+        this.id = id;
         this.project = project;
         this.title = title;
     }

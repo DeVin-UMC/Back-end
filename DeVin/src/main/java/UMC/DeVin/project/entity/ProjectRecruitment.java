@@ -1,11 +1,8 @@
-package UMC.DeVin.project;
+package UMC.DeVin.project.entity;
 
-import UMC.common.base.BaseEntity;
 import lombok.Builder;
-import lombok.CustomLog;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.junit.ClassRule;
 
 import javax.persistence.*;
 
@@ -17,12 +14,12 @@ import static javax.persistence.FetchType.LAZY;
 @Table(name = "PROJECT_RECRUITMENT")
 public class ProjectRecruitment {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "rec_id")
     private Long id;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name="pro_id", nullable = false)
+    @JoinColumn(name="pro_id")
     private Project project;
 
     @Column(name = "rec_title", nullable = false)
@@ -37,4 +34,5 @@ public class ProjectRecruitment {
         this.title = title;
         this.num = num;
     }
+
 }

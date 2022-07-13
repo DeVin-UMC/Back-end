@@ -1,4 +1,4 @@
-package UMC.DeVin.project.level;
+package UMC.DeVin.project.entity.level;
 
 public enum ProgramLevel {
     BEGINNER,

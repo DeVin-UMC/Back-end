@@ -1,6 +1,5 @@
-package UMC.DeVin.project;
+package UMC.DeVin.project.entity;
 
-import UMC.common.base.BaseEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,12 +14,12 @@ import static javax.persistence.FetchType.LAZY;
 @Table(name = "PROJECT_PLATFORM")
 public class ProjectPlatform {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "pla_id")
     private Long id;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "pro_id", nullable = false)
+    @JoinColumn(name = "pro_id")
     private Project project;
 
     @Column(name = "pla_title")
