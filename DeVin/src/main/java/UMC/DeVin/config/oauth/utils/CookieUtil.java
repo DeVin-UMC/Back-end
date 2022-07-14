@@ -27,7 +27,6 @@ public class CookieUtil {
 
     public static void addCookie(HttpServletResponse response, String name, String value, int maxAge) {
 
-        log.info("cookie 추가 액션 발생 : name - {}, value - {}", name, value);
 
         Cookie cookie = new Cookie(name, value);
         cookie.setPath("/");
@@ -39,7 +38,6 @@ public class CookieUtil {
 
     public static void deleteCookie(HttpServletRequest request, HttpServletResponse response, String name) {
 
-        log.info("cookie 삭제 액션 발생 : name - {}", name);
 
         Cookie[] cookies = request.getCookies();
 

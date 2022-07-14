@@ -32,6 +32,7 @@ public class UserRefreshToken {
     @Size(max = 64)
     private String userId;
 
+
     @Column(name = "REFRESH_TOKEN", length = 256)
     @NotNull
     @Size(max = 256)
@@ -41,13 +42,18 @@ public class UserRefreshToken {
     @NotBlank
     private String userIpAddress;
 
+    @Column(name = "mbr_id")
+    private Long memberId;
+
     public UserRefreshToken(
             @NotNull @Size(max = 64) String userId,
             @NotNull @Size(max = 256) String refreshToken,
+            @NotNull Long memberId,
             HttpServletRequest request
     ) {
         this.userId = userId;
         this.refreshToken = refreshToken;
+        this.memberId = memberId;
         this.userIpAddress = getRemoteAddr(request);
     }
 }

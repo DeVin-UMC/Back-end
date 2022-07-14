@@ -1,7 +1,11 @@
 package UMC.DeVin.auth.controller;
 
 import UMC.DeVin.auth.UserRefreshToken;
+import UMC.DeVin.auth.dto.AccessTokenRes;
 import UMC.DeVin.auth.repository.UserRefreshTokenRepository;
+import UMC.DeVin.common.base.BaseException;
+import UMC.DeVin.common.base.BaseResponse;
+import UMC.DeVin.common.base.BaseResponseStatus;
 import UMC.DeVin.config.oauth.entity.RoleType;
 import UMC.DeVin.config.oauth.entity.UserPrincipal;
 import UMC.DeVin.common.ApiResponse;
@@ -11,8 +15,11 @@ import UMC.DeVin.config.oauth.token.AuthTokenProvider;
 import UMC.DeVin.config.oauth.utils.CookieUtil;
 import UMC.DeVin.config.oauth.utils.HeaderUtil;
 import UMC.DeVin.config.properties.AppProperties;
+import UMC.DeVin.member.Member;
+import UMC.DeVin.member.repository.MemberRepository;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -23,16 +30,19 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/v1/auth")
+@RequestMapping("/token")
 @RequiredArgsConstructor
+@Slf4j
 public class AuthController {
 
     private final AppProperties appProperties;
     private final AuthTokenProvider tokenProvider;
     private final AuthenticationManager authenticationManager;
     private final UserRefreshTokenRepository userRefreshTokenRepository;
+    private final MemberRepository memberRepository;
 
     private final static long THREE_DAYS_MSEC = 259200000;
     private final static String REFRESH_TOKEN = "refresh_token";
@@ -70,7 +80,7 @@ public class AuthController {
         UserRefreshToken userRefreshToken = userRefreshTokenRepository.findByUserId(userId);
         if (userRefreshToken == null) {
             // 없는 경우 새로 등록
-            userRefreshToken = new UserRefreshToken(userId, refreshToken.getToken(), request);
+            //userRefreshToken = new UserRefreshToken(userId, refreshToken.getToken(), request);
             userRefreshTokenRepository.saveAndFlush(userRefreshToken);
         } else {
             // DB에 refresh 토큰 업데이트
@@ -85,22 +95,8 @@ public class AuthController {
     }
 
     @GetMapping("/refresh")
-    public ApiResponse refreshToken (HttpServletRequest request, HttpServletResponse response) {
-        // access token 확인
-        String accessToken = HeaderUtil.getAccessToken(request);
-        AuthToken authToken = tokenProvider.convertAuthToken(accessToken);
-        if (!authToken.validate()) {
-            return ApiResponse.invalidAccessToken();
-        }
+    public BaseResponse<AccessTokenRes> refreshToken (HttpServletRequest request, HttpServletResponse response) throws BaseException {
 
-        // expired access token 인지 확인
-        Claims claims = authToken.getExpiredTokenClaims();
-        if (claims == null) {
-            return ApiResponse.notExpiredTokenYet();
-        }
-
-        String userId = claims.getSubject();
-        RoleType roleType = RoleType.of(claims.get("role", String.class));
 
         // refresh token
         String refreshToken = CookieUtil.getCookie(request, REFRESH_TOKEN)
@@ -108,20 +104,27 @@ public class AuthController {
                 .orElse((null));
         AuthToken authRefreshToken = tokenProvider.convertAuthToken(refreshToken);
 
-        if (authRefreshToken.validate()) {
-            return ApiResponse.invalidRefreshToken();
+        if (!authRefreshToken.validate()) {
+            throw new BaseException(BaseResponseStatus.INVALID_REFRESH_TOKEN);
         }
 
         // userId refresh token 으로 DB 확인
-        UserRefreshToken userRefreshToken = userRefreshTokenRepository.findByUserIdAndRefreshToken(userId, refreshToken);
-        if (userRefreshToken == null) {
-            return ApiResponse.invalidRefreshToken();
+        Optional<UserRefreshToken> userRefreshToken = userRefreshTokenRepository.findByRefreshToken(refreshToken);
+        if (userRefreshToken.isEmpty()) {
+            throw new BaseException(BaseResponseStatus.INVALID_REFRESH_TOKEN);
+        }
+
+        Optional<Member> findMember = memberRepository.findById(userRefreshToken.get().getMemberId());
+
+        if (findMember.isEmpty()) {
+            userRefreshTokenRepository.delete(userRefreshToken.get());
+            throw new BaseException(BaseResponseStatus.INVALID_REFRESH_TOKEN);
         }
 
         Date now = new Date();
         AuthToken newAccessToken = tokenProvider.createAuthToken(
-                userId,
-                roleType.getCode(),
+                findMember.get().getEmail(),
+                findMember.get().getRole().getCode(),
                 new Date(now.getTime() + appProperties.getAuth().getTokenExpiry())
         );
 
@@ -138,14 +141,15 @@ public class AuthController {
             );
 
             // DB에 refresh 토큰 업데이트
-            userRefreshToken.setRefreshToken(authRefreshToken.getToken());
+            userRefreshToken.get().setRefreshToken(authRefreshToken.getToken());
 
             int cookieMaxAge = (int) refreshTokenExpiry / 60;
             CookieUtil.deleteCookie(request, response, REFRESH_TOKEN);
             CookieUtil.addCookie(response, REFRESH_TOKEN, authRefreshToken.getToken(), cookieMaxAge);
         }
 
-        return ApiResponse.success("token", newAccessToken.getToken());
+        return new BaseResponse<>(new AccessTokenRes(newAccessToken.getToken()));
+
     }
 }
 

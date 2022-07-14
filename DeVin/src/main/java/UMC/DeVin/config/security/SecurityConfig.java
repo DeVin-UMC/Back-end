@@ -13,6 +13,7 @@ import UMC.DeVin.config.oauth.service.CustomUserDetailsService;
 import UMC.DeVin.config.oauth.token.AuthTokenProvider;
 import UMC.DeVin.config.properties.AppProperties;
 import UMC.DeVin.config.properties.CorsProperties;
+import UMC.DeVin.member.repository.MemberRepository;
 import UMC.DeVin.member.role.MemberRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
@@ -44,6 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final CustomOAuth2UserService oAuth2UserService;
     private final TokenAccessDeniedHandler tokenAccessDeniedHandler;
     private final UserRefreshTokenRepository userRefreshTokenRepository;
+    private final MemberRepository memberRepository;
 
     /*
      * UserDetailsService 설정
@@ -75,6 +77,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/**/admin/**").hasAnyAuthority(MemberRole.ADMIN.getCode())
                 .antMatchers("/test").permitAll()
                 .antMatchers("/login/google").permitAll()
+                .antMatchers("/token/refresh").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .oauth2Login()
@@ -137,7 +140,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 tokenProvider,
                 appProperties,
                 userRefreshTokenRepository,
-                oAuth2AuthorizationRequestBasedOnCookieRepository()
+                oAuth2AuthorizationRequestBasedOnCookieRepository(),
+                memberRepository
         );
     }
 

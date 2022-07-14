@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 /**
- *  컨틀롤러 테스트용입니다.
+ *  컨트롤러 테스트용입니다.
  */
 
 

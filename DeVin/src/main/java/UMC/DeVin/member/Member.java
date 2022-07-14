@@ -37,6 +37,7 @@ public class Member extends BaseEntity {
     private String nickname;
 
 
+
     protected Member() { }
 
 
