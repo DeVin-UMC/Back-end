@@ -15,12 +15,14 @@ import UMC.DeVin.config.properties.AppProperties;
 import UMC.DeVin.config.properties.CorsProperties;
 import UMC.DeVin.member.role.MemberRole;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -72,6 +74,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/**").hasAnyAuthority(MemberRole.USER.getCode())
                 .antMatchers("/api/**/admin/**").hasAnyAuthority(MemberRole.ADMIN.getCode())
                 .antMatchers("/test").permitAll()
+                .antMatchers("/login/google").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .oauth2Login()
@@ -163,4 +166,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         corsConfigSource.registerCorsConfiguration("/**", corsConfig);
         return corsConfigSource;
     }
+
+    /**
+     *  정적 리소스 Spring Security 필터로부터 ignore
+     */
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().mvcMatchers("/favicon.ico");
+        web.ignoring().mvcMatchers("/error");
+        web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
+    }
+
+
 }

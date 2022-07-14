@@ -70,7 +70,7 @@ public class AuthController {
         UserRefreshToken userRefreshToken = userRefreshTokenRepository.findByUserId(userId);
         if (userRefreshToken == null) {
             // 없는 경우 새로 등록
-            userRefreshToken = new UserRefreshToken(userId, refreshToken.getToken());
+            userRefreshToken = new UserRefreshToken(userId, refreshToken.getToken(), request);
             userRefreshTokenRepository.saveAndFlush(userRefreshToken);
         } else {
             // DB에 refresh 토큰 업데이트

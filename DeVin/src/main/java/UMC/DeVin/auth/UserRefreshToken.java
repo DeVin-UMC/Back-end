@@ -7,8 +7,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import static UMC.DeVin.auth.IpAddressUtil.getRemoteAddr;
 
 @Getter
 @Setter
@@ -33,11 +37,17 @@ public class UserRefreshToken {
     @Size(max = 256)
     private String refreshToken;
 
+    @Column(name = "USER_IP")
+    @NotBlank
+    private String userIpAddress;
+
     public UserRefreshToken(
             @NotNull @Size(max = 64) String userId,
-            @NotNull @Size(max = 256) String refreshToken
+            @NotNull @Size(max = 256) String refreshToken,
+            HttpServletRequest request
     ) {
         this.userId = userId;
         this.refreshToken = refreshToken;
+        this.userIpAddress = getRemoteAddr(request);
     }
 }

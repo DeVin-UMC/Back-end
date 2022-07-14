@@ -1,5 +1,6 @@
 package UMC.DeVin.config.oauth.utils;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.SerializationUtils;
 
 import javax.servlet.http.Cookie;
@@ -8,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Base64;
 import java.util.Optional;
 
+@Slf4j
 public class CookieUtil {
 
     public static Optional<Cookie> getCookie(HttpServletRequest request, String name) {
@@ -24,6 +26,9 @@ public class CookieUtil {
     }
 
     public static void addCookie(HttpServletResponse response, String name, String value, int maxAge) {
+
+        log.info("cookie 추가 액션 발생 : name - {}, value - {}", name, value);
+
         Cookie cookie = new Cookie(name, value);
         cookie.setPath("/");
         cookie.setHttpOnly(true);
@@ -33,6 +38,9 @@ public class CookieUtil {
     }
 
     public static void deleteCookie(HttpServletRequest request, HttpServletResponse response, String name) {
+
+        log.info("cookie 삭제 액션 발생 : name - {}", name);
+
         Cookie[] cookies = request.getCookies();
 
         if (cookies != null && cookies.length > 0) {
