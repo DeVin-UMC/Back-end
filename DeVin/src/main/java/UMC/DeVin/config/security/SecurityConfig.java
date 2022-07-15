@@ -1,7 +1,6 @@
 package UMC.DeVin.config.security;
 
-import UMC.DeVin.auth.repository.UserRefreshTokenRepository;
-import UMC.DeVin.config.oauth.entity.RoleType;
+import UMC.DeVin.auth.repository.MemberRefreshTokenRepository;
 import UMC.DeVin.config.oauth.handler.TokenAccessDeniedHandler;
 import UMC.DeVin.config.oauth.exception.RestAuthenticationEntryPoint;
 import UMC.DeVin.config.oauth.filter.TokenAuthenticationFilter;
@@ -44,7 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final CustomUserDetailsService userDetailsService;
     private final CustomOAuth2UserService oAuth2UserService;
     private final TokenAccessDeniedHandler tokenAccessDeniedHandler;
-    private final UserRefreshTokenRepository userRefreshTokenRepository;
+    private final MemberRefreshTokenRepository memberRefreshTokenRepository;
     private final MemberRepository memberRepository;
 
     /*
@@ -75,9 +74,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 .antMatchers("/api/**").hasAnyAuthority(MemberRole.USER.getCode())
                 .antMatchers("/api/**/admin/**").hasAnyAuthority(MemberRole.ADMIN.getCode())
-                .antMatchers("/test").permitAll()
                 .antMatchers("/login/google").permitAll()
                 .antMatchers("/token/refresh").permitAll()
+                .antMatchers("/test").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .oauth2Login()
@@ -139,7 +138,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new OAuth2AuthenticationSuccessHandler(
                 tokenProvider,
                 appProperties,
-                userRefreshTokenRepository,
+                memberRefreshTokenRepository,
                 oAuth2AuthorizationRequestBasedOnCookieRepository(),
                 memberRepository
         );

@@ -1,29 +1,21 @@
 package UMC.DeVin.auth.controller;
 
-import UMC.DeVin.auth.UserRefreshToken;
+import UMC.DeVin.auth.IpAddressUtil;
+import UMC.DeVin.auth.MemberRefreshToken;
 import UMC.DeVin.auth.dto.AccessTokenRes;
-import UMC.DeVin.auth.repository.UserRefreshTokenRepository;
+import UMC.DeVin.auth.repository.MemberRefreshTokenRepository;
 import UMC.DeVin.common.base.BaseException;
 import UMC.DeVin.common.base.BaseResponse;
 import UMC.DeVin.common.base.BaseResponseStatus;
-import UMC.DeVin.config.oauth.entity.RoleType;
-import UMC.DeVin.config.oauth.entity.UserPrincipal;
-import UMC.DeVin.common.ApiResponse;
-import UMC.DeVin.auth.dto.AuthReq;
 import UMC.DeVin.config.oauth.token.AuthToken;
 import UMC.DeVin.config.oauth.token.AuthTokenProvider;
 import UMC.DeVin.config.oauth.utils.CookieUtil;
-import UMC.DeVin.config.oauth.utils.HeaderUtil;
 import UMC.DeVin.config.properties.AppProperties;
 import UMC.DeVin.member.Member;
 import UMC.DeVin.member.repository.MemberRepository;
-import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
@@ -33,7 +25,6 @@ import java.util.Date;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/token")
 @RequiredArgsConstructor
 @Slf4j
 public class AuthController {
@@ -41,13 +32,16 @@ public class AuthController {
     private final AppProperties appProperties;
     private final AuthTokenProvider tokenProvider;
     private final AuthenticationManager authenticationManager;
-    private final UserRefreshTokenRepository userRefreshTokenRepository;
+    private final MemberRefreshTokenRepository memberRefreshTokenRepository;
     private final MemberRepository memberRepository;
 
     private final static long THREE_DAYS_MSEC = 259200000;
     private final static String REFRESH_TOKEN = "refresh_token";
 
-    @PostMapping("/login")
+
+    // 로그인 로직 (deprecated)
+
+    /*@PostMapping("/login")
     public ApiResponse login(
             HttpServletRequest request,
             HttpServletResponse response,
@@ -92,9 +86,12 @@ public class AuthController {
         CookieUtil.addCookie(response, REFRESH_TOKEN, refreshToken.getToken(), cookieMaxAge);
 
         return ApiResponse.success("token", accessToken.getToken());
-    }
+    }*/
 
-    @GetMapping("/refresh")
+    /**
+     *  access token refresh 로직 (refresh token이 존재해야 합니다.)
+     */
+    @GetMapping("/token/refresh")
     public BaseResponse<AccessTokenRes> refreshToken (HttpServletRequest request, HttpServletResponse response) throws BaseException {
 
 
@@ -109,18 +106,28 @@ public class AuthController {
         }
 
         // userId refresh token 으로 DB 확인
-        Optional<UserRefreshToken> userRefreshToken = userRefreshTokenRepository.findByRefreshToken(refreshToken);
+        Optional<MemberRefreshToken> userRefreshToken = memberRefreshTokenRepository.findByRefreshToken(refreshToken);
         if (userRefreshToken.isEmpty()) {
             throw new BaseException(BaseResponseStatus.INVALID_REFRESH_TOKEN);
         }
 
+        // 동일한 IP에서 요청했는지 확인
+        if (!userRefreshToken.get().getUserIpAddress().equals(IpAddressUtil.getRemoteAddr(request))) {
+            // 다른 IP에서 요청했을 경우 비정상적인 접근으로 간주, refresh token 삭제 및 로그아웃 처리
+            memberRefreshTokenRepository.delete(userRefreshToken.get());
+            throw new BaseException(BaseResponseStatus.LOGIN_WITH_WRONG_IP_ADDRESS);
+        }
+
+        // refresh token에 해당하는 member 조회
         Optional<Member> findMember = memberRepository.findById(userRefreshToken.get().getMemberId());
 
+        // member가 존재하지 않을 경우
         if (findMember.isEmpty()) {
-            userRefreshTokenRepository.delete(userRefreshToken.get());
+            memberRefreshTokenRepository.delete(userRefreshToken.get());
             throw new BaseException(BaseResponseStatus.INVALID_REFRESH_TOKEN);
         }
 
+        // 새로운 access token 발급
         Date now = new Date();
         AuthToken newAccessToken = tokenProvider.createAuthToken(
                 findMember.get().getEmail(),
@@ -150,6 +157,14 @@ public class AuthController {
 
         return new BaseResponse<>(new AccessTokenRes(newAccessToken.getToken()));
 
+    }
+
+    @GetMapping("/login/google")
+    public BaseResponse<AccessTokenRes> googleLoginSuccess(@RequestParam String token) throws BaseException{
+        if (token == null || !tokenProvider.convertAuthToken(token).validate()) {
+            throw new BaseException(BaseResponseStatus.INVALID_ACCESS_TOKEN);
+        }
+        return new BaseResponse<>(new AccessTokenRes(token));
     }
 }
 

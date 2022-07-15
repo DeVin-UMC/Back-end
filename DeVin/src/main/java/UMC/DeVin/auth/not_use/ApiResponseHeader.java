@@ -1,4 +1,4 @@
-package UMC.DeVin.common;
+package UMC.DeVin.auth.not_use;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -24,6 +24,8 @@ public enum BaseResponseStatus {
     INVALID_USER_JWT(false,2003, HttpStatus.FORBIDDEN, "권한이 없는 유저의 접근입니다."),
     NO_LOGIN_USER(false,2004, HttpStatus.BAD_REQUEST, "로그인된 사용자가 없습니다."),
     INVALID_REFRESH_TOKEN(false,2005, HttpStatus.BAD_REQUEST, "refresh token이 유효하지 않습니다."),
+    INVALID_ACCESS_TOKEN(false,2006, HttpStatus.BAD_REQUEST, "access token이 유효하지 않습니다."),
+    LOGIN_WITH_WRONG_IP_ADDRESS(false,2007, HttpStatus.BAD_REQUEST, "서로 다른 IP 주소에서 같은 refresh token을 이용해 접근을 시도했습니다."),
 
     // users
     USERS_EMPTY_USER_ID(false, 2010, HttpStatus.BAD_REQUEST,  "유저 아이디 값을 확인해주세요."),

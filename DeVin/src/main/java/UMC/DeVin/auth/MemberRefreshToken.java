@@ -19,8 +19,8 @@ import static UMC.DeVin.auth.IpAddressUtil.getRemoteAddr;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "USER_REFRESH_TOKEN")
-public class UserRefreshToken {
+@Table(name = "MEMBER_REFRESH_TOKEN")
+public class MemberRefreshToken {
     @JsonIgnore
     @Id
     @Column(name = "REFRESH_TOKEN_SEQ")
@@ -45,7 +45,7 @@ public class UserRefreshToken {
     @Column(name = "mbr_id")
     private Long memberId;
 
-    public UserRefreshToken(
+    public MemberRefreshToken(
             @NotNull @Size(max = 64) String userId,
             @NotNull @Size(max = 256) String refreshToken,
             @NotNull Long memberId,
