@@ -13,7 +13,7 @@ import javax.transaction.Transactional;
 public class MemberService {
     private final MemberRepository memberRepository;
 
-    public Member getUser(String email) {
+    public Member getMember(String email) {
 
         return memberRepository.findByEmail(email).isEmpty() ? null : memberRepository.findByEmail(email).get();
 

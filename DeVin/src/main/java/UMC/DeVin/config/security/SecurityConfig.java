@@ -1,5 +1,6 @@
 package UMC.DeVin.config.security;
 
+import UMC.DeVin.auth.OAuthLoginUserUtil;
 import UMC.DeVin.auth.repository.MemberRefreshTokenRepository;
 import UMC.DeVin.config.oauth.handler.TokenAccessDeniedHandler;
 import UMC.DeVin.config.oauth.exception.RestAuthenticationEntryPoint;
@@ -45,6 +46,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final TokenAccessDeniedHandler tokenAccessDeniedHandler;
     private final MemberRefreshTokenRepository memberRefreshTokenRepository;
     private final MemberRepository memberRepository;
+    private final OAuthLoginUserUtil oAuthLoginUserUtil;
+    private final MemberRefreshTokenRepository refreshTokenRepository;
 
     /*
      * UserDetailsService 설정
@@ -67,7 +70,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin().disable()
                 .httpBasic().disable()
                 .exceptionHandling()
-                .authenticationEntryPoint(new RestAuthenticationEntryPoint())
+                .authenticationEntryPoint(new RestAuthenticationEntryPoint(oAuthLoginUserUtil, refreshTokenRepository, memberRepository))
                 .accessDeniedHandler(tokenAccessDeniedHandler)
                 .and()
                 .authorizeRequests()
@@ -76,6 +79,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/**/admin/**").hasAnyAuthority(MemberRole.ADMIN.getCode())
                 .antMatchers("/login/google").permitAll()
                 .antMatchers("/token/refresh").permitAll()
+                .antMatchers("/join").permitAll()
                 .antMatchers("/test").permitAll()
                 .anyRequest().authenticated()
                 .and()

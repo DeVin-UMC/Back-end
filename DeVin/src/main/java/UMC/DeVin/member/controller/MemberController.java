@@ -1,6 +1,7 @@
 package UMC.DeVin.member.controller;
 
 import UMC.DeVin.auth.OAuthLoginUserUtil;
+import UMC.DeVin.config.oauth.token.AuthTokenProvider;
 import UMC.DeVin.member.Member;
 import UMC.DeVin.member.dto.MemberJoinRes;
 import UMC.DeVin.member.dto.MemberRes;
@@ -9,10 +10,9 @@ import UMC.DeVin.common.base.BaseException;
 import UMC.DeVin.common.base.BaseResponse;
 import UMC.DeVin.common.base.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -21,19 +21,15 @@ public class MemberController {
 
     private final MemberService memberService;
     private final OAuthLoginUserUtil oAuthLoginUserUtil;
+    private final AuthTokenProvider tokenProvider;
 
     /**
      *  로그인된 사용자 반환 테스트용
      */
     @GetMapping("/test/user")
     public BaseResponse<MemberRes> getUser() throws BaseException {
-        User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        Member member = memberService.getUser(principal.getUsername());
-
-        if (member == null) {
-            throw new BaseException(BaseResponseStatus.NO_LOGIN_USER);
-        }
+        Member member = oAuthLoginUserUtil.getLoginMemberWithContext();
 
         return new BaseResponse<>(new MemberRes(member.getEmail(), member.getProfileImageUrl(), member.getNickname(),
                 member.getDivision(), member.getRole()));
@@ -44,12 +40,25 @@ public class MemberController {
      *  OAuth 를 통한 로그인 이후, 첫 로그인일 경우 (회원가입) 시 추가 정보 입력을 위해 사용
      */
     @GetMapping("/join")
-    public BaseResponse<MemberJoinRes> joinMember() throws BaseException {
+    public BaseResponse<MemberJoinRes> joinMember(@RequestParam String token) throws BaseException {
 
-        Member loginMember = oAuthLoginUserUtil.getLoginMember();
+        // access token이 유효하지 않을 경우 (비정상적인 접근)
+        if (!tokenProvider.convertAuthToken(token).validate()) {
+            throw new BaseException(BaseResponseStatus.INVALID_ACCESS_TOKEN);
+        }
+
+        // access token으로 해당 User 탐색
+        User user = (User) tokenProvider.getAuthentication(tokenProvider.convertAuthToken(token)).getPrincipal();
+
+        Member loginMember = memberService.getMember(user.getUsername());
+
+        // 이미 존재하는 회원일 경우
+        if (loginMember.getNickname() != null) {
+            throw new BaseException(BaseResponseStatus.ALREADY_JOIN_BEFORE);
+        }
 
         return new BaseResponse<>(new MemberJoinRes(loginMember.getEmail(), loginMember.getProfileImageUrl(),
-                loginMember.getDivision(), loginMember.getRole()));
+                loginMember.getDivision(), loginMember.getRole(), token));
 
     }
 }

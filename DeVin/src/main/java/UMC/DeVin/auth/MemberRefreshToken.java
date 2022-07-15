@@ -23,22 +23,22 @@ import static UMC.DeVin.auth.IpAddressUtil.getRemoteAddr;
 public class MemberRefreshToken {
     @JsonIgnore
     @Id
-    @Column(name = "REFRESH_TOKEN_SEQ")
+    @Column(name = "refresh_token_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private Long refreshTokenSeq;
-    @Column(name = "USER_ID", length = 64, unique = true)
+
+    @Column(name = "oauth_user_id", length = 64, unique = true)
     @NotNull
     @Size(max = 64)
     private String userId;
 
 
-    @Column(name = "REFRESH_TOKEN", length = 256)
+    @Column(name = "refresh_token_value", length = 256)
     @NotNull
     @Size(max = 256)
     private String refreshToken;
 
-    @Column(name = "USER_IP")
+    @Column(name = "user_ip")
     @NotBlank
     private String userIpAddress;
 

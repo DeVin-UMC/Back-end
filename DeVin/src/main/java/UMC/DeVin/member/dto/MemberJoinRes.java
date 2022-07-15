@@ -15,5 +15,6 @@ public class MemberJoinRes {
     private String profileImgUrl;
     private ProviderType providerType;
     private MemberRole role;
+    private String accessToken;
 
 }
