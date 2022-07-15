@@ -7,6 +7,7 @@ import UMC.DeVin.auth.repository.MemberRefreshTokenRepository;
 import UMC.DeVin.common.base.BaseException;
 import UMC.DeVin.common.base.BaseResponse;
 import UMC.DeVin.common.base.BaseResponseStatus;
+import UMC.DeVin.config.oauth.utils.CookieUtil;
 import UMC.DeVin.member.Member;
 import UMC.DeVin.member.repository.MemberRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,6 +26,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Optional;
+
+import static UMC.DeVin.config.oauth.repository.OAuth2AuthorizationRequestBasedOnCookieRepository.REFRESH_TOKEN;
 
 @Slf4j
 @Component
@@ -58,6 +61,7 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
             // refresh token이 존재할 경우
             findToken.ifPresent(refreshTokenRepository::delete);
+            CookieUtil.deleteCookie(request, response, REFRESH_TOKEN);
 
             // 기존에 존재하던 회원이 아닐 경우 회원 삭제
             if (findMember.getNickname() == null) {
