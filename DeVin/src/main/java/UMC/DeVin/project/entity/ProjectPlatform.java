@@ -35,4 +35,12 @@ public class ProjectPlatform {
         this.project=project;
     }
 
+    public static ProjectPlatform createProjectPlatform(Project project, String title) {
+        ProjectPlatform newPlatform = new ProjectPlatform();
+        newPlatform.project = project;
+        newPlatform.title = title;
+
+        return newPlatform;
+    }
+
 }

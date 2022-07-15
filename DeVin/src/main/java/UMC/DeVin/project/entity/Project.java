@@ -42,14 +42,14 @@ public class  Project extends BaseEntity {
     @Column(name = "pro_img")
     private String img;
 
-    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
+    /*@OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
     private List<ProjectPlatform> projectPlatforms = new ArrayList<>();
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
     private List<ProjectRecruitment> projectRecruitments = new ArrayList<>();
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
-    private List<ProjectRegion> projectRegions = new ArrayList<>();
+    private List<ProjectRegion> projectRegions = new ArrayList<>();*/
 
 
     /* Dto -> Entity */
@@ -58,7 +58,7 @@ public class  Project extends BaseEntity {
         this.des= dto.getDes();
         this.programLevel = programLevel.valueOf(dto.getProgramLevel());
         this.img = dto.getImg();
-        this.projectPlatforms = dto.getPlatforms().stream()
+        /*this.projectPlatforms = dto.getPlatforms().stream()
                 .map( platformDto-> new ProjectPlatform(platformDto))
                 .collect(Collectors.toList());
         this.projectRecruitments = dto.getRecruitments().stream()
@@ -66,7 +66,7 @@ public class  Project extends BaseEntity {
                 .collect(Collectors.toList());
         this.projectRegions = dto.getRegions().stream()
                 .map( regionDto-> new ProjectRegion(regionDto))
-                .collect(Collectors.toList());
+                .collect(Collectors.toList());*/
 
     }
 

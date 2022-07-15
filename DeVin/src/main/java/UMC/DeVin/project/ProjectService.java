@@ -30,22 +30,45 @@ public class ProjectService {
         projectRepository.save(project);
 
         // 플랫폼
-        for(ProjectPlatform platform : project.getProjectPlatforms()){
+        /*for(ProjectPlatform platform : project.getProjectPlatforms()){
             platform.setProject(project);
             projectPlatformRepository.save(platform);
+        }*/
+
+        // 플랫폼 생성
+        if (dto.getPlatforms() != null) {
+            for (PlatformDto platform : dto.getPlatforms()) {
+                projectPlatformRepository.save(ProjectPlatform.createProjectPlatform(project, platform.getTitle()));
+            }
         }
+
 
         // 모집 인원
-        for(ProjectRecruitment recruitment : project.getProjectRecruitments()){
+        /*for(ProjectRecruitment recruitment : project.getProjectRecruitments()){
             recruitment.setProject(project);
             projectRecruitmentRepository.save(recruitment);
+        }*/
+
+        if (dto.getRecruitments() != null) {
+            for (RecruitmentDto recruitment : dto.getRecruitments()) {
+                projectRecruitmentRepository.save(ProjectRecruitment.createRecruitment(project, recruitment.getTitle(), recruitment.getNum()));
+            }
         }
 
+
         // 지역
-        for(ProjectRegion region : project.getProjectRegions()){
+        /*for(ProjectRegion region : project.getProjectRegions()){
             region.setProject(project);
             projectRegionRepository.save(region);
+        }*/
+
+        if (dto.getRegions() != null) {
+            for(RegionDto region : dto.getRegions()){
+                projectRegionRepository.save(ProjectRegion.createRegion(project, region.getTitle()));
+            }
         }
+
+
 
         return new PostProjectResDto(project);
     }

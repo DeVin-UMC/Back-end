@@ -39,4 +39,13 @@ public class ProjectRecruitment {
         this.project=project;
     }
 
+    public static ProjectRecruitment createRecruitment(Project project, String title, int num) {
+        ProjectRecruitment newRecruitment = new ProjectRecruitment();
+        newRecruitment.project = project;
+        newRecruitment.title = title;
+        newRecruitment.num = num;
+
+        return newRecruitment;
+    }
+
 }

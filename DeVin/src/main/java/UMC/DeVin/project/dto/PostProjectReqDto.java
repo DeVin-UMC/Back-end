@@ -9,6 +9,7 @@ import java.util.List;
 @Builder
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 public class PostProjectReqDto {
 
 //    private Long memberId;
@@ -19,8 +20,8 @@ public class PostProjectReqDto {
     @NotNull(message = "프로젝트 레벨을 선택해주세요 !")
     private String programLevel;
     private String img;
-    private List<PlatformDto> Platforms;
-    private List<RecruitmentDto> Recruitments;
-    private List<RegionDto> Regions;
+    private List<PlatformDto> platforms;
+    private List<RecruitmentDto> recruitments;
+    private List<RegionDto> regions;
 
 }

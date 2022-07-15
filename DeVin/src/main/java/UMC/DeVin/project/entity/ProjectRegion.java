@@ -32,4 +32,12 @@ public class ProjectRegion {
         this.project=project;
     }
 
+    public static ProjectRegion createRegion(Project project, String title) {
+        ProjectRegion newRegion = new ProjectRegion();
+        newRegion.project = project;
+        newRegion.title = title;
+
+        return newRegion;
+    }
+
 }

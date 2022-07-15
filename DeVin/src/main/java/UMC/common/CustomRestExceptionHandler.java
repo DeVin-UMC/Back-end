@@ -52,6 +52,7 @@ public class CustomRestExceptionHandler {
     @ExceptionHandler(Exception.class)
     public final ResponseEntity<BaseResponse<BaseResponseStatus>> handleAllExceptions(Exception ex) {
         // 따로 핸들링하지 않은 기타 모든 예외를 처리
+        ex.printStackTrace();
 
         return BaseResponse.toResponseEntity(new BaseException(BaseResponseStatus.UNKNOWN_SERVER_EXCEPTION));
     }
