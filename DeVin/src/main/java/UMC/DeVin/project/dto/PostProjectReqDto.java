@@ -1,13 +1,9 @@
 package UMC.DeVin.project.dto;
 
-
 import UMC.DeVin.project.entity.Project;
-import UMC.DeVin.project.entity.ProjectPlatform;
-import UMC.DeVin.project.entity.ProjectRecruitment;
-import UMC.DeVin.project.entity.ProjectRegion;
-import UMC.DeVin.project.entity.level.ProgramLevel;
 import lombok.*;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Builder
@@ -15,26 +11,16 @@ import java.util.List;
 @AllArgsConstructor
 public class PostProjectReqDto {
 
-//    private Member member;
+//    private Long memberId;
+    @NotNull(message = "프로젝트 제목을 입력해주세요 !")
     private String title;
+    @NotNull(message = "프로젝트 설명을 입력해주세요 !")
     private String des;
-    private ProgramLevel programLevel;
+    @NotNull(message = "프로젝트 레벨을 선택해주세요 !")
+    private String programLevel;
     private String img;
-    private List<ProjectPlatform> Platforms;
-    private List<ProjectRecruitment> Recruitments;
-    private List<ProjectRegion> Regions;
-
-    /* Dto -> Entity */
-    public Project toEntity(){
-        return Project.builder()
-                .title(title)
-                .des(des)
-                .programLevel(programLevel)
-                .img(img)
-                .projectPlatforms(Platforms)
-                .projectRecruitments(Recruitments)
-                .projectRegions(Regions)
-                .build();
-    }
+    private List<PlatformDto> Platforms;
+    private List<RecruitmentDto> Recruitments;
+    private List<RegionDto> Regions;
 
 }

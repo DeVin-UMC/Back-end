@@ -1,5 +1,6 @@
 package UMC.DeVin.project.entity;
 
+import UMC.DeVin.project.dto.RegionDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,14 +21,15 @@ public class ProjectRegion {
     @JoinColumn(name="pro_id")
     private Project project;
 
-    @Column(name = "rec_title", nullable = false)
+    @Column(name = "rec_title")
     private String title;
 
-    @Builder
-    public ProjectRegion(Long id, Project project, String title){
-        this.id = id;
-        this.project = project;
-        this.title = title;
+    public ProjectRegion(RegionDto dto){
+        this.title = dto.getTitle();
+    }
+
+    public void setProject(Project project){
+        this.project=project;
     }
 
 }

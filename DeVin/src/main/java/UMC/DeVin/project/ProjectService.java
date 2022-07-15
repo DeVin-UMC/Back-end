@@ -26,39 +26,29 @@ public class ProjectService {
     public PostProjectResDto createProject(PostProjectReqDto dto){
 
         // 게시글
-        Project project = projectRepository.save(dto.toEntity());
+        Project project = new Project(dto);
+        projectRepository.save(project);
 
         // 플랫폼
-        for(ProjectPlatform platform : dto.getPlatforms()){
-            projectPlatformRepository.save(
-                    ProjectPlatform.builder()
-                            .project(project)
-                            .title(platform.getTitle())
-                            .build());
+        for(ProjectPlatform platform : project.getProjectPlatforms()){
+            platform.setProject(project);
+            projectPlatformRepository.save(platform);
         }
 
         // 모집 인원
-        for(ProjectRecruitment recruitment : dto.getRecruitments()){
-            projectRecruitmentRepository.save(
-                    ProjectRecruitment.builder()
-                            .project(project)
-                            .title(recruitment.getTitle())
-                            .num(recruitment.getNum())
-                            .build());
+        for(ProjectRecruitment recruitment : project.getProjectRecruitments()){
+            recruitment.setProject(project);
+            projectRecruitmentRepository.save(recruitment);
         }
 
         // 지역
-        for(ProjectRegion region : dto.getRegions()){
-            projectRegionRepository.save(
-                    ProjectRegion.builder()
-                            .project(project)
-                            .title(region.getTitle())
-                            .build());
+        for(ProjectRegion region : project.getProjectRegions()){
+            region.setProject(project);
+            projectRegionRepository.save(region);
         }
 
         return new PostProjectResDto(project);
     }
-
 
 }
 

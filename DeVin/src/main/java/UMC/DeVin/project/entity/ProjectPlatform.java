@@ -1,5 +1,7 @@
 package UMC.DeVin.project.entity;
 
+import UMC.DeVin.project.dto.PlatformDto;
+import UMC.DeVin.project.dto.PostProjectReqDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,10 +27,12 @@ public class ProjectPlatform {
     @Column(name = "pla_title")
     private String title;
 
-    @Builder
-    public ProjectPlatform(Project project, String title){
-        this.project = project;
-        this.title = title;
+    public ProjectPlatform(PlatformDto dto){
+        this.title = dto.getTitle();
+    }
+
+    public void setProject(Project project){
+        this.project=project;
     }
 
 }

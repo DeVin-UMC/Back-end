@@ -11,6 +11,7 @@ import javax.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @NoArgsConstructor
@@ -28,14 +29,14 @@ public class  Project extends BaseEntity {
 //    @JoinColumn(name = "mbr_id")
 //    private Member member;
 
-    @Column(name = "pro_title", nullable = false)
+    @Column(name = "pro_title")
     private String title;
 
-    @Column(name = "pro_des", columnDefinition = "TEXT", nullable = false)
+    @Column(name = "pro_des", columnDefinition = "TEXT")
     private String des;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "pro_level", nullable = false)
+    @Column(name = "pro_level")
     private ProgramLevel programLevel;
 
     @Column(name = "pro_img")
@@ -50,22 +51,23 @@ public class  Project extends BaseEntity {
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
     private List<ProjectRegion> projectRegions = new ArrayList<>();
 
-    /* Member 엔티티에 project 추가*/
-//    public void setMember(Member member){
-//        this.member = member;
-//        member.getProjects().add(this);
-//    }
 
-    @Builder
-    public Project(String title, String des, ProgramLevel programLevel,
-                   String img, List<ProjectPlatform> projectPlatforms, List<ProjectRecruitment> projectRecruitments, List<ProjectRegion> projectRegions){
-        this.title = title;
-        this.des = des;
-        this.programLevel = programLevel;
-        this.img = img;
-        this.projectPlatforms = projectPlatforms;
-        this.projectRecruitments = projectRecruitments;
-        this.projectRegions = projectRegions;
+    /* Dto -> Entity */
+    public Project(PostProjectReqDto dto){
+        this.title = dto.getTitle();
+        this.des= dto.getDes();
+        this.programLevel = programLevel.valueOf(dto.getProgramLevel());
+        this.img = dto.getImg();
+        this.projectPlatforms = dto.getPlatforms().stream()
+                .map( platformDto-> new ProjectPlatform(platformDto))
+                .collect(Collectors.toList());
+        this.projectRecruitments = dto.getRecruitments().stream()
+                .map( recruitmentDto-> new ProjectRecruitment(recruitmentDto))
+                .collect(Collectors.toList());
+        this.projectRegions = dto.getRegions().stream()
+                .map( regionDto-> new ProjectRegion(regionDto))
+                .collect(Collectors.toList());
+
     }
 
     /* 게시글 수정 */

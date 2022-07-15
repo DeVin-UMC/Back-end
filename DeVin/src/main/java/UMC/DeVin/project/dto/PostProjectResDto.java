@@ -11,12 +11,8 @@ import lombok.*;
 public class PostProjectResDto {
 
     public Long id;
-    public String title;
-    public String des;
 
     public PostProjectResDto(Project entity){
         this.id= entity.getId();
-        this.title = entity.getTitle();
-        this.des = entity.getDes();
     }
 }

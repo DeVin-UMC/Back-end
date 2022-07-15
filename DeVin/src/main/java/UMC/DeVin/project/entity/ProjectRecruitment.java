@@ -1,5 +1,7 @@
 package UMC.DeVin.project.entity;
 
+import UMC.DeVin.project.dto.PostProjectReqDto;
+import UMC.DeVin.project.dto.RecruitmentDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,17 +24,19 @@ public class ProjectRecruitment {
     @JoinColumn(name="pro_id")
     private Project project;
 
-    @Column(name = "rec_title", nullable = false)
+    @Column(name = "rec_title")
     private String title;
 
-    @Column(name="rec_num", nullable = false)
+    @Column(name="rec_num")
     private int num;
 
-    @Builder
-    public ProjectRecruitment(Project project, String title, int num){
-        this.project = project;
-        this.title = title;
-        this.num = num;
+    public ProjectRecruitment(RecruitmentDto dto){
+        this.title = dto.getTitle();
+        this.num = dto.getNum();
+    }
+
+    public void setProject(Project project){
+        this.project=project;
     }
 
 }

@@ -2,6 +2,8 @@ package UMC.DeVin.project.dto;
 
 import lombok.*;
 
+import javax.validation.constraints.NotNull;
+
 @Getter
 @AllArgsConstructor
 @Builder

@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 
 @RestController
 @AllArgsConstructor
@@ -18,7 +20,7 @@ public class ProjectController {
 
     /* 게시글 생성 */
     @PostMapping("api/posts/project")
-    public BaseResponse<PostProjectResDto> createPost(@RequestBody PostProjectReqDto dto){
+    public BaseResponse<PostProjectResDto> createPost(@RequestBody @Valid PostProjectReqDto dto){
         PostProjectResDto postProjectResDto = projectService.createProject(dto);
         return new BaseResponse<>(postProjectResDto);
 
