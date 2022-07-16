@@ -1,5 +1,7 @@
 package UMC.DeVin.project;
 
+import UMC.DeVin.member.Member;
+import UMC.DeVin.member.repository.MemberRepository;
 import UMC.DeVin.project.dto.*;
 import UMC.DeVin.project.entity.Project;
 import UMC.DeVin.project.entity.ProjectPlatform;
@@ -16,59 +18,43 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class ProjectService {
     private final ProjectRepository projectRepository;
     private final ProjectPlatformRepository projectPlatformRepository;
     private final ProjectRecruitmentRepository projectRecruitmentRepository;
     private final ProjectRegionRepository projectRegionRepository;
+    private final MemberRepository memberRepository;
 
-    @Transactional
-    public PostProjectResDto createProject(PostProjectReqDto dto){
+    public PostProjectResDto createProject(PostProjectReqDto dto) {
+
+        // 작성자
+        Member findMember = memberRepository.findById(dto.getMemberId()).get();
 
         // 게시글
-        Project project = new Project(dto);
+        Project project = Project.createProject(dto,findMember);
         projectRepository.save(project);
 
-        // 플랫폼
-        /*for(ProjectPlatform platform : project.getProjectPlatforms()){
-            platform.setProject(project);
-            projectPlatformRepository.save(platform);
-        }*/
-
         // 플랫폼 생성
-        if (dto.getPlatforms() != null) {
-            for (PlatformDto platform : dto.getPlatforms()) {
+        if (dto.getPlatformList() != null) {
+            for (PlatformDto platform : dto.getPlatformList()) {
                 projectPlatformRepository.save(ProjectPlatform.createProjectPlatform(project, platform.getTitle()));
             }
         }
 
-
         // 모집 인원
-        /*for(ProjectRecruitment recruitment : project.getProjectRecruitments()){
-            recruitment.setProject(project);
-            projectRecruitmentRepository.save(recruitment);
-        }*/
-
-        if (dto.getRecruitments() != null) {
-            for (RecruitmentDto recruitment : dto.getRecruitments()) {
-                projectRecruitmentRepository.save(ProjectRecruitment.createRecruitment(project, recruitment.getTitle(), recruitment.getNum()));
+        if (dto.getRecruitmentList() != null) {
+            for (RecruitmentDto recruitment : dto.getRecruitmentList()) {
+                projectRecruitmentRepository.save(ProjectRecruitment.createRecruitment(project, recruitment.getTitle(), recruitment.getLanguage(), recruitment.getNum()));
             }
         }
 
-
         // 지역
-        /*for(ProjectRegion region : project.getProjectRegions()){
-            region.setProject(project);
-            projectRegionRepository.save(region);
-        }*/
-
-        if (dto.getRegions() != null) {
-            for(RegionDto region : dto.getRegions()){
+        if (dto.getRegionList() != null) {
+            for (RegionDto region : dto.getRegionList()) {
                 projectRegionRepository.save(ProjectRegion.createRegion(project, region.getTitle()));
             }
         }
-
-
 
         return new PostProjectResDto(project);
     }

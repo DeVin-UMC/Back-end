@@ -4,10 +4,8 @@ import lombok.*;
 
 import javax.validation.constraints.NotNull;
 
-@Getter
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
+@Data
 public class PlatformDto {
+    @NotNull(message = "플랫폼을 선택해주세요 !")
     private String title;
 }

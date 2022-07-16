@@ -1,17 +1,12 @@
 package UMC.DeVin.project.entity;
 
-import UMC.DeVin.project.dto.PostProjectReqDto;
-import UMC.DeVin.project.dto.RecruitmentDto;
-import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
-@NoArgsConstructor
 @Getter
 @Table(name = "PROJECT_RECRUITMENT")
 public class ProjectRecruitment {
@@ -27,21 +22,18 @@ public class ProjectRecruitment {
     @Column(name = "rec_title")
     private String title;
 
+    @Column(name = "rec_language")
+    private String language;
+
     @Column(name="rec_num")
     private int num;
 
-    public ProjectRecruitment(RecruitmentDto dto){
-        this.title = dto.getTitle();
-        this.num = dto.getNum();
-    }
+    protected ProjectRecruitment(){}
 
-    public void setProject(Project project){
-        this.project=project;
-    }
-
-    public static ProjectRecruitment createRecruitment(Project project, String title, int num) {
+    public static ProjectRecruitment createRecruitment(Project project, String title, String language, int num) {
         ProjectRecruitment newRecruitment = new ProjectRecruitment();
         newRecruitment.project = project;
+        newRecruitment.language = language;
         newRecruitment.title = title;
         newRecruitment.num = num;
 

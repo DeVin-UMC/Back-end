@@ -1,17 +1,12 @@
 package UMC.DeVin.project.entity;
 
-import UMC.DeVin.project.dto.PlatformDto;
-import UMC.DeVin.project.dto.PostProjectReqDto;
-import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
-@NoArgsConstructor
 @Getter
 @Table(name = "PROJECT_PLATFORM")
 public class ProjectPlatform {
@@ -27,14 +22,9 @@ public class ProjectPlatform {
     @Column(name = "pla_title")
     private String title;
 
-    public ProjectPlatform(PlatformDto dto){
-        this.title = dto.getTitle();
-    }
+    protected ProjectPlatform(){ }
 
-    public void setProject(Project project){
-        this.project=project;
-    }
-
+    /* 플랫폼 생성 */
     public static ProjectPlatform createProjectPlatform(Project project, String title) {
         ProjectPlatform newPlatform = new ProjectPlatform();
         newPlatform.project = project;

@@ -11,7 +11,6 @@ import lombok.*;
 public class PostProjectResDto {
 
     public Long id;
-
     public PostProjectResDto(Project entity){
         this.id= entity.getId();
     }

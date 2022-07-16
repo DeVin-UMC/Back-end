@@ -1,6 +1,5 @@
 package UMC.DeVin.project;
 
-
 import UMC.DeVin.project.dto.PostProjectReqDto;
 import UMC.DeVin.project.dto.PostProjectResDto;
 import UMC.common.base.BaseResponse;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
-
 @RestController
 @AllArgsConstructor
 public class ProjectController {
@@ -20,7 +18,8 @@ public class ProjectController {
 
     /* 게시글 생성 */
     @PostMapping("api/posts/project")
-    public BaseResponse<PostProjectResDto> createPost(@RequestBody @Valid PostProjectReqDto dto){
+    public BaseResponse<PostProjectResDto> createProject(@RequestBody @Valid PostProjectReqDto dto){
+
         PostProjectResDto postProjectResDto = projectService.createProject(dto);
         return new BaseResponse<>(postProjectResDto);
 

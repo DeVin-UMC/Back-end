@@ -1,14 +1,10 @@
 package UMC.DeVin.project.entity;
 
-import UMC.DeVin.project.dto.RegionDto;
-import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
-@NoArgsConstructor
 @Getter
 @Table(name = "PROJECT_REGION")
 public class ProjectRegion {
@@ -24,14 +20,7 @@ public class ProjectRegion {
     @Column(name = "rec_title")
     private String title;
 
-    public ProjectRegion(RegionDto dto){
-        this.title = dto.getTitle();
-    }
-
-    public void setProject(Project project){
-        this.project=project;
-    }
-
+    protected ProjectRegion(){}
     public static ProjectRegion createRegion(Project project, String title) {
         ProjectRegion newRegion = new ProjectRegion();
         newRegion.project = project;
