@@ -16,8 +16,12 @@ public class ProjectController {
 
     private final ProjectService projectService;
 
-    /* 게시글 생성 */
-    @PostMapping("api/posts/project")
+    /**
+     * 프로젝트 생성 API
+     * [POST] /projects
+     * @return BaseResponse<PostProjectResDto>
+     */
+    @PostMapping("/projects")
     public BaseResponse<PostProjectResDto> createProject(@RequestBody @Valid PostProjectReqDto dto){
 
         PostProjectResDto postProjectResDto = projectService.createProject(dto);
