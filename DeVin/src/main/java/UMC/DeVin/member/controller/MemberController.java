@@ -70,9 +70,7 @@ public class MemberController {
             Optional<MemberRefreshToken> findToken =
                     refreshTokenRepository.findByMemberIdAndUserIpAddress(loginMember.getId(), IpAddressUtil.getRemoteAddr(request));
 
-            if (findToken.isPresent()) {
-                refreshTokenRepository.delete(findToken.get());
-            }
+            findToken.ifPresent(refreshTokenRepository::delete);
 
             // 쿠키에서 refresh token 삭제
             CookieUtil.deleteCookie(request, response, REFRESH_TOKEN);

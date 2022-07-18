@@ -2,6 +2,7 @@ package UMC.DeVin.auth.controller;
 
 import UMC.DeVin.auth.IpAddressUtil;
 import UMC.DeVin.auth.MemberRefreshToken;
+import UMC.DeVin.auth.OAuthLoginUserUtil;
 import UMC.DeVin.auth.dto.AccessTokenRes;
 import UMC.DeVin.auth.repository.MemberRefreshTokenRepository;
 import UMC.DeVin.common.base.BaseException;
@@ -12,6 +13,7 @@ import UMC.DeVin.config.oauth.token.AuthTokenProvider;
 import UMC.DeVin.config.oauth.utils.CookieUtil;
 import UMC.DeVin.config.properties.AppProperties;
 import UMC.DeVin.member.Member;
+import UMC.DeVin.member.dto.LoginMemberRes;
 import UMC.DeVin.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,6 +36,7 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final MemberRefreshTokenRepository memberRefreshTokenRepository;
     private final MemberRepository memberRepository;
+    private final OAuthLoginUserUtil oAuthLoginUserUtil;
 
     private final static long THREE_DAYS_MSEC = 259200000;
     private final static String REFRESH_TOKEN = "refresh_token";
@@ -160,11 +163,14 @@ public class AuthController {
     }
 
     @GetMapping("/login/google")
-    public BaseResponse<AccessTokenRes> googleLoginSuccess(@RequestParam String token) throws BaseException{
+    public BaseResponse<LoginMemberRes> googleLoginSuccess(@RequestParam String token) throws BaseException{
         if (token == null || !tokenProvider.convertAuthToken(token).validate()) {
             throw new BaseException(BaseResponseStatus.INVALID_ACCESS_TOKEN);
         }
-        return new BaseResponse<>(new AccessTokenRes(token));
+        Member loginMember = oAuthLoginUserUtil.getLoginMemberWithToken(token);
+
+        return new BaseResponse<>(new LoginMemberRes(token, loginMember.getEmail(), loginMember.getProfileImageUrl(),
+                loginMember.getNickname(), loginMember.getDivision(), loginMember.getRole()));
     }
 }
 
