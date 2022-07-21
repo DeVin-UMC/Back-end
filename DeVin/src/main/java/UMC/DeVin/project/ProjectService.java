@@ -26,7 +26,7 @@ public class ProjectService {
 
     public PostProjectResDto createProject(PostProjectReqDto dto, Member member) {
 
-        // 게시글
+        // 게시글 생성
         Project project = Project.createProject(dto,member);
         projectRepository.save(project);
 
@@ -37,14 +37,14 @@ public class ProjectService {
             }
         }
 
-        // 모집 인원
+        // 모집 인원 생성
         if (dto.getRecruitmentList() != null) {
             for (RecruitmentDto recruitment : dto.getRecruitmentList()) {
                 projectRecruitmentRepository.save(ProjectRecruitment.createRecruitment(project, recruitment.getTitle(), recruitment.getLanguage(), recruitment.getNum()));
             }
         }
 
-        // 지역
+        // 지역 생성
         if (dto.getRegionList() != null) {
             for (RegionDto region : dto.getRegionList()) {
                 projectRegionRepository.save(ProjectRegion.createRegion(project, region.getTitle()));

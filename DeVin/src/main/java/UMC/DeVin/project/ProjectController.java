@@ -22,8 +22,8 @@ public class ProjectController {
 
     private final ProjectService projectService;
     private final OAuthLoginUserUtil oAuthLoginUserUtil;
-
     private final MemberRepository memberRepository;
+
 
     /**
      * 프로젝트 생성 API
@@ -42,7 +42,6 @@ public class ProjectController {
         if(loginMember != findMember){
             return new BaseResponse<>(BaseResponseStatus.INVALID_JWT);
         }
-
         // 게스트가 글쓰기에 접근한 경우
         if(findMember.getRole().equals(MemberRole.GUEST) || loginMember.getRole().equals(MemberRole.GUEST)){
             return new BaseResponse<>(BaseResponseStatus.INVALID_JWT);

@@ -5,6 +5,7 @@ import lombok.*;
 import javax.validation.constraints.NotNull;
 
 @Data
+@NoArgsConstructor
 public class RecruitmentDto {
 
     @NotNull(message = "모집 분야를 선택해주세요 !")

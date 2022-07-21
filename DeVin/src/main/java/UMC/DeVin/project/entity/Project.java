@@ -52,7 +52,7 @@ public class  Project extends BaseEntity {
         return newProject;
     }
 
-    /* 게시글 수정 */
+    /* 프로젝트 수정 */
     public void updateProject(PostProjectReqDto postProjectReqDto){
         this.title = postProjectReqDto.getTitle();
         this.des = postProjectReqDto.getDes();
