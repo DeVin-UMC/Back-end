@@ -8,6 +8,7 @@ import java.util.List;
 @Data
 public class PostProjectReqDto {
 
+    @NotNull
     private Long memberId;
     @NotNull(message = "프로젝트 제목을 입력해주세요 !")
     private String title;

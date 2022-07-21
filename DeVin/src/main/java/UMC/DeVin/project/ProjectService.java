@@ -1,7 +1,6 @@
 package UMC.DeVin.project;
 
 import UMC.DeVin.member.Member;
-import UMC.DeVin.member.repository.MemberRepository;
 import UMC.DeVin.project.dto.*;
 import UMC.DeVin.project.entity.Project;
 import UMC.DeVin.project.entity.ProjectPlatform;
@@ -24,15 +23,11 @@ public class ProjectService {
     private final ProjectPlatformRepository projectPlatformRepository;
     private final ProjectRecruitmentRepository projectRecruitmentRepository;
     private final ProjectRegionRepository projectRegionRepository;
-    private final MemberRepository memberRepository;
 
-    public PostProjectResDto createProject(PostProjectReqDto dto) {
-
-        // 작성자
-        Member findMember = memberRepository.findById(dto.getMemberId()).get();
+    public PostProjectResDto createProject(PostProjectReqDto dto, Member member) {
 
         // 게시글
-        Project project = Project.createProject(dto,findMember);
+        Project project = Project.createProject(dto,member);
         projectRepository.save(project);
 
         // 플랫폼 생성
