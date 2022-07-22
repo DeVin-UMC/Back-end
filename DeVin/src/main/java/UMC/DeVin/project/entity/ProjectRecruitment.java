@@ -1,5 +1,6 @@
 package UMC.DeVin.project.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -17,6 +18,7 @@ public class ProjectRecruitment {
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name="pro_id")
+    @JsonIgnore
     private Project project;
 
     @Column(name = "rec_title")

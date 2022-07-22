@@ -13,6 +13,11 @@ import UMC.DeVin.project.repository.ProjectRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.domain.Pageable;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -52,6 +57,27 @@ public class ProjectService {
         }
 
         return new PostProjectResDto(project);
+    }
+
+    @Transactional(readOnly = true)
+    public List<GetProjectDto> findAll(Pageable pageable){
+
+        List<GetProjectDto> getProjectDtoList = new ArrayList<>();
+        List<Project> projectList = projectRepository.findAll(pageable).getContent();
+
+        for(Project project : projectList){
+            getProjectDtoList.add(GetProjectDto.builder()
+                    .title(project.getTitle())
+                            .content(project.getDes())
+                            .img(project.getImg())
+                            .programLevel(String.valueOf(project.getProgramLevel()))
+                            .platform(projectPlatformRepository.findByProject(project).stream().map(ProjectPlatform::getTitle).collect(Collectors.toList()))
+                            .region(projectRegionRepository.findByProject(project).stream().map(ProjectRegion::getTitle).collect(Collectors.toList()))
+                            .position(projectRecruitmentRepository.findByProject(project).stream().map(ProjectRecruitment::getTitle).collect(Collectors.toList()))
+                            .build());
+        }
+        return getProjectDtoList;
+
     }
 
 }

@@ -4,6 +4,7 @@ import UMC.DeVin.common.base.BaseEntity;
 import UMC.DeVin.member.Member;
 import UMC.DeVin.project.dto.PostProjectReqDto;
 import UMC.DeVin.project.entity.level.ProgramLevel;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -14,7 +15,7 @@ import static javax.persistence.FetchType.LAZY;
 @Getter
 @Table(name = "PROJECT")
 @Entity
-public class  Project extends BaseEntity {
+public class Project extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,6 +24,7 @@ public class  Project extends BaseEntity {
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "mbr_id")
+    @JsonIgnore
     private Member member;
 
     @Column(name = "pro_title")

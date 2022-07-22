@@ -3,13 +3,14 @@ package UMC.DeVin.project.dto;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Data
 @NoArgsConstructor
 public class PostProjectReqDto {
 
-    @NotBlank
+    @NotNull
     private Long memberId;
     @NotBlank(message = "프로젝트 제목을 입력해주세요 !")
     private String title;
