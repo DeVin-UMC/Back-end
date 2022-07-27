@@ -78,9 +78,19 @@ public class ProjectController {
      */
     @GetMapping("/projects")
     public Page<GetProjectDto> findPage(ProjectSearchCondition condition, @PageableDefault(direction = Sort.Direction.DESC) Pageable pageable){
-        return projectRepository.findPage(condition,pageable);
+        return projectService.findPage(condition,pageable);
     }
 
+
+    /**
+     * 검색 API
+     * [Get] /projects/search?keyword=검색어
+     * @return Page<GetProjectDto>
+     */
+    @GetMapping("/projects/search")
+    public Page<GetProjectDto> search(@RequestParam String keyword, @PageableDefault(direction = Sort.Direction.DESC) Pageable pageable){
+        return projectService.search(keyword,pageable);
+    }
 
 }
 

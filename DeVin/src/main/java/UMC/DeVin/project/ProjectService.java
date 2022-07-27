@@ -61,52 +61,17 @@ public class ProjectService {
         return new PostProjectResDto(project);
     }
 
-//    @Transactional(readOnly = true)
-//    public List<GetProjectDto> findAll(ProjectSearchCondition condition, Pageable pageable){
-//
-//        List<GetProjectDto> getProjectDtoList = new ArrayList<>();
-//        List<Project> projectList;
-//
-//        if(condition.getLevel().isEmpty()) {
-//            projectList = projectRepository.findAll(pageable).getContent();
-//        }
-//        else {
-//            projectList = projectRepository.findByProgramLevel(pageable, ProgramLevel.valueOf(condition.getLevel())).getContent();
-//        }
-//
-//
-//        for(Project project : projectList){
-//
-//            List<String> platformList;
-//            if(condition.getPlatform().isEmpty()){
-//                platformList = projectPlatformRepository.findByProject(project).stream().map(ProjectPlatform::getTitle).collect(Collectors.toList());
-//            }else{
-//                platformList = projectPlatformRepository.findByProjectAndTitle(project, condition.getPlatform()).stream().map(ProjectPlatform::getTitle).collect(Collectors.toList());
-//            }
-//
-//            List<String> regionList;
-//            if(condition.getRegion().isEmpty()){
-//                regionList = projectRegionRepository.findByProject(project).stream().map(ProjectRegion::getTitle).collect(Collectors.toList());
-//            }else{
-//                regionList = projectRegionRepository.findByProjectAndTitle(project, condition.getPlatform()).stream().map(ProjectRegion::getTitle).collect(Collectors.toList());
-//            }
-//
-//
-//            getProjectDtoList.add(GetProjectDto.builder()
-//                    .title(project.getTitle())
-//                    .content(project.getDes())
-//                    .img(project.getImg())
-//                    .programLevel(String.valueOf(project.getProgramLevel()))
-//                    .platform(platformList)
-//                    .region(regionList)
-//                    .position(projectRecruitmentRepository.findByProject(project).stream().map(ProjectRecruitment::getTitle).collect(Collectors.toList()))
-//                    .build());
-//        }
-//        return getProjectDtoList;
-//
-//    }
+    @Transactional(readOnly = true)
+    public Page<GetProjectDto> findPage(ProjectSearchCondition condition, Pageable pageable) {
+        return projectRepository.findPage(condition, pageable);
+    }
 
+    @Transactional(readOnly = true)
+    public Page<GetProjectDto> search(String keyword, Pageable pageable) {
+        return projectRepository.findByKeyword(keyword, pageable);
+    }
 
+    
 }
 
 
