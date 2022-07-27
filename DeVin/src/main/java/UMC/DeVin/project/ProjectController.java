@@ -10,6 +10,7 @@ import UMC.DeVin.member.role.MemberRole;
 import UMC.DeVin.project.dto.GetProjectDto;
 import UMC.DeVin.project.dto.PostProjectReqDto;
 import UMC.DeVin.project.dto.PostProjectResDto;
+import UMC.DeVin.project.dto.ProjectSearchCondition;
 import UMC.DeVin.project.entity.Project;
 import UMC.DeVin.project.repository.ProjectPlatformRepository;
 import UMC.DeVin.project.repository.ProjectRepository;
@@ -31,6 +32,7 @@ public class ProjectController {
     private final ProjectService projectService;
     private final OAuthLoginUserUtil oAuthLoginUserUtil;
     private final MemberRepository memberRepository;
+    private final ProjectRepository projectRepository;
 
     /**
      * 프로젝트 생성 API
@@ -67,18 +69,18 @@ public class ProjectController {
 
 
     /**
-     * 프로젝트 업로드 날짜 기준 N개씩 페이징 API
+     * 페이징 API
      *
-     * [Get] /projects?page=0&size=10
+     * [Get] /projects?platform=web&region=seoul&level=beginner&page=0&size=10
      * - page : 현재 페이지 (default 0)
      * - size : 조회할 데이터 수 (default 10)
-     * @return List<GetProjectDto>
+     * @return Page<GetProjectDto>
      */
     @GetMapping("/projects")
-    public List<GetProjectDto> findAll(@PageableDefault(direction = Sort.Direction.DESC) Pageable pageable){
-
-        return projectService.findAll(pageable);
+    public Page<GetProjectDto> findPage(ProjectSearchCondition condition, @PageableDefault(direction = Sort.Direction.DESC) Pageable pageable){
+        return projectRepository.findPage(condition,pageable);
     }
+
 
 }
 
