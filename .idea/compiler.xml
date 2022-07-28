@@ -2,6 +2,10 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+<<<<<<< Updated upstream
+=======
+      <profile default="true" name="Default" enabled="true" />
+>>>>>>> Stashed changes
       <profile name="Gradle Imported" enabled="true">
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
@@ -19,5 +23,11 @@
         <module name="DeVin.main" />
       </profile>
     </annotationProcessing>
+<<<<<<< Updated upstream
+=======
+    <bytecodeTargetLevel>
+      <module name="DeVin" target="17" />
+    </bytecodeTargetLevel>
+>>>>>>> Stashed changes
   </component>
 </project>

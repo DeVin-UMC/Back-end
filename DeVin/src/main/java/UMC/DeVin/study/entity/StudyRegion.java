@@ -23,8 +23,13 @@ public class StudyRegion extends BaseEntity {
     @Column(name = "reg_id", nullable = false)
     private int id;
 
+<<<<<<< Updated upstream
     @ManyToOne
     @Column(name = "std_id", nullable = false)
+=======
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "std_id")
+>>>>>>> Stashed changes
     private Study study;
 
     @Column(name = "reg_title", nullable = false)

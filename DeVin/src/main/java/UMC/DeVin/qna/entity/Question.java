@@ -24,10 +24,13 @@ public class Question extends BaseEntity {
     @Column(name = "qus_cont", nullable = false)
     private String content;
 
+<<<<<<< Updated upstream
     @Column(name = "created_by", nullable = false)
     private int creator;
 
     @Column(name = "modified_by", nullable = false)
     private int modifier;
+=======
+>>>>>>> Stashed changes
 
 }
