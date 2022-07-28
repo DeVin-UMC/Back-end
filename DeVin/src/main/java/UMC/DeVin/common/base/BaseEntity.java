@@ -1,7 +1,10 @@
 package UMC.DeVin.common.base;
 
+import UMC.DeVin.auth.OAuthLoginUserUtil;
+import UMC.DeVin.member.Member;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -21,6 +24,7 @@ import java.time.LocalDateTime;
 @Getter
 public class BaseEntity {
 
+
     /**
      *  등록일자
      */
@@ -33,7 +37,7 @@ public class BaseEntity {
      *  등록자
      */
     @CreatedBy
-    private String registration;
+    private Long registration;
 
     /**
      *  수정일자
@@ -48,8 +52,7 @@ public class BaseEntity {
      *  수정자
      */
     @LastModifiedBy
-    private String modifier;
-
+    private Long modifier;
 
 
     @PrePersist
