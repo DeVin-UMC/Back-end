@@ -11,8 +11,6 @@ import UMC.DeVin.project.dto.GetProjectDto;
 import UMC.DeVin.project.dto.PostProjectReqDto;
 import UMC.DeVin.project.dto.PostProjectResDto;
 import UMC.DeVin.project.dto.ProjectSearchCondition;
-import UMC.DeVin.project.entity.Project;
-import UMC.DeVin.project.repository.ProjectPlatformRepository;
 import UMC.DeVin.project.repository.ProjectRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -22,7 +20,6 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.Optional;
 
 @RestController
