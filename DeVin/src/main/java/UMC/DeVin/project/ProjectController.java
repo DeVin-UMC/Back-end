@@ -11,7 +11,6 @@ import UMC.DeVin.project.dto.GetProjectDto;
 import UMC.DeVin.project.dto.PostProjectReqDto;
 import UMC.DeVin.project.dto.PostProjectResDto;
 import UMC.DeVin.project.dto.ProjectSearchCondition;
-import UMC.DeVin.project.repository.ProjectRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -29,7 +28,6 @@ public class ProjectController {
     private final ProjectService projectService;
     private final OAuthLoginUserUtil oAuthLoginUserUtil;
     private final MemberRepository memberRepository;
-    private final ProjectRepository projectRepository;
 
     /**
      * 프로젝트 생성 API

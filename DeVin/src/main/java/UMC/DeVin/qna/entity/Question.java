@@ -14,7 +14,7 @@ import javax.persistence.*;
 @Table(name = "QUESTION")
 public class Question extends BaseEntity {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "qus_id", nullable = false)
     private Long id;
 

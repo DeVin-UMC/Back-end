@@ -24,6 +24,7 @@ public class QnaService {
     private final QuestionRepository questionRepository;
     private final QuestionTagRepository questionTagRepository;
 
+
     public PostQuestionRes createQuestion(PostQuestionReq dto){
 
         Question question = Question.createQuestion(dto);
