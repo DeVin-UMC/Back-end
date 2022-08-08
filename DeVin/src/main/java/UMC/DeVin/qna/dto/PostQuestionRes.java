@@ -4,9 +4,9 @@ import lombok.Data;
 
 @Data
 public class PostQuestionRes {
-    private Long postIdx;
+    private Long questionId;
 
-    public PostQuestionRes(Long postIdx){
-        this.postIdx = postIdx;
+    public PostQuestionRes(Long questionId){
+        this.questionId = questionId;
     }
 }

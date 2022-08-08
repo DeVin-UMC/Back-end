@@ -12,19 +12,21 @@ import javax.persistence.*;
 
 import static javax.persistence.FetchType.LAZY;
 
-@Entity
+@Entity(name = "recommend_answer")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class HeartAnswer extends BaseEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "like_id")
+    @Id @GeneratedValue
+    @Column(name = "rec_ans_id")
     private Long id;
 
     @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "mbr_id", nullable = false)
     private Member member;
 
     @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "ans_id", nullable = false)
     private Answer answer;
 
     @Enumerated(value = EnumType.STRING)
@@ -39,8 +41,18 @@ public class HeartAnswer extends BaseEntity {
         return likeAnswer;
     }
 
-    public void unlike(){
+    public static HeartAnswer createUnlikeAnswer(Member member, Answer answer){
+        HeartAnswer unlikeAnswer = new HeartAnswer();
+        unlikeAnswer.member = member;
+        unlikeAnswer.answer = answer;
+        unlikeAnswer.type = Type.UNLIKE;
+
+        return unlikeAnswer;
+    }
+
+    public HeartAnswer unlike(){
         this.type = Type.UNLIKE;
+        return this;
     }
 
 }

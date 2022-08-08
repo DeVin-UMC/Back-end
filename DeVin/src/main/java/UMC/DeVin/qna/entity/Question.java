@@ -15,7 +15,7 @@ import javax.persistence.*;
 public class Question extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "qus_id", nullable = false)
+    @Column(name = "qus_id")
     private Long id;
 
     @Column(name = "qus_title", nullable = false)

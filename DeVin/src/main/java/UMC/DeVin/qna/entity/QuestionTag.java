@@ -11,11 +11,11 @@ import static javax.persistence.FetchType.LAZY;
 public class QuestionTag{
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "tag_id", nullable = false)
+    @Column(name = "tag_id")
     private Long id;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "qus_id")
+    @JoinColumn(name = "qus_id",nullable = false)
     private Question question;
 
     @Column(name = "tag_title", nullable = false)

@@ -15,11 +15,11 @@ public class ProjectRegion {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="pro_id")
+    @JoinColumn(name="pro_id",nullable = false)
     @JsonIgnore
     private Project project;
 
-    @Column(name = "rec_title")
+    @Column(name = "rec_title",nullable = false)
     private String title;
 
     protected ProjectRegion(){}

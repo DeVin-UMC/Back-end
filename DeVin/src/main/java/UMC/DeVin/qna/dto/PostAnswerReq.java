@@ -6,6 +6,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class PostAnswerReq {
-    private Long questionIdx;
+    private Long questionId;
     private String content;
 }

@@ -44,6 +44,12 @@ public enum BaseResponseStatus {
     MISSING_REQUEST_PARAMETER(false,2031, HttpStatus.BAD_REQUEST, "필수 Request Parameter가 누락되었습니다."),
     VALIDATION_EXCEPTION(false,2032, HttpStatus.BAD_REQUEST, "Validation 오류가 발생했습니다."),
 
+    // qna
+    EMPTY_QUESTION_ID(false,2040,HttpStatus.BAD_REQUEST,"질문 인덱스 값을 확인해주세요."),
+    EMPTY_ANSWER_ID(false,2041,HttpStatus.BAD_REQUEST,"답변 인덱스 값을 확인해주세요."),
+    ALREADY_LIKE(false,2042,HttpStatus.BAD_REQUEST,"이미 추천되었습니다."),
+    ALREADY_UNLIKE(false,2043,HttpStatus.BAD_REQUEST,"이미 비추천되었습니다."),
+
 
 
 

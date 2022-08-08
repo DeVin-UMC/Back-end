@@ -2,7 +2,6 @@ package UMC.DeVin.heart;
 
 import UMC.DeVin.common.base.BaseException;
 import UMC.DeVin.common.base.BaseResponse;
-import UMC.DeVin.common.base.BaseResponseStatus;
 import UMC.DeVin.heart.dto.HeartAnswerDto;
 import UMC.DeVin.heart.dto.HeartQuestionDto;
 import lombok.AllArgsConstructor;
@@ -14,35 +13,70 @@ public class HeartController {
 
     private final HeartService heartService;
 
+    /**
+     * 질문 추천 API
+     * [POST] /questions/like
+     * @return BaseResponse<String>
+     */
     @PostMapping("/questions/like")
     public BaseResponse<String> likeQuestion(@RequestBody HeartQuestionDto dto) throws BaseException {
-        // dto 값 확인
-        if(dto.getMemberId().equals(null) || dto.getQuestionId().equals(null)){
-            return new BaseResponse<>(BaseResponseStatus.REQUEST_ERROR);
-        }
-
         heartService.likeQuestion(dto);
         return new BaseResponse<>("질문 추천 완료 !");
     }
 
+    /**
+     * 질문 비추천 API
+     * [POST] /questions/unlike
+     * @return BaseResponse<String>
+     */
+    @PostMapping("/questions/unlike")
+    public BaseResponse<String> unlikeQuestion(@RequestBody HeartQuestionDto dto) throws BaseException {
+        heartService.unlikeQuestion(dto);
+        return new BaseResponse<>("질문 비추천 완료 !");
+    }
+
+    /**
+     * 답변 추천 API
+     * [POST] /answers/like
+     * @return BaseResponse<String>
+     */
     @PostMapping("/answers/like")
     public BaseResponse<String> likeAnswer(@RequestBody HeartAnswerDto dto) throws BaseException {
-        if(dto.getMemberId().equals(null) || dto.getAnswerId().equals(null)){
-            return new BaseResponse<>(BaseResponseStatus.REQUEST_ERROR);
-        }
         heartService.likeAnswer(dto);
         return new BaseResponse<>("답변 추천 완료 !");
     }
 
-    @DeleteMapping("/questions/unlike/{id}")
-    public BaseResponse<String> unlikeQuestion(@PathVariable Long id) throws BaseException {
-        heartService.unlikeQuestion(id);
+    /**
+     * 답변 추천 API
+     * [POST] /answers/unlike
+     * @return BaseResponse<String>
+     */
+    @PostMapping("/answers/unlike")
+    public BaseResponse<String> unlikeAnswer(@RequestBody HeartAnswerDto dto) throws BaseException {
+        heartService.unlikeAnswer(dto);
+        return new BaseResponse<>("답변 비추천 완료 !");
+    }
+
+    /**
+     * 질문 추천 취소 API
+     * [DELETE] /questions/like/1
+     * @return BaseResponse<String>
+     */
+    @DeleteMapping("/questions/like/{id}")
+    public BaseResponse<String> cancelLikeQuestion(@PathVariable Long id) throws BaseException {
+        heartService.cancelLikeQuestion(id);
         return new BaseResponse<>("질문 추천 취소 완료 !");
     }
 
-    @DeleteMapping("/answers/unlike/{id}")
-    public BaseResponse<String> unlikeAnswer(@PathVariable Long id) throws BaseException {
-        heartService.unlikeAnswer(id);
+    /**
+     * 답변 추천 취소 API
+     * [DELETE] /answers/like/1
+     * @return BaseResponse<String>
+     */
+    @DeleteMapping("/answers/like/{id}")
+    public BaseResponse<String> cancelLikeAnswer(@PathVariable Long id) throws BaseException {
+        heartService.cancelLikeAnswer(id);
         return new BaseResponse<>("답변 추천 취소 완료 !");
     }
+
 }

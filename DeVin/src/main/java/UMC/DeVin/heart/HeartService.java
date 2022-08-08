@@ -1,7 +1,6 @@
 package UMC.DeVin.heart;
 
 import UMC.DeVin.common.base.BaseException;
-import UMC.DeVin.common.base.BaseResponse;
 import UMC.DeVin.common.base.BaseResponseStatus;
 import UMC.DeVin.heart.dto.HeartAnswerDto;
 import UMC.DeVin.heart.dto.HeartQuestionDto;
@@ -20,7 +19,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.awt.*;
 import java.util.Optional;
 
 @Service
@@ -34,39 +32,143 @@ public class HeartService {
     private final HeartAnswerRepository heartAnswerRepository;
     private final HeartQuestionRepository heartQuestionRepository;
 
-    public void likeQuestion(HeartQuestionDto dto) {
-        // 추천 누른 사용자
+    public void likeQuestion(HeartQuestionDto dto) throws BaseException {
+        // 추천 누른 사람
         Member member = memberRepository.findById(dto.getMemberId()).orElse(null);
-        // 추천한 질문
+        if(member.equals(null)){
+            throw new BaseException(BaseResponseStatus.USERS_EMPTY_USER_ID);
+        }
+        // 추천 누른 질문
         Question question = questionRepository.findById(dto.getQuestionId()).orElse(null);
-        HeartQuestion heartQuestion = heartQuestionRepository.findByMemberAndQuestion(member,question).orElse(null);
-
-        // 중복 추천 방지
-        if(heartQuestion == null || heartQuestion.getType() != Type.LIKE){
-            heartQuestionRepository.save(HeartQuestion.createLikeQuestion(member,question));
+        if(question.equals(null)){
+            throw new BaseException(BaseResponseStatus.EMPTY_QUESTION_ID);
         }
+
+        Optional<HeartQuestion> findQuestion = heartQuestionRepository.findByMemberAndQuestion(member, question);
+        if(findQuestion.isPresent()){
+            // 추천되어 있던 경우
+            if(findQuestion.get().getType().equals(Type.LIKE)){
+                throw new BaseException(BaseResponseStatus.ALREADY_LIKE);
+            }
+            // 비추천되어 있던 경우 -> 비추천 삭제
+            else if(findQuestion.get().getType().equals(Type.UNLIKE)){
+                cancelLikeQuestion(findQuestion.get().getId());
+            }
+        }
+
+        HeartQuestion heartQuestion = HeartQuestion.createLikeQuestion(member, question);
+        heartQuestionRepository.save(heartQuestion);
 
     }
 
-    public void likeAnswer(HeartAnswerDto dto) {
+
+    public void likeAnswer(HeartAnswerDto dto) throws BaseException{
+        // 추천 누른 사람
         Member member = memberRepository.findById(dto.getMemberId()).orElse(null);
-        Answer answer = answerRepository.findById(dto.getAnswerId()).orElse(null);
-        HeartAnswer heartAnswer = heartAnswerRepository.findByMemberAndAnswer(member,answer).orElse(null);
-
-        if(dto.getAnswerId() != null && heartAnswer == null || heartAnswer.getType() != Type.LIKE){
-            heartAnswerRepository.save(HeartAnswer.createLikeAnswer(member,answer));
+        if(member.equals(null)){
+            throw new BaseException(BaseResponseStatus.USERS_EMPTY_USER_ID);
         }
+        // 추천 누른 답변
+        Answer answer = answerRepository.findById(dto.getAnswerId()).orElse(null);
+        if(answer.equals(null)){
+            throw new BaseException(BaseResponseStatus.EMPTY_ANSWER_ID);
+        }
+
+        Optional<HeartAnswer> findAnswer = heartAnswerRepository.findByMemberAndAnswer(member, answer);
+        if(findAnswer.isPresent()){
+            // 추천되어 있던 경우
+            if(findAnswer.get().getType().equals(Type.LIKE)){
+                throw new BaseException(BaseResponseStatus.ALREADY_LIKE);
+            }
+            // 비추천되어 있던 경우 -> 비추천 삭제
+            else if(findAnswer.get().getType().equals(Type.UNLIKE)){
+                cancelLikeAnswer(findAnswer.get().getId());
+            }
+        }
+
+        HeartAnswer likeAnswer = HeartAnswer.createLikeAnswer(member, answer);
+        heartAnswerRepository.save(likeAnswer);
+
     }
 
-    public void unlikeQuestion(Long id) {
-        // HeartQuestion heartQuestion = heartQuestionRepository.findById(id).orElse(null);
-        // heartQuestion.unlike();
-        // 이 코드 실행하면 계속 쿼리문만 실행됨 .. ㅠㅠ
+    public void unlikeQuestion(HeartQuestionDto dto) throws BaseException {
+        // 비추천 누른 사람
+        Member member = memberRepository.findById(dto.getMemberId()).orElse(null);
+        if(member.equals(null)){
+            throw new BaseException(BaseResponseStatus.USERS_EMPTY_USER_ID);
+        }
+        // 비추천 누른 질문
+        Question question = questionRepository.findById(dto.getQuestionId()).orElse(null);
+        if(question.equals(null)){
+            throw new BaseException(BaseResponseStatus.EMPTY_QUESTION_ID);
+        }
 
+        Optional<HeartQuestion> findQuestion = heartQuestionRepository.findByMemberAndQuestion(member, question);
+        if(findQuestion.isPresent()){
+            // 비추천되어 있던 경우
+            if(findQuestion.get().getType().equals(Type.UNLIKE)){
+                throw new BaseException(BaseResponseStatus.ALREADY_UNLIKE);
+            }
+            // 추천되어 있던 경우 -> 비추천 삭제
+            else if(findQuestion.get().getType().equals(Type.LIKE)){
+                cancelLikeQuestion(findQuestion.get().getId());
+            }
+        }
+
+        HeartQuestion unlikeQuestion = HeartQuestion.createUnlikeQuestion(member, question);
+        heartQuestionRepository.save(unlikeQuestion);
+
+    }
+
+    public void unlikeAnswer(HeartAnswerDto dto) throws BaseException {
+        // 비추천 누른 사람
+        Member member = memberRepository.findById(dto.getMemberId()).orElse(null);
+        if(member.equals(null)){
+            throw new BaseException(BaseResponseStatus.USERS_EMPTY_USER_ID);
+        }
+        // 비추천 누른 답변
+        Answer answer = answerRepository.findById(dto.getAnswerId()).orElse(null);
+        if(answer.equals(null)){
+            throw new BaseException(BaseResponseStatus.EMPTY_ANSWER_ID);
+        }
+
+        Optional<HeartAnswer> findAnswer = heartAnswerRepository.findByMemberAndAnswer(member, answer);
+        if(findAnswer.isPresent()){
+            // 비추천되어 있던 경우
+            if(findAnswer.get().getType().equals(Type.UNLIKE)){
+                throw new BaseException(BaseResponseStatus.ALREADY_UNLIKE);
+            }
+            // 추천되어 있던 경우 -> 추천 삭제
+            else if(findAnswer.get().getType().equals(Type.LIKE)){
+                cancelLikeAnswer(findAnswer.get().getId());
+            }
+        }
+
+        HeartAnswer unlikeAnswer = HeartAnswer.createUnlikeAnswer(member, answer);
+        heartAnswerRepository.save(unlikeAnswer);
+
+    }
+
+
+
+    public void cancelLikeQuestion(Long id) {
         heartQuestionRepository.deleteById(id);
     }
 
-    public void unlikeAnswer(Long id) {
+    public void cancelLikeAnswer(Long id) {
         heartAnswerRepository.deleteById(id);
     }
+
+
+
 }
+
+
+
+
+
+
+
+
+
+

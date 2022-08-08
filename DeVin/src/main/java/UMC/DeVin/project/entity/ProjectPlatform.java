@@ -17,11 +17,11 @@ public class ProjectPlatform {
     private Long id;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "pro_id")
+    @JoinColumn(name = "pro_id",nullable = false)
     @JsonIgnore
     private Project project;
 
-    @Column(name = "pla_title")
+    @Column(name = "pla_title",nullable = false)
     private String title;
 
     protected ProjectPlatform(){ }

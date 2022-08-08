@@ -19,11 +19,11 @@ import static javax.persistence.FetchType.LAZY;
 public class Answer extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ans_id", nullable = false)
+    @Column(name = "ans_id")
     private Long id;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "qus_id")
+    @JoinColumn(name = "qus_id",nullable = false)
     private Question question;
 
     @Column(name = "qus_content", nullable = false)
@@ -44,5 +44,9 @@ public class Answer extends BaseEntity {
     public void selectAnswer(){
         this.select = Select.TRUE;
     }
+    public void unselectAnswer(){
+        this.select = Select.FALSE;
+    }
+
 
 }

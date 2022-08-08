@@ -3,6 +3,7 @@ package UMC.DeVin.qna;
 import UMC.DeVin.common.base.BaseException;
 import UMC.DeVin.common.base.BaseResponse;
 import UMC.DeVin.qna.dto.PostAnswerReq;
+import UMC.DeVin.qna.dto.PostAnswerRes;
 import UMC.DeVin.qna.dto.PostQuestionReq;
 import UMC.DeVin.qna.dto.PostQuestionRes;
 import lombok.AllArgsConstructor;
@@ -31,27 +32,27 @@ public class QnaController {
 
     /**
      * 답변 생성 API
-     * [POST] /questions
-     * @return BaseResponse<PostQuestionRes>
+     * [POST] /answers
+     * @return BaseResponse<PostAnswerRes>
      */
     @PostMapping("/answers")
-    public BaseResponse<String> createAnswer(@RequestBody @Valid PostAnswerReq dto) throws BaseException {
+    public BaseResponse<PostAnswerRes> createAnswer(@RequestBody @Valid PostAnswerReq dto) throws BaseException {
 
-        qnaService.createAnswer(dto);
-        return new BaseResponse<>("답변 완료 !");
+        PostAnswerRes answerRes = qnaService.createAnswer(dto);
+        return new BaseResponse<>(answerRes);
 
     }
 
     /**
-     * 답변 채택 API
+     * 답변 채택 / 채택 취소 API
      * [PATCH] /answers/1
-     * @return BaseResponse<PostQuestionRes>
+     * @return BaseResponse<String>
      */
     @PatchMapping("/answers/{id}")
     public BaseResponse<String> selectAnswer(@PathVariable Long id) throws BaseException {
 
-        qnaService.selectAnswer(id);
-        return new BaseResponse<>("답변 채택 완료 !");
+        String res = qnaService.selectAnswer(id);
+        return new BaseResponse<>(res);
 
     }
 

@@ -1,12 +1,10 @@
 package UMC.DeVin.qna;
 
-import UMC.DeVin.qna.dto.PostAnswerReq;
-import UMC.DeVin.qna.dto.PostQuestionReq;
-import UMC.DeVin.qna.dto.PostQuestionRes;
-import UMC.DeVin.qna.dto.PostTagReq;
+import UMC.DeVin.qna.dto.*;
 import UMC.DeVin.qna.entity.Answer;
 import UMC.DeVin.qna.entity.Question;
 import UMC.DeVin.qna.entity.QuestionTag;
+import UMC.DeVin.qna.entity.select.Select;
 import UMC.DeVin.qna.repository.AnswerRepository;
 import UMC.DeVin.qna.repository.QuestionRepository;
 import UMC.DeVin.qna.repository.QuestionTagRepository;
@@ -39,15 +37,27 @@ public class QnaService {
         return new PostQuestionRes(question.getId());
     }
 
-    public void createAnswer(PostAnswerReq dto){
+    public PostAnswerRes createAnswer(PostAnswerReq dto){
 
-        Question findQuestion = questionRepository.findById(dto.getQuestionIdx()).get();
-        answerRepository.save(Answer.createAnswer(dto, findQuestion));
+        Question findQuestion = questionRepository.findById(dto.getQuestionId()).get();
+        Answer answer = Answer.createAnswer(dto, findQuestion);
+        answerRepository.save(answer);
+
+        return new PostAnswerRes(answer.getId());
     }
 
-    public void selectAnswer(Long id) {
+    public String selectAnswer(Long id) {
         Answer findAnswer = answerRepository.findById(id).get();
-        findAnswer.selectAnswer();
+
+        if(findAnswer.getSelect() != Select.TRUE) {
+            findAnswer.selectAnswer();
+            return "답변 채택";
+
+        }else {
+            findAnswer.unselectAnswer();
+            return "답변 채택 취소";
+        }
+
     }
 
 }

@@ -81,6 +81,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/token/refresh").permitAll()
                 .antMatchers("/join").permitAll()
                 .antMatchers("/test").permitAll()
+                .antMatchers("/questions/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .oauth2Login()

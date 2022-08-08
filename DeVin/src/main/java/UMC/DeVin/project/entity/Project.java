@@ -23,18 +23,18 @@ public class Project extends BaseEntity {
     private Long id;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "mbr_id")
+    @JoinColumn(name = "mbr_id",nullable = false)
     @JsonIgnore
     private Member member;
 
-    @Column(name = "pro_title")
+    @Column(name = "pro_title",nullable = false)
     private String title;
 
-    @Column(name = "pro_des", columnDefinition = "TEXT")
+    @Column(name = "pro_des", columnDefinition = "TEXT",nullable = false)
     private String des;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "pro_level")
+    @Column(name = "pro_level",nullable = false)
     private ProgramLevel programLevel;
 
     @Column(name = "pro_img")
