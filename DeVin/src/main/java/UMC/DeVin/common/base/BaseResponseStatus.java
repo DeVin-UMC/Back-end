@@ -49,6 +49,7 @@ public enum BaseResponseStatus {
     EMPTY_ANSWER_ID(false,2041,HttpStatus.BAD_REQUEST,"답변 인덱스 값을 확인해주세요."),
     ALREADY_LIKE(false,2042,HttpStatus.BAD_REQUEST,"이미 추천되었습니다."),
     ALREADY_UNLIKE(false,2043,HttpStatus.BAD_REQUEST,"이미 비추천되었습니다."),
+    REQUEST_KEYWORD(false,2044,HttpStatus.BAD_REQUEST,"2글자 이상 입력해주세요."),
 
 
 

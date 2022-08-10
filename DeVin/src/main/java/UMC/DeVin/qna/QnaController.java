@@ -3,6 +3,7 @@ package UMC.DeVin.qna;
 import UMC.DeVin.auth.OAuthLoginUserUtil;
 import UMC.DeVin.common.base.BaseException;
 import UMC.DeVin.common.base.BaseResponse;
+import UMC.DeVin.common.base.BaseResponseStatus;
 import UMC.DeVin.qna.dto.*;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -59,16 +60,28 @@ public class QnaController {
 
     }
 
+    /**
+     * qna 페이징 API
+     * [GET] /qna
+     * @return List<GetQnaDto>
+     */
     @GetMapping("/qna")
-    public List<GetQnaDto> pageQna(@PageableDefault(direction = Sort.Direction.DESC) Pageable pageable) throws BaseException {
-        // 로그인 했을 때
-        if(oAuthLoginUserUtil.getLoginMemberWithContext() != null){
-            return qnaService.pageQnaWithLogin(pageable);
-        }else{
-            // 로그인 안 했을 때
-            return qnaService.pageQna(pageable);
-        }
+    public BaseResponse<List<GetQnaDto>> pageQna(@PageableDefault(direction = Sort.Direction.DESC) Pageable pageable) throws BaseException {
+        return new BaseResponse<>(qnaService.pageQna(pageable));
     }
 
+    /**
+     * qna 검색 API
+     * [GET] /qna/search?keyword=검색어
+     * @return List<GetQnaDto>
+     */
+    @GetMapping("/qna/search")
+    public BaseResponse<List<GetQnaDto>> searchQna(@RequestParam String keyword, @PageableDefault(direction = Sort.Direction.DESC) Pageable pageable) throws BaseException {
+        // 검색어 2글자 이상 입력
+        if(keyword.length()<2){
+            return new BaseResponse<>(BaseResponseStatus.REQUEST_KEYWORD);
+        }
+        return new BaseResponse<>(qnaService.searchQna(keyword,pageable));
+    }
 
 }

@@ -9,4 +9,5 @@ import java.util.List;
 
 public interface QuestionTagRepository extends JpaRepository<QuestionTag, Long> {
     List<QuestionTag> findByQuestion(Question question, Pageable pageable);
+    List<Question> findByTitleContaining(String title, Pageable pageable);
 }

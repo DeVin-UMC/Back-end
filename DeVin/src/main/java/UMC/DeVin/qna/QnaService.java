@@ -84,15 +84,18 @@ public class QnaService {
                             .build());
 
         }
-
         return qnaDtoList;
 
     }
 
-    public List<GetQnaDto> pageQnaWithLogin(Pageable pageable) {
-
+    public List<GetQnaDto> searchQna(String keyword, Pageable pageable) {
         List<GetQnaDto> qnaDtoList = new ArrayList<>();
-        List<Question> questionList = questionRepository.findAll(pageable).getContent();
+        List<Question> questionList =  new ArrayList<>();
+        if(!questionRepository.findByTitleContaining(keyword, pageable).getContent().isEmpty()){
+            questionList = questionRepository.findByTitleContaining(keyword, pageable).getContent();
+        } else if (!questionRepository.findByContentContaining(keyword, pageable).getContent().isEmpty()){
+            questionList = questionRepository.findByContentContaining(keyword, pageable).getContent();
+        }
 
         for(Question question : questionList){
             qnaDtoList.add(
@@ -109,7 +112,6 @@ public class QnaService {
                             .build());
 
         }
-
         return qnaDtoList;
     }
 }
