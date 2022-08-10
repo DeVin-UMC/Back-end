@@ -72,8 +72,8 @@ public class ProjectController {
      * @return Page<GetProjectDto>
      */
     @GetMapping("/projects")
-    public Page<GetProjectDto> findPage(ProjectSearchCondition condition, @PageableDefault(direction = Sort.Direction.DESC) Pageable pageable){
-        return projectService.findPage(condition,pageable);
+    public BaseResponse<Page<GetProjectDto>> findPage(ProjectSearchCondition condition, @PageableDefault(direction = Sort.Direction.DESC) Pageable pageable){
+        return new BaseResponse<>(projectService.findPage(condition,pageable));
     }
 
 
@@ -83,8 +83,12 @@ public class ProjectController {
      * @return Page<GetProjectDto>
      */
     @GetMapping("/projects/search")
-    public Page<GetProjectDto> search(@RequestParam String keyword, @PageableDefault(direction = Sort.Direction.DESC) Pageable pageable){
-        return projectService.search(keyword,pageable);
+    public BaseResponse<Page<GetProjectDto>> search(@RequestParam String keyword, @PageableDefault(direction = Sort.Direction.DESC) Pageable pageable){
+        // 검색어 2글자 이상 입력
+        if(keyword.length()<2){
+            return new BaseResponse<>(BaseResponseStatus.REQUEST_KEYWORD);
+        }
+        return new BaseResponse<>(projectService.search(keyword,pageable));
     }
 
 }
