@@ -3,7 +3,6 @@ package UMC.DeVin.project.repository;
 import UMC.DeVin.project.dto.GetProjectDto;
 import UMC.DeVin.project.dto.ProjectSearchCondition;
 import UMC.DeVin.project.entity.level.ProgramLevel;
-import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;

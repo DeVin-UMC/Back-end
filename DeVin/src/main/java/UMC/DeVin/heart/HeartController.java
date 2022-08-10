@@ -2,8 +2,8 @@ package UMC.DeVin.heart;
 
 import UMC.DeVin.common.base.BaseException;
 import UMC.DeVin.common.base.BaseResponse;
-import UMC.DeVin.heart.dto.HeartAnswerDto;
-import UMC.DeVin.heart.dto.HeartQuestionDto;
+import UMC.DeVin.heart.dto.PostHeartAnswerDto;
+import UMC.DeVin.heart.dto.PostHeartQuestionDto;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +19,7 @@ public class HeartController {
      * @return BaseResponse<String>
      */
     @PostMapping("/questions/like")
-    public BaseResponse<String> likeQuestion(@RequestBody HeartQuestionDto dto) throws BaseException {
+    public BaseResponse<String> likeQuestion(@RequestBody PostHeartQuestionDto dto) throws BaseException {
         heartService.likeQuestion(dto);
         return new BaseResponse<>("질문 추천 완료 !");
     }
@@ -30,7 +30,7 @@ public class HeartController {
      * @return BaseResponse<String>
      */
     @PostMapping("/questions/unlike")
-    public BaseResponse<String> unlikeQuestion(@RequestBody HeartQuestionDto dto) throws BaseException {
+    public BaseResponse<String> unlikeQuestion(@RequestBody PostHeartQuestionDto dto) throws BaseException {
         heartService.unlikeQuestion(dto);
         return new BaseResponse<>("질문 비추천 완료 !");
     }
@@ -41,7 +41,7 @@ public class HeartController {
      * @return BaseResponse<String>
      */
     @PostMapping("/answers/like")
-    public BaseResponse<String> likeAnswer(@RequestBody HeartAnswerDto dto) throws BaseException {
+    public BaseResponse<String> likeAnswer(@RequestBody PostHeartAnswerDto dto) throws BaseException {
         heartService.likeAnswer(dto);
         return new BaseResponse<>("답변 추천 완료 !");
     }
@@ -52,7 +52,7 @@ public class HeartController {
      * @return BaseResponse<String>
      */
     @PostMapping("/answers/unlike")
-    public BaseResponse<String> unlikeAnswer(@RequestBody HeartAnswerDto dto) throws BaseException {
+    public BaseResponse<String> unlikeAnswer(@RequestBody PostHeartAnswerDto dto) throws BaseException {
         heartService.unlikeAnswer(dto);
         return new BaseResponse<>("답변 비추천 완료 !");
     }

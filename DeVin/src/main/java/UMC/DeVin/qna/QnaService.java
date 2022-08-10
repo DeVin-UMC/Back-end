@@ -1,5 +1,7 @@
 package UMC.DeVin.qna;
 
+import UMC.DeVin.heart.entity.type.Type;
+import UMC.DeVin.heart.repository.HeartQuestionRepository;
 import UMC.DeVin.qna.dto.*;
 import UMC.DeVin.qna.entity.Answer;
 import UMC.DeVin.qna.entity.Question;
@@ -9,9 +11,13 @@ import UMC.DeVin.qna.repository.AnswerRepository;
 import UMC.DeVin.qna.repository.QuestionRepository;
 import UMC.DeVin.qna.repository.QuestionTagRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -21,6 +27,7 @@ public class QnaService {
     private final AnswerRepository answerRepository;
     private final QuestionRepository questionRepository;
     private final QuestionTagRepository questionTagRepository;
+    private final HeartQuestionRepository heartQuestionRepository;
 
 
     public PostQuestionRes createQuestion(PostQuestionReq dto){
@@ -60,4 +67,49 @@ public class QnaService {
 
     }
 
+    public List<GetQnaDto> pageQna(Pageable pageable) {
+
+        List<GetQnaDto> qnaDtoList = new ArrayList<>();
+        List<Question> questionList = questionRepository.findAll(pageable).getContent();
+
+        for(Question question : questionList){
+            qnaDtoList.add(
+                    GetQnaDto.builder()
+                            .title(question.getTitle())
+                            .content(question.getContent())
+                            .countAnswer(answerRepository.findByQuestion(question,pageable).size())
+                            .countLike(heartQuestionRepository.findByQuestionAndType(question, Type.LIKE).size())
+                            .countUnlike(heartQuestionRepository.findByQuestionAndType(question, Type.UNLIKE).size())
+                            .tags(questionTagRepository.findByQuestion(question, pageable).stream().map(QuestionTag::getTitle).collect(Collectors.toList()))
+                            .build());
+
+        }
+
+        return qnaDtoList;
+
+    }
+
+    public List<GetQnaDto> pageQnaWithLogin(Pageable pageable) {
+
+        List<GetQnaDto> qnaDtoList = new ArrayList<>();
+        List<Question> questionList = questionRepository.findAll(pageable).getContent();
+
+        for(Question question : questionList){
+            qnaDtoList.add(
+                    GetQnaDto.builder()
+                            .title(question.getTitle())
+                            .content(question.getContent())
+                            .countAnswer(answerRepository.findByQuestion(question,pageable).size())
+                            .countLike(heartQuestionRepository.findByQuestionAndType(question, Type.LIKE).size())
+                            .countUnlike(heartQuestionRepository.findByQuestionAndType(question, Type.UNLIKE).size())
+                            .tags(questionTagRepository.findByQuestion(question, pageable).stream().map(QuestionTag::getTitle).collect(Collectors.toList()))
+                            .like(heartQuestionRepository.findByQuestionAndType(question,Type.LIKE).isEmpty() ? false : true)
+                            .unlike(heartQuestionRepository.findByQuestionAndType(question,Type.UNLIKE).isEmpty() ? false : true)
+                            .comment(answerRepository.findByQuestion(question,pageable).isEmpty() ? false : true)
+                            .build());
+
+        }
+
+        return qnaDtoList;
+    }
 }

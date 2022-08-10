@@ -1,21 +1,24 @@
 package UMC.DeVin.qna;
 
+import UMC.DeVin.auth.OAuthLoginUserUtil;
 import UMC.DeVin.common.base.BaseException;
 import UMC.DeVin.common.base.BaseResponse;
-import UMC.DeVin.qna.dto.PostAnswerReq;
-import UMC.DeVin.qna.dto.PostAnswerRes;
-import UMC.DeVin.qna.dto.PostQuestionReq;
-import UMC.DeVin.qna.dto.PostQuestionRes;
+import UMC.DeVin.qna.dto.*;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @AllArgsConstructor
 public class QnaController {
 
     private final QnaService qnaService;
+    private final OAuthLoginUserUtil oAuthLoginUserUtil;
 
     /**
      * 질문 생성 API
@@ -54,6 +57,17 @@ public class QnaController {
         String res = qnaService.selectAnswer(id);
         return new BaseResponse<>(res);
 
+    }
+
+    @GetMapping("/qna")
+    public List<GetQnaDto> pageQna(@PageableDefault(direction = Sort.Direction.DESC) Pageable pageable) throws BaseException {
+        // 로그인 했을 때
+        if(oAuthLoginUserUtil.getLoginMemberWithContext() != null){
+            return qnaService.pageQnaWithLogin(pageable);
+        }else{
+            // 로그인 안 했을 때
+            return qnaService.pageQna(pageable);
+        }
     }
 
 

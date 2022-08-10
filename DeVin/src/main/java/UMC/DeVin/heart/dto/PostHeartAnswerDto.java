@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class HeartAnswerDto {
+public class PostHeartAnswerDto {
     private Long memberId;
     private Long answerId;
 }

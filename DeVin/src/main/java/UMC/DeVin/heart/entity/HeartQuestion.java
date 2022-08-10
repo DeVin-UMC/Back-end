@@ -50,9 +50,11 @@ public class HeartQuestion extends BaseEntity {
         return heartQuestion;
     }
 
-    public HeartQuestion unlike(){
+    public void unlike(){
         this.type = Type.UNLIKE;
-        return this;
     }
 
+    public void like() {
+        this.type = Type.LIKE;
+    }
 }

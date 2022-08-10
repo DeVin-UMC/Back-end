@@ -2,7 +2,6 @@ package UMC.DeVin.project.repository;
 
 import UMC.DeVin.project.dto.GetProjectDto;
 import UMC.DeVin.project.dto.ProjectSearchCondition;
-import UMC.DeVin.project.entity.Project;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

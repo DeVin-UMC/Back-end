@@ -2,8 +2,8 @@ package UMC.DeVin.heart;
 
 import UMC.DeVin.common.base.BaseException;
 import UMC.DeVin.common.base.BaseResponseStatus;
-import UMC.DeVin.heart.dto.HeartAnswerDto;
-import UMC.DeVin.heart.dto.HeartQuestionDto;
+import UMC.DeVin.heart.dto.PostHeartAnswerDto;
+import UMC.DeVin.heart.dto.PostHeartQuestionDto;
 import UMC.DeVin.heart.entity.HeartAnswer;
 import UMC.DeVin.heart.entity.HeartQuestion;
 import UMC.DeVin.heart.entity.type.Type;
@@ -32,7 +32,7 @@ public class HeartService {
     private final HeartAnswerRepository heartAnswerRepository;
     private final HeartQuestionRepository heartQuestionRepository;
 
-    public void likeQuestion(HeartQuestionDto dto) throws BaseException {
+    public void likeQuestion(PostHeartQuestionDto dto) throws BaseException {
         // 추천 누른 사람
         Member member = memberRepository.findById(dto.getMemberId()).orElse(null);
         if(member.equals(null)){
@@ -50,19 +50,19 @@ public class HeartService {
             if(findQuestion.get().getType().equals(Type.LIKE)){
                 throw new BaseException(BaseResponseStatus.ALREADY_LIKE);
             }
-            // 비추천되어 있던 경우 -> 비추천 삭제
+            // 비추천되어 있던 경우 -> 비추천을 추천으로 변경
             else if(findQuestion.get().getType().equals(Type.UNLIKE)){
-                cancelLikeQuestion(findQuestion.get().getId());
+                findQuestion.get().like();
             }
+        }else {
+            HeartQuestion heartQuestion = HeartQuestion.createLikeQuestion(member, question);
+            heartQuestionRepository.save(heartQuestion);
         }
 
-        HeartQuestion heartQuestion = HeartQuestion.createLikeQuestion(member, question);
-        heartQuestionRepository.save(heartQuestion);
 
     }
 
-
-    public void likeAnswer(HeartAnswerDto dto) throws BaseException{
+    public void likeAnswer(PostHeartAnswerDto dto) throws BaseException{
         // 추천 누른 사람
         Member member = memberRepository.findById(dto.getMemberId()).orElse(null);
         if(member.equals(null)){
@@ -80,18 +80,19 @@ public class HeartService {
             if(findAnswer.get().getType().equals(Type.LIKE)){
                 throw new BaseException(BaseResponseStatus.ALREADY_LIKE);
             }
-            // 비추천되어 있던 경우 -> 비추천 삭제
+            // 비추천되어 있던 경우 -> 추천으로 변경
             else if(findAnswer.get().getType().equals(Type.UNLIKE)){
-                cancelLikeAnswer(findAnswer.get().getId());
+                findAnswer.get().like();
             }
+        }else {
+            HeartAnswer likeAnswer = HeartAnswer.createLikeAnswer(member, answer);
+            heartAnswerRepository.save(likeAnswer);
         }
 
-        HeartAnswer likeAnswer = HeartAnswer.createLikeAnswer(member, answer);
-        heartAnswerRepository.save(likeAnswer);
 
     }
 
-    public void unlikeQuestion(HeartQuestionDto dto) throws BaseException {
+    public void unlikeQuestion(PostHeartQuestionDto dto) throws BaseException {
         // 비추천 누른 사람
         Member member = memberRepository.findById(dto.getMemberId()).orElse(null);
         if(member.equals(null)){
@@ -109,18 +110,18 @@ public class HeartService {
             if(findQuestion.get().getType().equals(Type.UNLIKE)){
                 throw new BaseException(BaseResponseStatus.ALREADY_UNLIKE);
             }
-            // 추천되어 있던 경우 -> 비추천 삭제
+            // 추천되어 있던 경우 -> 비추천
             else if(findQuestion.get().getType().equals(Type.LIKE)){
-                cancelLikeQuestion(findQuestion.get().getId());
+                findQuestion.get().unlike();
             }
+        }else {
+            HeartQuestion unlikeQuestion = HeartQuestion.createUnlikeQuestion(member, question);
+            heartQuestionRepository.save(unlikeQuestion);
         }
-
-        HeartQuestion unlikeQuestion = HeartQuestion.createUnlikeQuestion(member, question);
-        heartQuestionRepository.save(unlikeQuestion);
 
     }
 
-    public void unlikeAnswer(HeartAnswerDto dto) throws BaseException {
+    public void unlikeAnswer(PostHeartAnswerDto dto) throws BaseException {
         // 비추천 누른 사람
         Member member = memberRepository.findById(dto.getMemberId()).orElse(null);
         if(member.equals(null)){
@@ -140,12 +141,12 @@ public class HeartService {
             }
             // 추천되어 있던 경우 -> 추천 삭제
             else if(findAnswer.get().getType().equals(Type.LIKE)){
-                cancelLikeAnswer(findAnswer.get().getId());
+                findAnswer.get().unlike();
             }
+        }else {
+            HeartAnswer unlikeAnswer = HeartAnswer.createUnlikeAnswer(member, answer);
+            heartAnswerRepository.save(unlikeAnswer);
         }
-
-        HeartAnswer unlikeAnswer = HeartAnswer.createUnlikeAnswer(member, answer);
-        heartAnswerRepository.save(unlikeAnswer);
 
     }
 
