@@ -21,5 +21,5 @@ public class GetQnaDto {
     // 비추천 했으면 true
     private boolean unlike;
     // 답변을 달았다면 true
-    private boolean comment;
+    private boolean commented;
 }

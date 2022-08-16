@@ -108,7 +108,7 @@ public class QnaService {
                             .tags(questionTagRepository.findByQuestion(question, pageable).stream().map(QuestionTag::getTitle).collect(Collectors.toList()))
                             .like(heartQuestionRepository.findByQuestionAndType(question,Type.LIKE).isEmpty() ? false : true)
                             .unlike(heartQuestionRepository.findByQuestionAndType(question,Type.UNLIKE).isEmpty() ? false : true)
-                            .comment(answerRepository.findByQuestion(question,pageable).isEmpty() ? false : true)
+                            .commented(answerRepository.findByQuestion(question,pageable).isEmpty() ? false : true)
                             .build());
 
         }
