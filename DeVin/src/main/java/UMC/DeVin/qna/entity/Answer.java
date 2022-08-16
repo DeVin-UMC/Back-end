@@ -26,7 +26,7 @@ public class Answer extends BaseEntity {
     @JoinColumn(name = "qus_id",nullable = false)
     private Question question;
 
-    @Column(name = "qus_content", nullable = false)
+    @Column(name = "ans_cont", nullable = false)
     private String content;
 
     @Enumerated(value = EnumType.STRING)

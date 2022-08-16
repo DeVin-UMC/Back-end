@@ -12,7 +12,7 @@ import javax.persistence.*;
 
 import static javax.persistence.FetchType.LAZY;
 
-@Entity(name = "recommend_answer")
+@Entity(name = "RECOMMEND_ANSWER")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class HeartAnswer extends BaseEntity {
@@ -30,6 +30,7 @@ public class HeartAnswer extends BaseEntity {
     private Answer answer;
 
     @Enumerated(value = EnumType.STRING)
+    @Column(name = "rec_type")
     private Type type; // like, unlike
 
     public static HeartAnswer createLikeAnswer(Member member, Answer answer){

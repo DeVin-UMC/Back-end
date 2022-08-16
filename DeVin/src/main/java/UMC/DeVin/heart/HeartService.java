@@ -151,7 +151,6 @@ public class HeartService {
     }
 
 
-
     public void cancelLikeQuestion(Long id) {
         heartQuestionRepository.deleteById(id);
     }

@@ -6,7 +6,6 @@ import UMC.DeVin.project.entity.Project;
 import UMC.DeVin.project.entity.ProjectPlatform;
 import UMC.DeVin.project.entity.ProjectRecruitment;
 import UMC.DeVin.project.entity.ProjectRegion;
-import UMC.DeVin.project.entity.level.ProgramLevel;
 import UMC.DeVin.project.repository.ProjectPlatformRepository;
 import UMC.DeVin.project.repository.ProjectRecruitmentRepository;
 import UMC.DeVin.project.repository.ProjectRegionRepository;
@@ -16,10 +15,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.domain.Pageable;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Service
