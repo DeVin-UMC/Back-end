@@ -1,9 +1,9 @@
 package UMC.DeVin.heart;
 
+import UMC.DeVin.auth.OAuthLoginUserUtil;
 import UMC.DeVin.common.base.BaseException;
 import UMC.DeVin.common.base.BaseResponse;
-import UMC.DeVin.heart.dto.PostHeartAnswerDto;
-import UMC.DeVin.heart.dto.PostHeartQuestionDto;
+import UMC.DeVin.member.Member;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,15 +12,17 @@ import org.springframework.web.bind.annotation.*;
 public class HeartController {
 
     private final HeartService heartService;
+    private final OAuthLoginUserUtil oAuthLoginUserUtil;
 
     /**
      * 질문 추천 API
      * [POST] /questions/like
      * @return BaseResponse<String>
      */
-    @PostMapping("/questions/like")
-    public BaseResponse<String> likeQuestion(@RequestBody PostHeartQuestionDto dto) throws BaseException {
-        heartService.likeQuestion(dto);
+    @PostMapping("/questions/like/{id}")
+    public BaseResponse<String> likeQuestion(@PathVariable Long id) throws BaseException {
+        Member loginMember = oAuthLoginUserUtil.getLoginMemberWithContext();
+        heartService.likeQuestion(id, loginMember);
         return new BaseResponse<>("질문 추천 완료 !");
     }
 
@@ -29,9 +31,10 @@ public class HeartController {
      * [POST] /questions/unlike
      * @return BaseResponse<String>
      */
-    @PostMapping("/questions/unlike")
-    public BaseResponse<String> unlikeQuestion(@RequestBody PostHeartQuestionDto dto) throws BaseException {
-        heartService.unlikeQuestion(dto);
+    @PostMapping("/questions/unlike/{id}")
+    public BaseResponse<String> unlikeQuestion(@PathVariable Long id) throws BaseException {
+        Member loginMember = oAuthLoginUserUtil.getLoginMemberWithContext();
+        heartService.unlikeQuestion(id, loginMember);
         return new BaseResponse<>("질문 비추천 완료 !");
     }
 
@@ -40,9 +43,10 @@ public class HeartController {
      * [POST] /answers/like
      * @return BaseResponse<String>
      */
-    @PostMapping("/answers/like")
-    public BaseResponse<String> likeAnswer(@RequestBody PostHeartAnswerDto dto) throws BaseException {
-        heartService.likeAnswer(dto);
+    @PostMapping("/answers/like/{id}")
+    public BaseResponse<String> likeAnswer(@PathVariable Long id) throws BaseException {
+        Member loginMember = oAuthLoginUserUtil.getLoginMemberWithContext();
+        heartService.likeAnswer(id, loginMember);
         return new BaseResponse<>("답변 추천 완료 !");
     }
 
@@ -51,9 +55,10 @@ public class HeartController {
      * [POST] /answers/unlike
      * @return BaseResponse<String>
      */
-    @PostMapping("/answers/unlike")
-    public BaseResponse<String> unlikeAnswer(@RequestBody PostHeartAnswerDto dto) throws BaseException {
-        heartService.unlikeAnswer(dto);
+    @PostMapping("/answers/unlike/{id}")
+    public BaseResponse<String> unlikeAnswer(@PathVariable Long id) throws BaseException {
+        Member loginMember = oAuthLoginUserUtil.getLoginMemberWithContext();
+        heartService.unlikeAnswer(id, loginMember);
         return new BaseResponse<>("답변 비추천 완료 !");
     }
 

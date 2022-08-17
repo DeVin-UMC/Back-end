@@ -2,15 +2,12 @@ package UMC.DeVin.heart;
 
 import UMC.DeVin.common.base.BaseException;
 import UMC.DeVin.common.base.BaseResponseStatus;
-import UMC.DeVin.heart.dto.PostHeartAnswerDto;
-import UMC.DeVin.heart.dto.PostHeartQuestionDto;
 import UMC.DeVin.heart.entity.HeartAnswer;
 import UMC.DeVin.heart.entity.HeartQuestion;
 import UMC.DeVin.heart.entity.type.Type;
 import UMC.DeVin.heart.repository.HeartAnswerRepository;
 import UMC.DeVin.heart.repository.HeartQuestionRepository;
 import UMC.DeVin.member.Member;
-import UMC.DeVin.member.repository.MemberRepository;
 import UMC.DeVin.qna.entity.Answer;
 import UMC.DeVin.qna.entity.Question;
 import UMC.DeVin.qna.repository.AnswerRepository;
@@ -25,21 +22,15 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Transactional
 public class HeartService {
-    
-    private final MemberRepository memberRepository;
     private final QuestionRepository questionRepository;
     private final AnswerRepository answerRepository;
     private final HeartAnswerRepository heartAnswerRepository;
     private final HeartQuestionRepository heartQuestionRepository;
 
-    public void likeQuestion(PostHeartQuestionDto dto) throws BaseException {
-        // 추천 누른 사람
-        Member member = memberRepository.findById(dto.getMemberId()).orElse(null);
-        if(member.equals(null)){
-            throw new BaseException(BaseResponseStatus.USERS_EMPTY_USER_ID);
-        }
+    public void likeQuestion(Long id, Member member) throws BaseException {
+
         // 추천 누른 질문
-        Question question = questionRepository.findById(dto.getQuestionId()).orElse(null);
+        Question question = questionRepository.findById(id).orElse(null);
         if(question.equals(null)){
             throw new BaseException(BaseResponseStatus.EMPTY_QUESTION_ID);
         }
@@ -62,14 +53,10 @@ public class HeartService {
 
     }
 
-    public void likeAnswer(PostHeartAnswerDto dto) throws BaseException{
-        // 추천 누른 사람
-        Member member = memberRepository.findById(dto.getMemberId()).orElse(null);
-        if(member.equals(null)){
-            throw new BaseException(BaseResponseStatus.USERS_EMPTY_USER_ID);
-        }
+    public void likeAnswer(Long id, Member member) throws BaseException{
+
         // 추천 누른 답변
-        Answer answer = answerRepository.findById(dto.getAnswerId()).orElse(null);
+        Answer answer = answerRepository.findById(id).orElse(null);
         if(answer.equals(null)){
             throw new BaseException(BaseResponseStatus.EMPTY_ANSWER_ID);
         }
@@ -92,14 +79,10 @@ public class HeartService {
 
     }
 
-    public void unlikeQuestion(PostHeartQuestionDto dto) throws BaseException {
-        // 비추천 누른 사람
-        Member member = memberRepository.findById(dto.getMemberId()).orElse(null);
-        if(member.equals(null)){
-            throw new BaseException(BaseResponseStatus.USERS_EMPTY_USER_ID);
-        }
+    public void unlikeQuestion(Long id, Member member) throws BaseException {
+
         // 비추천 누른 질문
-        Question question = questionRepository.findById(dto.getQuestionId()).orElse(null);
+        Question question = questionRepository.findById(id).orElse(null);
         if(question.equals(null)){
             throw new BaseException(BaseResponseStatus.EMPTY_QUESTION_ID);
         }
@@ -121,14 +104,10 @@ public class HeartService {
 
     }
 
-    public void unlikeAnswer(PostHeartAnswerDto dto) throws BaseException {
-        // 비추천 누른 사람
-        Member member = memberRepository.findById(dto.getMemberId()).orElse(null);
-        if(member.equals(null)){
-            throw new BaseException(BaseResponseStatus.USERS_EMPTY_USER_ID);
-        }
+    public void unlikeAnswer(Long id, Member member) throws BaseException {
+
         // 비추천 누른 답변
-        Answer answer = answerRepository.findById(dto.getAnswerId()).orElse(null);
+        Answer answer = answerRepository.findById(id).orElse(null);
         if(answer.equals(null)){
             throw new BaseException(BaseResponseStatus.EMPTY_ANSWER_ID);
         }

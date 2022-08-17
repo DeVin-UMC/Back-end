@@ -1,6 +1,6 @@
 package UMC.DeVin.project.repository;
 
-import UMC.DeVin.project.dto.GetProjectDto;
+import UMC.DeVin.project.dto.ProjectRes;
 import UMC.DeVin.project.dto.ProjectSearchCondition;
 import UMC.DeVin.project.entity.level.ProgramLevel;
 import com.querydsl.core.types.Projections;
@@ -30,10 +30,10 @@ public class ProjectRepositoryImpl implements ProjectRepositoryCustom{
 
     @Override
     //분류, 지역, 난이도
-    public Page<GetProjectDto> findPage(ProjectSearchCondition condition, Pageable pageable) {
+    public Page<ProjectRes> findPage(ProjectSearchCondition condition, Pageable pageable) {
 
-        List<GetProjectDto> content = queryFactory
-                .select(Projections.fields(GetProjectDto.class,
+        List<ProjectRes> content = queryFactory
+                .select(Projections.fields(ProjectRes.class,
                         project.title,
                         project.img,
                         project.des.as("content"),
@@ -80,10 +80,10 @@ public class ProjectRepositoryImpl implements ProjectRepositoryCustom{
 
 
     @Override
-    public Page<GetProjectDto> findByKeyword(String keyword, Pageable pageable) {
+    public Page<ProjectRes> findByKeyword(String keyword, Pageable pageable) {
 
-        List<GetProjectDto> content = queryFactory
-                .select(Projections.fields(GetProjectDto.class,
+        List<ProjectRes> content = queryFactory
+                .select(Projections.fields(ProjectRes.class,
                         project.title,
                         project.img,
                         project.des.as("content"),

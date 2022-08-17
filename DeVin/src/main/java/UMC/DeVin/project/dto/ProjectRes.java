@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class GetProjectDto {
+public class ProjectRes {
 
     private String title;
     private String img;

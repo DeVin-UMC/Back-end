@@ -57,12 +57,12 @@ public class ProjectService {
     }
 
     @Transactional(readOnly = true)
-    public Page<GetProjectDto> findPage(ProjectSearchCondition condition, Pageable pageable) {
+    public Page<ProjectRes> findPage(ProjectSearchCondition condition, Pageable pageable) {
         return projectRepository.findPage(condition, pageable);
     }
 
     @Transactional(readOnly = true)
-    public Page<GetProjectDto> search(String keyword, Pageable pageable) {
+    public Page<ProjectRes> search(String keyword, Pageable pageable) {
         return projectRepository.findByKeyword(keyword, pageable);
     }
 

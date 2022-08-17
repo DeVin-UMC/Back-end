@@ -10,8 +10,6 @@ import java.util.List;
 @NoArgsConstructor
 public class PostProjectReqDto {
 
-    @NotNull
-    private Long memberId;
     @NotBlank(message = "프로젝트 제목을 입력해주세요 !")
     private String title;
     @NotBlank(message = "프로젝트 설명을 입력해주세요 !")
