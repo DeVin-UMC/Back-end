@@ -1,18 +1,9 @@
 package UMC.DeVin.study.entity;
 
 import UMC.DeVin.common.base.BaseEntity;
-import UMC.DeVin.qna.entity.Question;
-import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
-
 import static javax.persistence.FetchType.LAZY;
-
-//@ManyToOne(fetch = LAZY)
-//@JoinColumn(name = "pro_id")
-//private Project project;
 
 @Entity
 @Getter

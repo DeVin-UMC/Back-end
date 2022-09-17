@@ -4,6 +4,7 @@ import UMC.DeVin.common.base.BaseEntity;
 import UMC.DeVin.member.Member;
 import UMC.DeVin.project.dto.PostProjectReqDto;
 import UMC.DeVin.project.entity.level.ProgramLevel;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -14,7 +15,7 @@ import static javax.persistence.FetchType.LAZY;
 @Getter
 @Table(name = "PROJECT")
 @Entity
-public class  Project extends BaseEntity {
+public class Project extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,17 +23,18 @@ public class  Project extends BaseEntity {
     private Long id;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "mbr_id")
+    @JoinColumn(name = "mbr_id",nullable = false)
+    @JsonIgnore
     private Member member;
 
-    @Column(name = "pro_title")
+    @Column(name = "pro_title",nullable = false)
     private String title;
 
-    @Column(name = "pro_des", columnDefinition = "TEXT")
+    @Column(name = "pro_des", columnDefinition = "TEXT",nullable = false)
     private String des;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "pro_level")
+    @Column(name = "pro_level",nullable = false)
     private ProgramLevel programLevel;
 
     @Column(name = "pro_img")
@@ -52,7 +54,7 @@ public class  Project extends BaseEntity {
         return newProject;
     }
 
-    /* 게시글 수정 */
+    /* 프로젝트 수정 */
     public void updateProject(PostProjectReqDto postProjectReqDto){
         this.title = postProjectReqDto.getTitle();
         this.des = postProjectReqDto.getDes();

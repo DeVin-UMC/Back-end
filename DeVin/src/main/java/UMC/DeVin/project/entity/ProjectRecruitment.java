@@ -1,5 +1,6 @@
 package UMC.DeVin.project.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -16,16 +17,17 @@ public class ProjectRecruitment {
     private Long id;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name="pro_id")
+    @JoinColumn(name="pro_id",nullable = false)
+    @JsonIgnore
     private Project project;
 
-    @Column(name = "rec_title")
+    @Column(name = "rec_title",nullable = false)
     private String title;
 
-    @Column(name = "rec_language")
+    @Column(name = "rec_language",nullable = false)
     private String language;
 
-    @Column(name="rec_num")
+    @Column(name="rec_num",nullable = false)
     private int num;
 
     protected ProjectRecruitment(){}

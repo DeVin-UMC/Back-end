@@ -2,10 +2,7 @@ package UMC.DeVin.study.entity;
 
 import UMC.DeVin.common.base.BaseEntity;
 import UMC.DeVin.member.Member;
-import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
 
 
@@ -13,6 +10,8 @@ import javax.persistence.*;
 @Getter
 @Table(name = "STUDY")
 public class Study extends BaseEntity {
+
+
     @Id @GeneratedValue
     @Column(name = "std_id", nullable = false)
     private int id;
@@ -37,6 +36,6 @@ public class Study extends BaseEntity {
     private Member member;
 
 
-    protected Study(){
-    }
+    protected Study() { }
+
 }
