@@ -47,6 +47,7 @@ app:
       - http://localhost:8080/login/google
       - http://localhost:8080/join
 
+
 logging.level:
   org.hibernate.SQL: debug
 # org.hibernate.type: trace

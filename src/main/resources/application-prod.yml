@@ -22,6 +22,18 @@ spring:
     basename: i18n/exception
     encoding: UTF-8
 
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${google.client.id}
+            client-secret: ${google.client.secret}
+            scope: ${google.scope}
+
+jwt:
+  secret: ${jwt.secret}
+
 # cors 설정
 cors:
   allowed-origins: 'http://localhost:3000'
