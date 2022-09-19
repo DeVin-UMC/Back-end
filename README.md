@@ -7,6 +7,7 @@ DeVin 백엔드 repository입니다.
 
 
 # API Sheets
+https://confusion-coreopsis-463.notion.site/API-Specifiction-cd88bda3a379467eb686600347324ef8
 
 # 프로젝트 전체 구성도
 
