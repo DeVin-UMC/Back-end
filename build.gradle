@@ -102,3 +102,8 @@ configurations {
 	querydsl.extendsFrom compileClasspath
 }
 //querydsl 추가 끝
+
+// plain 파일 생성하지 않는 설정
+jar {
+	enabled = false
+}
