@@ -18,6 +18,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -69,7 +70,7 @@ public class ProjectController {
      * @return Page<GetProjectDto>
      */
     @GetMapping("/projects/search")
-    public BaseResponse<Page<ProjectRes>> search(@RequestParam String keyword, @PageableDefault(direction = Sort.Direction.DESC) Pageable pageable){
+    public BaseResponse<List<ProjectRes>> search(@RequestParam String keyword, @PageableDefault(direction = Sort.Direction.DESC) Pageable pageable){
         // 검색어 2글자 이상 입력
         if(keyword.length()<2){
             return new BaseResponse<>(BaseResponseStatus.REQUEST_KEYWORD);
