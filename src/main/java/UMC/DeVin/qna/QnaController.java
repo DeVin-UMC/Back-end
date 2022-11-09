@@ -4,6 +4,7 @@ import UMC.DeVin.auth.OAuthLoginUserUtil;
 import UMC.DeVin.common.base.BaseException;
 import UMC.DeVin.common.base.BaseResponse;
 import UMC.DeVin.common.base.BaseResponseStatus;
+import UMC.DeVin.member.Member;
 import UMC.DeVin.qna.dto.*;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -29,7 +30,10 @@ public class QnaController {
     @PostMapping("/questions")
     public BaseResponse<PostQuestionRes> createQuestion(@RequestBody @Valid PostQuestionReq dto) throws BaseException {
 
-        PostQuestionRes questionRes = qnaService.createQuestion(dto);
+        Member writer = oAuthLoginUserUtil.getLoginMemberWithContext();
+        System.out.println(writer);
+        System.out.println("------------");
+        PostQuestionRes questionRes = qnaService.createQuestion(dto,writer);
         return new BaseResponse<>(questionRes);
 
     }
@@ -42,7 +46,8 @@ public class QnaController {
     @PostMapping("/answers")
     public BaseResponse<PostAnswerRes> createAnswer(@RequestBody @Valid PostAnswerReq dto) throws BaseException {
 
-        PostAnswerRes answerRes = qnaService.createAnswer(dto);
+        Member writer = oAuthLoginUserUtil.getLoginMemberWithContext();
+        PostAnswerRes answerRes = qnaService.createAnswer(dto, writer);
         return new BaseResponse<>(answerRes);
 
     }

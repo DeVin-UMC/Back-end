@@ -10,6 +10,7 @@ import java.util.List;
 public class GetQnaDto {
     private String title;
     private String content;
+    private String writer;
     private int countAnswer;
     private int countLike;
     private int countUnlike;
