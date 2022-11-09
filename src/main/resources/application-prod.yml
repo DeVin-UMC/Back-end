@@ -53,6 +53,10 @@ app:
       - http://localhost:8080/test
       - http://localhost:8080/login/google
       - http://localhost:8080/join
+      - http://devin-env.eba-ydykqmma.ap-northeast-2.elasticbeanstalk.com/join
+      - http://devin-env.eba-ydykqmma.ap-northeast-2.elasticbeanstalk.com/login/google
+      - http://devin-env.eba-ydykqmma.ap-northeast-2.elasticbeanstalk.com/login/oauth2/code/google
+      - http://devin-env.eba-ydykqmma.ap-northeast-2.elasticbeanstalk.com/test
 
 logging.level:
   org.hibernate.SQL: INFO
