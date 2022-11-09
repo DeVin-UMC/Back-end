@@ -21,7 +21,7 @@ public class Question extends BaseEntity {
     @Column(name = "qus_title", nullable = false)
     private String title;
 
-    @Column(name = "qus_cont", nullable = false)
+    @Column(name = "qus_cont", nullable = false, columnDefinition = "TEXT")
     private String content;
 
 
