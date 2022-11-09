@@ -80,7 +80,7 @@ public class ProjectRepositoryImpl implements ProjectRepositoryCustom{
 
 
     @Override
-    public Page<ProjectRes> findByKeyword(String keyword, Pageable pageable) {
+    public List<ProjectRes> findByKeyword(String keyword, Pageable pageable) {
 
         List<ProjectRes> content = queryFactory
                 .select(Projections.fields(ProjectRes.class,
@@ -106,22 +106,7 @@ public class ProjectRepositoryImpl implements ProjectRepositoryCustom{
                 .distinct()
                 .fetch();
 
-        JPAQuery<Long> countQuery = queryFactory
-                .select(project.count())
-                .from(project)
-                .join(projectPlatform).on(projectPlatform.project.eq(project))
-                .join(projectRegion).on(projectRegion.project.eq(project))
-                .join(projectRecruitment).on(projectRecruitment.project.eq(project))
-                .where(
-                        project.title.contains(keyword)
-                                .or(project.des.contains(keyword))
-                                .or(projectPlatform.title.contains(keyword))
-                                .or(projectRecruitment.title.contains(keyword))
-                                .or(projectRegion.title.contains(keyword))
-                )
-                .distinct();
-
-        return getPage(content,pageable,countQuery::fetchOne);
+        return content;
 
     }
 

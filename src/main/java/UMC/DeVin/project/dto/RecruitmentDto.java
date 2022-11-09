@@ -6,6 +6,7 @@ import javax.validation.constraints.NotBlank;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class RecruitmentDto {
 
     @NotBlank(message = "모집 분야를 선택해주세요 !")
