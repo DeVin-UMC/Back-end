@@ -82,6 +82,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/join").permitAll()
                 .antMatchers("/test").permitAll()
                 .antMatchers("/questions/**").permitAll()
+
+
+                // 모든 기능 개발 완료될 때까지 Spring Security 적용하지 않음
+                .antMatchers("/projects/**").permitAll()
+                .antMatchers("/project/**").permitAll()
+                .antMatchers("/study/**").permitAll()
+                .antMatchers("/test/**").permitAll()
+                .antMatchers("/questions/**").permitAll()
+                .antMatchers("/answers/**").permitAll()
+                .antMatchers("/qna/**").permitAll()
+                // 모든 기능 개발 완료될 때까지 Spring Security 적용하지 않음
+
+
                 .anyRequest().authenticated()
                 .and()
                 .oauth2Login()
