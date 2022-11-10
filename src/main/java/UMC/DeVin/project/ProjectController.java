@@ -10,6 +10,8 @@ import UMC.DeVin.project.dto.ProjectRes;
 import UMC.DeVin.project.dto.PostProjectReqDto;
 import UMC.DeVin.project.dto.PostProjectResDto;
 import UMC.DeVin.project.dto.ProjectSearchCondition;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,6 +23,7 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
+@Tag(name = "Project", description = "프로젝트 API")
 @RestController
 @AllArgsConstructor
 public class ProjectController {
@@ -33,6 +36,7 @@ public class ProjectController {
      * [POST] /projects
      * @return BaseResponse<PostProjectResDto>
      */
+    @Operation(description = "프로젝트 생성 ** ")
     @PostMapping("/projects")
     public BaseResponse<PostProjectResDto> createProject(@RequestBody @Valid PostProjectReqDto dto) throws BaseException {
 
