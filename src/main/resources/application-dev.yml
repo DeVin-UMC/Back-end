@@ -58,6 +58,7 @@ logging.level:
   org.hibernate.SQL: debug
 # org.hibernate.type: trace
 
+
 # Swagger
 springdoc:
   swagger-ui:
