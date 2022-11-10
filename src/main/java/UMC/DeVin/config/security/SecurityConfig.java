@@ -95,6 +95,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 모든 기능 개발 완료될 때까지 Spring Security 적용하지 않음
 
 
+                // swagger 관련 처리
+                .antMatchers("/swagger/**").permitAll()
+                .antMatchers("/swagger-ui/**").permitAll()
+                .antMatchers("/swagger-ui.html").permitAll()
+                .antMatchers("/swagger-resources/**").permitAll()
+                .antMatchers("/v3/api-docs").permitAll()
+                // swagger 관련 처리
+
+
                 .anyRequest().authenticated()
                 .and()
                 .oauth2Login()

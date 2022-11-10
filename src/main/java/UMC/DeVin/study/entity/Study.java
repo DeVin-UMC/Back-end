@@ -19,7 +19,7 @@ public class Study extends BaseEntity {
     @Column(name = "std_title", nullable = false)
     private String title;
 
-    @Column(name = "std_des", nullable = false)
+    @Column(name = "std_des", nullable = false, columnDefinition = "TEXT")
     private String des;
 
     @Column(name = "std_level", nullable = false)

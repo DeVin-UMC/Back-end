@@ -22,10 +22,11 @@ https://confusion-coreopsis-463.notion.site/API-Specifiction-cd88bda3a379467eb68
 
 # 프로젝트를 진행하면서 겪은 과정들
 
-<b>AWS 서버 배포시 테스트 코드의 contextLoad() 메서드 실패 이슈 - 민호</b>
+<b>GitHub Action을 이용해서 배포 시 AWS 상태 검사 이슈 - 민호</b>
 
 https://chominho96.github.io/aws/AWS-%EC%83%81%ED%83%9C-%EA%B2%80%EC%82%AC/
 
-<b>GitHub Action을 이용해서 배포 시 AWS 상태 검사 이슈</b>
+<b>AWS 서버 배포시 테스트 코드의 contextLoad() 메서드 실패 이슈 - 민호 (추후 포스팅 예정)</b>
+
 
 # 팀원 소개
