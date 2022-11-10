@@ -9,6 +9,8 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class PostProjectReqDto {
 
     @NotBlank(message = "프로젝트 제목을 입력해주세요 !")

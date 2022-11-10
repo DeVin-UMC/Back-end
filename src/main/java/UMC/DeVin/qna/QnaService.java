@@ -2,6 +2,7 @@ package UMC.DeVin.qna;
 
 import UMC.DeVin.heart.entity.type.Type;
 import UMC.DeVin.heart.repository.HeartQuestionRepository;
+import UMC.DeVin.member.Member;
 import UMC.DeVin.qna.dto.*;
 import UMC.DeVin.qna.entity.Answer;
 import UMC.DeVin.qna.entity.Question;
@@ -30,9 +31,11 @@ public class QnaService {
     private final HeartQuestionRepository heartQuestionRepository;
 
 
-    public PostQuestionRes createQuestion(PostQuestionReq dto){
-
-        Question question = Question.createQuestion(dto);
+    public PostQuestionRes createQuestion(PostQuestionReq dto, Member writer){
+        System.out.println(writer);
+        System.out.println(1);
+        Question question = Question.createQuestion(dto, writer);
+        System.out.println(question);
         questionRepository.save(question);
 
         if(!dto.getTagList().isEmpty()){
@@ -44,10 +47,10 @@ public class QnaService {
         return new PostQuestionRes(question.getId());
     }
 
-    public PostAnswerRes createAnswer(PostAnswerReq dto){
+    public PostAnswerRes createAnswer(PostAnswerReq dto, Member writer){
 
         Question findQuestion = questionRepository.findById(dto.getQuestionId()).get();
-        Answer answer = Answer.createAnswer(dto, findQuestion);
+        Answer answer = Answer.createAnswer(dto, findQuestion, writer);
         answerRepository.save(answer);
 
         return new PostAnswerRes(answer.getId());
@@ -77,6 +80,7 @@ public class QnaService {
                     GetQnaDto.builder()
                             .title(question.getTitle())
                             .content(question.getContent())
+                            .writer(question.getWriter().getName())
                             .countAnswer(answerRepository.findByQuestion(question,pageable).size())
                             .countLike(heartQuestionRepository.findByQuestionAndType(question, Type.LIKE).size())
                             .countUnlike(heartQuestionRepository.findByQuestionAndType(question, Type.UNLIKE).size())
@@ -102,6 +106,7 @@ public class QnaService {
                     GetQnaDto.builder()
                             .title(question.getTitle())
                             .content(question.getContent())
+                            .writer(question.getWriter().getName())
                             .countAnswer(answerRepository.findByQuestion(question,pageable).size())
                             .countLike(heartQuestionRepository.findByQuestionAndType(question, Type.LIKE).size())
                             .countUnlike(heartQuestionRepository.findByQuestionAndType(question, Type.UNLIKE).size())

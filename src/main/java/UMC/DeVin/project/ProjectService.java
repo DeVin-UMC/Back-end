@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 
 @Service
 @RequiredArgsConstructor
@@ -62,7 +64,7 @@ public class ProjectService {
     }
 
     @Transactional(readOnly = true)
-    public Page<ProjectRes> search(String keyword, Pageable pageable) {
+    public List<ProjectRes> search(String keyword, Pageable pageable) {
         return projectRepository.findByKeyword(keyword, pageable);
     }
 
