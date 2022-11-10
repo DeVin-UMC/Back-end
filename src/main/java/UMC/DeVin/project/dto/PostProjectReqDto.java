@@ -9,7 +9,6 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@AllArgsConstructor
 @Builder
 public class PostProjectReqDto {
 
