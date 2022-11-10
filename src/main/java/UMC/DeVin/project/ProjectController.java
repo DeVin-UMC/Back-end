@@ -36,7 +36,7 @@ public class ProjectController {
      * [POST] /projects
      * @return BaseResponse<PostProjectResDto>
      */
-    @Operation(summary = "프로젝트 생성 요청", description = "프로젝트가 생성됩니다.", tags = { "ProjectController" })
+    @Operation(summary = "프로젝트 생성 요청", description = "프로젝트가 생성됩니다.")
     @PostMapping("/projects")
     public BaseResponse<PostProjectResDto> createProject(@RequestBody @Valid PostProjectReqDto dto) throws BaseException {
 
@@ -62,7 +62,7 @@ public class ProjectController {
      * - size : 조회할 데이터 수 (default 10)
      * @return Page<GetProjectDto>
      */
-    @Operation(summary = "프로젝트 페이징", description = "프로젝트를 (플랫폼, 지역, 난이도 별로) 페이징 처리 합니다. ", tags = { "ProjectController" })
+    @Operation(summary = "프로젝트 페이징", description = "프로젝트를 (플랫폼, 지역, 난이도 별로) 페이징 처리 합니다. ")
     @GetMapping("/projects")
     public BaseResponse<Page<ProjectRes>> findPage(ProjectSearchCondition condition, @PageableDefault(direction = Sort.Direction.DESC) Pageable pageable){
         return new BaseResponse<>(projectService.findPage(condition,pageable));
@@ -74,7 +74,7 @@ public class ProjectController {
      * [Get] /projects/search?keyword=검색어
      * @return Page<GetProjectDto>
      */
-    @Operation(summary = "프로젝트 검색", description = "검색어(keyword)를 이용해 프로젝트를 검색합니다.", tags = { "ProjectController" })
+    @Operation(summary = "프로젝트 검색", description = "검색어(keyword)를 이용해 프로젝트를 검색합니다.")
     @GetMapping("/projects/search")
     public BaseResponse<List<ProjectRes>> search(@Parameter(example = "검색어")@RequestParam String keyword, @PageableDefault(direction = Sort.Direction.DESC) Pageable pageable){
         // 검색어 2글자 이상 입력

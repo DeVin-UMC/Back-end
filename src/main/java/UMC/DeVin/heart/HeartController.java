@@ -9,7 +9,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-@Tag(name = "Heart", description = "qna 추천/비추천 API")
+@Tag(name = "Heart", description = "QnA 추천/비추천 API")
 @RestController
 @AllArgsConstructor
 public class HeartController {
@@ -22,7 +22,7 @@ public class HeartController {
      * [POST] /questions/like
      * @return BaseResponse<String>
      */
-    @Operation(summary = "질문 추천", description = "질문이 추천됩니다.", tags = { "HeartController" })
+    @Operation(summary = "질문 추천", description = "질문이 추천됩니다.")
     @PostMapping("/questions/like/{id}")
     public BaseResponse<String> likeQuestion(@PathVariable Long id) throws BaseException {
         Member loginMember = oAuthLoginUserUtil.getLoginMemberWithContext();
@@ -35,7 +35,7 @@ public class HeartController {
      * [POST] /questions/unlike
      * @return BaseResponse<String>
      */
-    @Operation(summary = "질문 추천", description = "질문이 비추천됩니다.", tags = { "HeartController" })
+    @Operation(summary = "질문 추천", description = "질문이 비추천됩니다.")
     @PostMapping("/questions/unlike/{id}")
     public BaseResponse<String> unlikeQuestion(@PathVariable Long id) throws BaseException {
         Member loginMember = oAuthLoginUserUtil.getLoginMemberWithContext();
@@ -48,7 +48,7 @@ public class HeartController {
      * [POST] /answers/like
      * @return BaseResponse<String>
      */
-    @Operation(summary = "답변 추천", description = "답변이 추천됩니다.", tags = { "HeartController" })
+    @Operation(summary = "답변 추천", description = "답변이 추천됩니다.")
     @PostMapping("/answers/like/{id}")
     public BaseResponse<String> likeAnswer(@PathVariable Long id) throws BaseException {
         Member loginMember = oAuthLoginUserUtil.getLoginMemberWithContext();
@@ -61,7 +61,7 @@ public class HeartController {
      * [POST] /answers/unlike
      * @return BaseResponse<String>
      */
-    @Operation(summary = "답변 비추천", description = "답변이 비추천됩니다.", tags = { "HeartController" })
+    @Operation(summary = "답변 비추천", description = "답변이 비추천됩니다.")
     @PostMapping("/answers/unlike/{id}")
     public BaseResponse<String> unlikeAnswer(@PathVariable Long id) throws BaseException {
         Member loginMember = oAuthLoginUserUtil.getLoginMemberWithContext();
@@ -74,7 +74,7 @@ public class HeartController {
      * [DELETE] /questions/like/1
      * @return BaseResponse<String>
      */
-    @Operation(summary = "질문 추천/비추천 취소", description = "질문 추천 혹은 비추천이 취소됩니다.", tags = { "HeartController" })
+    @Operation(summary = "질문 추천/비추천 취소", description = "질문 추천 혹은 비추천이 취소됩니다.")
     @DeleteMapping("/questions/like/{id}")
     public BaseResponse<String> cancelLikeQuestion(@PathVariable Long id) throws BaseException {
         heartService.cancelLikeQuestion(id);
@@ -86,7 +86,7 @@ public class HeartController {
      * [DELETE] /answers/like/1
      * @return BaseResponse<String>
      */
-    @Operation(summary = "답변 추천/비추천 취소", description = "답변 추천 혹은 비추천이 취소됩니다.", tags = { "HeartController" })
+    @Operation(summary = "답변 추천/비추천 취소", description = "답변 추천 혹은 비추천이 취소됩니다.")
     @DeleteMapping("/answers/like/{id}")
     public BaseResponse<String> cancelLikeAnswer(@PathVariable Long id) throws BaseException {
         heartService.cancelLikeAnswer(id);
