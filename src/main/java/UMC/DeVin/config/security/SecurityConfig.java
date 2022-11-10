@@ -100,7 +100,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/swagger-ui/**").permitAll()
                 .antMatchers("/swagger-ui.html").permitAll()
                 .antMatchers("/swagger-resources/**").permitAll()
-                .antMatchers("/v3/api-docs").permitAll()
+                .antMatchers("/api-docs/**").permitAll()
                 // swagger 관련 처리
 
 
