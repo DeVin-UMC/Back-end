@@ -3,6 +3,7 @@ package UMC.DeVin.file;
 import UMC.DeVin.common.base.BaseException;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
@@ -73,6 +74,14 @@ public class FileUploadUtil {
         }
 
         return amazonS3Client.getUrl(bucketName, fileName).toString();
+    }
+
+    /**
+     * S3 bucket에서 특정 파일을 삭제합니다.
+     * @param fileName 삭제할 파일 이름
+     */
+    public void deleteFile(String fileName) {
+        amazonS3Client.deleteObject(new DeleteObjectRequest(bucketName, fileName));
     }
 
     /**
