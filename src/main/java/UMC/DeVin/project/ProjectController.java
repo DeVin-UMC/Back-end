@@ -11,6 +11,12 @@ import UMC.DeVin.project.dto.PostProjectReqDto;
 import UMC.DeVin.project.dto.PostProjectResDto;
 import UMC.DeVin.project.dto.ProjectSearchCondition;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -36,7 +42,7 @@ public class ProjectController {
      * [POST] /projects
      * @return BaseResponse<PostProjectResDto>
      */
-    @Operation(description = "프로젝트 생성 ** ")
+    @Operation(summary = "프로젝트 생성 요청", description = "프로젝트가 생성됩니다.", tags = { "ProjectController" })
     @PostMapping("/projects")
     public BaseResponse<PostProjectResDto> createProject(@RequestBody @Valid PostProjectReqDto dto) throws BaseException {
 
@@ -62,6 +68,7 @@ public class ProjectController {
      * - size : 조회할 데이터 수 (default 10)
      * @return Page<GetProjectDto>
      */
+    @Operation(summary = "프로젝트 페이징", description = "프로젝트를 (플랫폼, 지역, 난이도 별로) 페이징 처리 합니다. ", tags = { "ProjectController" })
     @GetMapping("/projects")
     public BaseResponse<Page<ProjectRes>> findPage(ProjectSearchCondition condition, @PageableDefault(direction = Sort.Direction.DESC) Pageable pageable){
         return new BaseResponse<>(projectService.findPage(condition,pageable));
@@ -73,8 +80,9 @@ public class ProjectController {
      * [Get] /projects/search?keyword=검색어
      * @return Page<GetProjectDto>
      */
+    @Operation(summary = "프로젝트 검색", description = "프로젝트를 검색하는 api입니다. ", tags = { "ProjectController" })
     @GetMapping("/projects/search")
-    public BaseResponse<List<ProjectRes>> search(@RequestParam String keyword, @PageableDefault(direction = Sort.Direction.DESC) Pageable pageable){
+    public BaseResponse<List<ProjectRes>> search(@Parameter(example = "검색어")@RequestParam String keyword, @PageableDefault(direction = Sort.Direction.DESC) Pageable pageable){
         // 검색어 2글자 이상 입력
         if(keyword.length()<2){
             return new BaseResponse<>(BaseResponseStatus.REQUEST_KEYWORD);
