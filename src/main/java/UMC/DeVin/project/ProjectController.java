@@ -12,11 +12,6 @@ import UMC.DeVin.project.dto.PostProjectResDto;
 import UMC.DeVin.project.dto.ProjectSearchCondition;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.Parameters;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -27,7 +22,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @Tag(name = "Project", description = "프로젝트 API")
 @RestController
@@ -80,7 +74,7 @@ public class ProjectController {
      * [Get] /projects/search?keyword=검색어
      * @return Page<GetProjectDto>
      */
-    @Operation(summary = "프로젝트 검색", description = "프로젝트를 검색하는 api입니다. ", tags = { "ProjectController" })
+    @Operation(summary = "프로젝트 검색", description = "검색어(keyword)를 이용해 프로젝트를 검색합니다.", tags = { "ProjectController" })
     @GetMapping("/projects/search")
     public BaseResponse<List<ProjectRes>> search(@Parameter(example = "검색어")@RequestParam String keyword, @PageableDefault(direction = Sort.Direction.DESC) Pageable pageable){
         // 검색어 2글자 이상 입력
