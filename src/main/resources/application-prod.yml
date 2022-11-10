@@ -31,6 +31,12 @@ spring:
             client-secret: ${google.client.secret}
             scope: ${google.scope}
 
+  # 파일 업로드 크기 설정
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
+
 jwt:
   secret: ${jwt.secret}
 
@@ -53,6 +59,23 @@ app:
       - http://localhost:8080/test
       - http://localhost:8080/login/google
       - http://localhost:8080/join
+      - http://devin-env.eba-ydykqmma.ap-northeast-2.elasticbeanstalk.com/join
+      - http://devin-env.eba-ydykqmma.ap-northeast-2.elasticbeanstalk.com/login/google
+      - http://devin-env.eba-ydykqmma.ap-northeast-2.elasticbeanstalk.com/login/oauth2/code/google
+      - http://devin-env.eba-ydykqmma.ap-northeast-2.elasticbeanstalk.com/test
 
 logging.level:
   org.hibernate.SQL: INFO
+
+# AWS S3 관련 설정
+cloud:
+  aws:
+    credentials:
+      access-key: ${IAM_ACCESS_KEY}
+      secret-key: ${IAM_SECRET_KEY}
+    region:
+      static: ap-northeast-2
+    s3:
+      bucket: ${S3_BUCKET_NAME}
+    stack:
+      auto: false
