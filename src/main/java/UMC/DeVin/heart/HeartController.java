@@ -9,7 +9,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-@Tag(name = "Heart", description = "질문/답변 추천/비추천 API")
+@Tag(name = "Heart", description = "qna 추천/비추천 API")
 @RestController
 @AllArgsConstructor
 public class HeartController {
