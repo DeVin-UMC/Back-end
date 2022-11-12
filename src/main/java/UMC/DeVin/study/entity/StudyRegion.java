@@ -29,6 +29,13 @@ public class StudyRegion extends BaseEntity {
         this.region = region;
     }
 
+    /**
+     * 특정 스터디의 지역 정보를 저장하는 StudyRegion 엔티티를 생성합니다.
+     * 해당 함수로만 StudyRegion 클래스를 생성할 수 있습니다.
+     * @param study 해당하는 스터디 엔티티
+     * @param region 지역
+     * @return 생성된 스터디-지역 엔티티
+     */
     public static StudyRegion createStudyRegion(Study study, Region region) {
         return new StudyRegion(study, region);
     }
