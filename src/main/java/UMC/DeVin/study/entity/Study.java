@@ -2,6 +2,7 @@ package UMC.DeVin.study.entity;
 
 import UMC.DeVin.common.base.BaseEntity;
 import UMC.DeVin.member.Member;
+import UMC.DeVin.study.dto.PostStudyReqDTO;
 import lombok.Getter;
 import javax.persistence.*;
 
@@ -23,7 +24,8 @@ public class Study extends BaseEntity {
     private String des;
 
     @Column(name = "std_level", nullable = false)
-    private String level;
+    @Enumerated(EnumType.STRING)
+    private StudyLevel level;
 
     @Column(name = "std_rec_num", nullable = false)
     private int num;
@@ -37,5 +39,27 @@ public class Study extends BaseEntity {
 
 
     protected Study() { }
+
+    private Study(String title, String des, StudyLevel level, int num, String img, Member member) {
+        this.title = title;
+        this.des = des;
+        this.level = level;
+        this.num = num;
+        this.img = img;
+        this.member = member;
+    }
+
+    /**
+     * Study 엔티티를 생성하는 함수입니다.
+     * Study 엔티티는 해당 함수로만 생성됩니다.
+     * @param dto 컨트롤러에서 RequestBody로 입력받은 DTO
+     * @param imageUrl 이미지 업로드 후 반환된 이미지 URL
+     * @param member 스터디를 생성한 사용자
+     * @return 생성된 Study 엔티티
+     */
+    public static Study createStudy(PostStudyReqDTO dto, String imageUrl, Member member) {
+        return new Study(dto.getTitle(), dto.getDescription(), dto.getLevel(), dto.getRecruitNumber(),
+                imageUrl, member);
+    }
 
 }
