@@ -1,5 +1,6 @@
 package UMC.DeVin.study.entity;
 
+import UMC.DeVin.common.Region;
 import UMC.DeVin.common.base.BaseEntity;
 import lombok.Getter;
 import javax.persistence.*;
@@ -19,7 +20,16 @@ public class StudyRegion extends BaseEntity {
     private Study study;
 
     @Column(name = "reg_title", nullable = false)
-    private String title;
+    private Region region;
 
-    protected StudyRegion(){}
+    protected StudyRegion() { }
+
+    private StudyRegion(Study study, Region region) {
+        this.study = study;
+        this.region = region;
+    }
+
+    public static StudyRegion createStudyRegion(Study study, Region region) {
+        return new StudyRegion(study, region);
+    }
 }

@@ -2,6 +2,7 @@ package UMC.DeVin.study.entity;
 
 import UMC.DeVin.common.base.BaseEntity;
 import UMC.DeVin.member.Member;
+import UMC.DeVin.common.Level;
 import UMC.DeVin.study.dto.PostStudyReqDTO;
 import lombok.Getter;
 import javax.persistence.*;
@@ -25,7 +26,7 @@ public class Study extends BaseEntity {
 
     @Column(name = "std_level", nullable = false)
     @Enumerated(EnumType.STRING)
-    private StudyLevel level;
+    private Level level;
 
     @Column(name = "std_rec_num", nullable = false)
     private int num;
@@ -40,7 +41,7 @@ public class Study extends BaseEntity {
 
     protected Study() { }
 
-    private Study(String title, String des, StudyLevel level, int num, String img, Member member) {
+    private Study(String title, String des, Level level, int num, String img, Member member) {
         this.title = title;
         this.des = des;
         this.level = level;
