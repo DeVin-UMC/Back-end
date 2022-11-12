@@ -58,8 +58,18 @@ public class FileController {
      * @param fileDTO 삭제할 파일 정보를 담고 있는 DTO
      * @return 정상적으로 삭제되었을 경우, 성공 메시지 이외에 유의미한 데이터를 넘겨주진 않습니다.
      */
+    @Operation(summary = "파일 삭제 테스트 API", description = "AWS S3 파일 삭제 테스트 API입니다.", tags = { "Test File Controller" })
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK",
+                    content = @Content(schema = @Schema(implementation = BaseResponse.class))),
+            @ApiResponse(responseCode = "400", description = "BAD REQUEST",
+                    content = @Content),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR - 서버에서 파일 삭제에 실패한 경우",
+                    content = @Content)
+    })
     @PostMapping("/test/file/delete")
-    public BaseResponse<String> deleteFile(@RequestBody DeleteFileDTO fileDTO) {
+    public BaseResponse<String> deleteFile(
+            @Parameter(name = "fileDTO", description = "삭제할 파일 이름") @RequestBody DeleteFileDTO fileDTO) {
         fileUploadUtil.deleteFile(fileDTO.getFileName());
         return new BaseResponse<>("삭제에 성공했습니다.");
     }
