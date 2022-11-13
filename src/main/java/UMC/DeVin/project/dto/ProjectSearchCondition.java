@@ -10,14 +10,14 @@ import lombok.Data;
 public class ProjectSearchCondition {
 
     // 분류
-    @Schema(description = "플랫폼", example="web", required=true)
+    @Schema(description = "플랫폼", example="web")
     private String platform;
 
     // 지역
-    @Schema(description = "지역", example="seoul", required=true)
+    @Schema(description = "지역", example="seoul")
     private String region;
 
     // 난이도
-    @Schema(description = "난이도", example="beginner", required=true)
+    @Schema(description = "난이도", example="beginner")
     private String level;
 }
