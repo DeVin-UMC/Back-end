@@ -92,19 +92,19 @@ public class TestData {
 
 
             // 4. Test Q&A 데이터 삽입
-            PostQuestionRes postQuestionRes1 = addTestQuestionData("java", "서블렛이 무엇인가요?");
-            PostQuestionRes postQuestionRes2 = addTestQuestionData("Python", "파이썬은 무엇인가요?");
-            PostQuestionRes postQuestionRes3 = addTestQuestionData("Spring", "백준 2929번 질문 있습니다!");
-            PostQuestionRes postQuestionRes4 = addTestQuestionData("java", "서블렛이 무엇인가요?");
-            PostQuestionRes postQuestionRes5 = addTestQuestionData("java", "서블렛이 무엇인가요?");
+            PostQuestionRes postQuestionRes1 = addTestQuestionData("java", "서블렛이 무엇인가요?", member1);
+            PostQuestionRes postQuestionRes2 = addTestQuestionData("Python", "파이썬은 무엇인가요?", member3);
+            PostQuestionRes postQuestionRes3 = addTestQuestionData("Spring", "백준 2929번 질문 있습니다!", member4);
+            PostQuestionRes postQuestionRes4 = addTestQuestionData("java", "서블렛이 무엇인가요?", member5);
+            PostQuestionRes postQuestionRes5 = addTestQuestionData("java", "서블렛이 무엇인가요?", member2);
 
-            addTestAnswerData(postQuestionRes1.getQuestionId());
-            addTestAnswerData(postQuestionRes1.getQuestionId());
-            addTestAnswerData(postQuestionRes2.getQuestionId());
-            addTestAnswerData(postQuestionRes2.getQuestionId());
-            addTestAnswerData(postQuestionRes3.getQuestionId());
-            addTestAnswerData(postQuestionRes4.getQuestionId());
-            addTestAnswerData(postQuestionRes5.getQuestionId());
+            addTestAnswerData(postQuestionRes1.getQuestionId(), member1);
+            addTestAnswerData(postQuestionRes1.getQuestionId(), member3);
+            addTestAnswerData(postQuestionRes2.getQuestionId(), member2);
+            addTestAnswerData(postQuestionRes2.getQuestionId(), member4);
+            addTestAnswerData(postQuestionRes3.getQuestionId(), member5);
+            addTestAnswerData(postQuestionRes4.getQuestionId(), member1);
+            addTestAnswerData(postQuestionRes5.getQuestionId(), member2);
 
 
 
@@ -133,19 +133,20 @@ public class TestData {
                     "BEGINNER", "test img", platformList, recruitmentList,  regionList), member);
         }
 
-        private PostQuestionRes addTestQuestionData(String tag, String title) {
+        private PostQuestionRes addTestQuestionData(String tag, String title, Member member) {
             List<PostTagReq> tagList = new ArrayList<>();
             tagList.add(new PostTagReq(tag));
             tagList.add(new PostTagReq("C++"));
 
             return qnaService.createQuestion(new PostQuestionReq(title,
                     "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-                    tagList));
+                    tagList), member);
         }
 
-        private void addTestAnswerData(Long questionId) {
+        private void addTestAnswerData(Long questionId, Member member) {
             qnaService.createAnswer(new PostAnswerReq(questionId,
-                    "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."));
+                    "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."),
+                    member);
         }
     }
 }

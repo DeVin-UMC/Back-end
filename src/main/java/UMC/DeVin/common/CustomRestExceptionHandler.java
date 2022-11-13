@@ -10,7 +10,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 
 @RestControllerAdvice
@@ -41,12 +41,23 @@ public class CustomRestExceptionHandler {
         return BaseResponse.toResponseEntity(new BaseException(BaseResponseStatus.VALIDATION_EXCEPTION));
     }
 
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    public final ResponseEntity<BaseResponse<BaseResponseStatus>> handleMaxUploadSizeExceededException(
+            MaxUploadSizeExceededException ex) {
+
+        // 파일 업로드 용량 초과시 발생
+        return BaseResponse.toResponseEntity(new BaseException(BaseResponseStatus.FILE_MAX_SIZE_EXCEEDED));
+
+    }
+
     @ExceptionHandler(BaseException.class)
     public final ResponseEntity<BaseResponse<BaseResponseStatus>> handleBaseException(BaseException exception) {
 
         // throws BaseException을 처리
         return BaseResponse.toResponseEntity(exception);
     }
+
+
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)

@@ -27,6 +27,12 @@ spring:
     #port: 6379
     #host: localhost
 
+  # 파일 업로드 크기 설정
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
+
 # cors 설정
 cors:
   allowed-origins: 'http://localhost:3000'
@@ -51,4 +57,21 @@ app:
 logging.level:
   org.hibernate.SQL: debug
 # org.hibernate.type: trace
+
+
+# Swagger
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    groups-order: DESC
+    operationsSorter: method
+    disable-swagger-default-url: true
+    display-request-duration: true
+  api-docs:
+    path: /api-docs
+  show-actuator: true
+  default-consumes-media-type: application/json
+  default-produces-media-type: application/json
+  paths-to-match:
+    - /**
 

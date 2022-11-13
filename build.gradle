@@ -52,13 +52,13 @@ dependencies {
 	annotationProcessor "com.querydsl:querydsl-apt:5.0.0"
 
 	// ps6py
-	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.8.0'
+	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.8.1'
 
 	// JSON-Simple
 	implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
 
 	// File Handling
-	implementation group: 'commons-io', name: 'commons-io', version: '2.6'
+	implementation group: 'commons-io', name: 'commons-io', version: '2.7'
 	compile group: 'commons-io', name: 'commons-io', version: '1.1'
 
 	// Spring Security
@@ -74,6 +74,13 @@ dependencies {
 	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
 
 	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+
+	// Spring Cloud AWS
+	implementation 'io.awspring.cloud:spring-cloud-starter-aws:2.4.2'
+
+	// Swagger
+	implementation 'org.springdoc:springdoc-openapi-ui:1.6.12'
+	implementation 'org.springdoc:springdoc-openapi-data-rest:1.6.12'
 }
 
 

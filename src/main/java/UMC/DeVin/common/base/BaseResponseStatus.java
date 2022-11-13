@@ -51,6 +51,11 @@ public enum BaseResponseStatus {
     ALREADY_UNLIKE(false,2043,HttpStatus.BAD_REQUEST,"이미 비추천되었습니다."),
     REQUEST_KEYWORD(false,2044,HttpStatus.BAD_REQUEST,"2글자 이상 입력해주세요."),
 
+    // file upload
+    EMPTY_FILE(false, 2050, HttpStatus.BAD_REQUEST, "파일이 비어있습니다."),
+    FILE_IO_ERROR(false, 2051, HttpStatus.INTERNAL_SERVER_ERROR, "AWS bucket에 저장을 실패했습니다."),
+    FILE_MAX_SIZE_EXCEEDED(false, 2052, HttpStatus.BAD_REQUEST, "20MB보다 큰 파일이 입력으로 들어왔습니다."),
+
 
 
 
