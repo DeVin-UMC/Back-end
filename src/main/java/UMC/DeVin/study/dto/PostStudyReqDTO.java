@@ -5,6 +5,8 @@ import UMC.DeVin.project.dto.RegionDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.util.List;
 
 /**
@@ -18,5 +20,6 @@ public class PostStudyReqDTO {
     private String description;
     private Level level;
     private Integer recruitNumber;
-    private List<RegionDto> regionDtos;
+    private MultipartFile file;
+    private List<RegionDTO> regionDtos;
 }

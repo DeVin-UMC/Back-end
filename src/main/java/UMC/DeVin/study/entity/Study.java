@@ -16,7 +16,7 @@ public class Study extends BaseEntity {
 
     @Id @GeneratedValue
     @Column(name = "std_id", nullable = false)
-    private int id;
+    private Long id;
 
     @Column(name = "std_title", nullable = false)
     private String title;
