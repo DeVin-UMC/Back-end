@@ -22,17 +22,17 @@ public class Study extends BaseEntity {
     private String title;
 
     @Column(name = "std_des", nullable = false, columnDefinition = "TEXT")
-    private String des;
+    private String description;
 
     @Column(name = "std_level", nullable = false)
     @Enumerated(EnumType.STRING)
     private Level level;
 
     @Column(name = "std_rec_num", nullable = false)
-    private int num;
+    private int recruitNumber;
 
-    @Column(name = "std_img",nullable = true)
-    private String img;
+    @Column(name = "std_img", nullable = true)
+    private String imageUrl;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "mbr_id")
@@ -41,12 +41,12 @@ public class Study extends BaseEntity {
 
     protected Study() { }
 
-    private Study(String title, String des, Level level, int num, String img, Member member) {
+    private Study(String title, String description, Level level, int recruitNumber, String imageUrl, Member member) {
         this.title = title;
-        this.des = des;
+        this.description = description;
         this.level = level;
-        this.num = num;
-        this.img = img;
+        this.recruitNumber = recruitNumber;
+        this.imageUrl = imageUrl;
         this.member = member;
     }
 

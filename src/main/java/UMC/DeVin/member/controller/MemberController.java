@@ -42,7 +42,7 @@ public class MemberController {
 
         Member member = oAuthLoginUserUtil.getLoginMemberWithContext();
 
-        return new BaseResponse<>(new MemberRes(member.getEmail(), member.getProfileImageUrl(), member.getNickname(),
+        return new BaseResponse<>(new MemberRes(member.getId(), member.getEmail(), member.getProfileImageUrl(), member.getNickname(),
                 member.getDivision(), member.getRole()));
 
     }

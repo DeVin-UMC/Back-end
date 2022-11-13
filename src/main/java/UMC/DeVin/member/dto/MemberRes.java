@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MemberRes {
-
+    private Long id;
     private String email;
     private String profileImgUrl;
     private String nickname;
