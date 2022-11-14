@@ -67,12 +67,12 @@ logging.level:
 cloud:
   aws:
     credentials:
-      access-key: ${IAM_ACCESS_KEY}
-      secret-key: ${IAM_SECRET_KEY}
+      access-key: ${iam.access.key}
+      secret-key: ${iam.secret.key}
     region:
       static: ap-northeast-2
     s3:
-      bucket: ${S3_BUCKET_NAME}
+      bucket: ${s3.bucket.name}
     stack:
       auto: false
 
