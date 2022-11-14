@@ -104,7 +104,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // swagger 관련 처리
 
 
-                .anyRequest().permitAll()
+                .anyRequest().authenticated()
                 .and()
                 .oauth2Login()
                 .authorizationEndpoint()
