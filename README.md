@@ -32,4 +32,7 @@ https://chominho96.github.io/aws/AWS-%EC%83%81%ED%83%9C-%EA%B2%80%EC%82%AC/
 
 https://chominho96.github.io/aws/AWS-%EB%B0%B0%ED%8F%AC%EC%8B%9C-contextLoads()-failed-%EC%9D%B4%EC%8A%88/
 
+<b>Elastic beanstalk 배포 시 nginx 111:Connection refused, HTTP 502 에러 이슈 - 민호</b>
+https://chominho96.github.io/aws/Elastic-Beanstalk-nginx-502-%EC%97%90%EB%9F%AC/
+
 # 팀원 소개
