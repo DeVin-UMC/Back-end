@@ -63,7 +63,7 @@ public class ProjectController {
      * - size : 조회할 데이터 수 (default 10)
      * @return Page<GetProjectDto>
      */
-    @Operation(summary = "프로젝트 필터링", description = "프로젝트를 (플랫폼, 지역, 난이도 별로) 필터링 처리 합니다. ")
+    @Operation(summary = "프로젝트 필터링", description = "프로젝트를 (플랫폼, 지역, 기간, 난이도, 사용 언어 별로) 필터링 처리 합니다. ")
     @GetMapping("/projects")
     public BaseResponse<List<ProjectRes>> findPage(@ParameterObject ProjectSearchCondition condition,
                                                    @ParameterObject @PageableDefault(direction = Sort.Direction.DESC) Pageable pageable){
