@@ -36,9 +36,9 @@ public class ProjectService {
 
         // 이미지 업로드
         String imgUrl = fileUploadUtil.uploadFileV1("project", file);
-        
+
         // 게시글 생성
-        Project project = Project.createProject(dto,member,imgUrl);
+        Project project = Project.createProject(dto,member,file.getOriginalFilename(),imgUrl);
         projectRepository.save(project);
 
         // 플랫폼 생성

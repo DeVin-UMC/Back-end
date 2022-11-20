@@ -3,11 +3,12 @@ package UMC.DeVin.test;
 import UMC.DeVin.config.oauth.entity.ProviderType;
 import UMC.DeVin.member.Member;
 import UMC.DeVin.member.repository.MemberRepository;
-import UMC.DeVin.project.ProjectService;
 import UMC.DeVin.project.dto.PlatformDto;
 import UMC.DeVin.project.dto.PostProjectReqDto;
 import UMC.DeVin.project.dto.RecruitmentDto;
 import UMC.DeVin.project.dto.RegionDto;
+import UMC.DeVin.project.entity.Project;
+import UMC.DeVin.project.repository.ProjectRepository;
 import UMC.DeVin.qna.QnaService;
 import UMC.DeVin.qna.dto.PostAnswerReq;
 import UMC.DeVin.qna.dto.PostQuestionReq;
@@ -51,7 +52,7 @@ public class TestData {
         @PersistenceContext
         private EntityManager em;
 
-        private final ProjectService projectService;
+        private final ProjectRepository projectRepository;
         private final MemberRepository memberRepository;
         private final QnaService qnaService;
 
@@ -76,16 +77,16 @@ public class TestData {
                     GOOGLE, "닉네임5");
 
             // 2. Test Project 데이터 삽입
-            addTestProjectData("쇼핑몰 프로젝트 팀원 모집합니다.", "같이 쇼핑몰 만들어요", "web", member1);
-            addTestProjectData("스프링 프로젝트 팀원 모집합니다.", "같이 쇼핑몰 만들어요", "app", member1);
-            addTestProjectData("리액트 프로젝트 팀원 모집합니다.", "같이 쇼핑몰 만들어요", "game", member1);
-            addTestProjectData("쇼핑몰 프로젝트 팀원 모집해요", "같이 쇼핑몰 만들어요", "desktop-app", member2);
-            addTestProjectData("쇼핑몰 만들어요", "같이 쇼핑몰 만들어요", "web", member3);
-            addTestProjectData("프로젝트 모집 제목1", "같이 쇼핑몰 만들어요", "app", member4);
-            addTestProjectData("프로젝트 모집 제목2", "같이 쇼핑몰 만들어요", "web", member5);
-            addTestProjectData("프로젝트 모집 제목3", "같이 쇼핑몰 만들어요", "web", member5);
-            addTestProjectData("프로젝트 모집 제목4", "같이 쇼핑몰 만들어요", "web", member2);
-            addTestProjectData("프로젝트 모집 제목5", "같이 쇼핑몰 만들어요", "web", member2);
+            addTestProjectData("쇼핑몰 프로젝트 팀원 모집합니다.", "같이 쇼핑몰 만들어요", "web", member1,"project/test1_1668953271103.jpg","https://devin-s3-bucket.s3.ap-northeast-2.amazonaws.com/project/test1_1668953271103.jpg");
+            addTestProjectData("스프링 프로젝트 팀원 모집합니다.", "같이 쇼핑몰 만들어요", "app", member1,"project/test2_1668953315306.jpg","https://devin-s3-bucket.s3.ap-northeast-2.amazonaws.com/project/test2_1668953315306.jpg");
+            addTestProjectData("리액트 프로젝트 팀원 모집합니다.", "같이 쇼핑몰 만들어요", "game", member1,"project/test3_1668953335143.jpg","https://devin-s3-bucket.s3.ap-northeast-2.amazonaws.com/project/test3_1668953335143.jpg");
+            addTestProjectData("쇼핑몰 프로젝트 팀원 모집해요", "같이 쇼핑몰 만들어요", "desktop-app", member2,"project/test4_1668953361255.jpg","https://devin-s3-bucket.s3.ap-northeast-2.amazonaws.com/project/test4_1668953361255.jpg");
+            addTestProjectData("쇼핑몰 만들어요", "같이 쇼핑몰 만들어요", "web", member3,"project/preview1_1668953389844.jpg","https://devin-s3-bucket.s3.ap-northeast-2.amazonaws.com/project/preview1_1668953389844.jpg");
+            addTestProjectData("프로젝트 모집 제목1", "같이 쇼핑몰 만들어요", "app", member4,"project/preview2_1668953407679.jpg","https://devin-s3-bucket.s3.ap-northeast-2.amazonaws.com/project/preview2_1668953407679.jpg");
+            addTestProjectData("프로젝트 모집 제목2", "같이 쇼핑몰 만들어요", "web", member5,"project/preview3_1668953433347.jpg","https://devin-s3-bucket.s3.ap-northeast-2.amazonaws.com/project/preview3_1668953433347.jpg");
+            addTestProjectData("프로젝트 모집 제목3", "같이 쇼핑몰 만들어요", "web", member5,"project/test1_1668953271103.jpg","https://devin-s3-bucket.s3.ap-northeast-2.amazonaws.com/project/test1_1668953271103.jpg");
+            addTestProjectData("프로젝트 모집 제목4", "같이 쇼핑몰 만들어요", "web", member2,"project/test3_1668953335143.jpg","https://devin-s3-bucket.s3.ap-northeast-2.amazonaws.com/project/test3_1668953335143.jpg");
+            addTestProjectData("프로젝트 모집 제목5", "같이 쇼핑몰 만들어요", "web", member2,"project/preview1_1668953389844.jpg","https://devin-s3-bucket.s3.ap-northeast-2.amazonaws.com/project/preview1_1668953389844.jpg");
 
             // 3. Test Study 데이터 삽입
 
@@ -116,7 +117,7 @@ public class TestData {
             return memberRepository.save(member);
         }
 
-        private void addTestProjectData(String title, String description, String platform, Member member) {
+        private Project addTestProjectData(String title, String description, String platform, Member member, String fileName, String imgUrl) {
             List<PlatformDto> platformList = new ArrayList<>();
             platformList.add(new PlatformDto(platform));
 
@@ -128,9 +129,10 @@ public class TestData {
             regionList.add(new RegionDto("서울"));
             regionList.add(new RegionDto("인천"));
 
+            Project project = Project.createProject(new PostProjectReqDto(title, description,
+                    "BEGINNER", platformList, recruitmentList, regionList), member, fileName, imgUrl);
 
-            projectService.createProject(new PostProjectReqDto(title, description,
-                    "BEGINNER", platformList, recruitmentList,  regionList), member);
+            return projectRepository.save(project);
         }
 
         private PostQuestionRes addTestQuestionData(String tag, String title, Member member) {
