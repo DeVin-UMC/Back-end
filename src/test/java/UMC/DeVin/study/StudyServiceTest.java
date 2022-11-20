@@ -39,7 +39,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 class StudyServiceTest {
 
-    @Autowired
+    /*@Autowired
     private StudyService studyService;
     @Autowired
     private MemberRepository memberRepository;
@@ -50,9 +50,9 @@ class StudyServiceTest {
 
     private Member member;
 
-    /**
+    *//**
      * 테스트 멤버 삽입
-     */
+     *//*
     @PostConstruct
     public void init() {
         // 1. 테스트 member 삽입
@@ -81,9 +81,9 @@ class StudyServiceTest {
                 MIDDLE, 10, null, dtos), "", member));
     }
 
-    /**
+    *//**
      * createStudy 메서드 테스트 함수입니다.
-     */
+     *//*
     @Test
     void createStudyTest() throws BaseException {
         List<RegionDTO> dtos = new ArrayList<>();
@@ -106,9 +106,9 @@ class StudyServiceTest {
 
     }
 
-    /**
+    *//**
      * findPage 메서드 (페이징) 테스트 함수입니다.
-     */
+     *//*
     @Test
     void findPageTest() {
         PageRequest pageRequest = PageRequest.of(0, 3);
@@ -116,5 +116,5 @@ class StudyServiceTest {
 
         assertThat(studyPages.size()).isEqualTo(3);
         assertThat(studyPages.get(0).getTitle()).isEqualTo("스터디 제목1");
-    }
+    }*/
 }
