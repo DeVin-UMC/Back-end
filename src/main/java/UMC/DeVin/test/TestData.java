@@ -1,5 +1,6 @@
 package UMC.DeVin.test;
 
+import UMC.DeVin.common.Level;
 import UMC.DeVin.config.oauth.entity.ProviderType;
 import UMC.DeVin.member.Member;
 import UMC.DeVin.member.repository.MemberRepository;
@@ -8,7 +9,10 @@ import UMC.DeVin.project.dto.PostProjectReqDto;
 import UMC.DeVin.project.dto.RecruitmentDto;
 import UMC.DeVin.project.dto.RegionDto;
 import UMC.DeVin.project.entity.Project;
-import UMC.DeVin.project.repository.ProjectRepository;
+import UMC.DeVin.project.entity.ProjectPlatform;
+import UMC.DeVin.project.entity.ProjectRecruitment;
+import UMC.DeVin.project.entity.ProjectRegion;
+import UMC.DeVin.project.repository.*;
 import UMC.DeVin.qna.QnaService;
 import UMC.DeVin.qna.dto.PostAnswerReq;
 import UMC.DeVin.qna.dto.PostQuestionReq;
@@ -53,6 +57,9 @@ public class TestData {
         private EntityManager em;
 
         private final ProjectRepository projectRepository;
+        private final ProjectPlatformRepository platformRepository;
+        private final ProjectRecruitmentRepository recruitmentRepository;
+        private final ProjectRegionRepository regionRepository;
         private final MemberRepository memberRepository;
         private final QnaService qnaService;
 
@@ -117,7 +124,7 @@ public class TestData {
             return memberRepository.save(member);
         }
 
-        private Project addTestProjectData(String title, String description, String platform, Member member, String fileName, String imgUrl) {
+        private void addTestProjectData(String title, String description, String platform, Member member, String fileName, String imgUrl) {
             List<PlatformDto> platformList = new ArrayList<>();
             platformList.add(new PlatformDto(platform));
 
@@ -130,9 +137,19 @@ public class TestData {
             regionList.add(new RegionDto("인천"));
 
             Project project = Project.createProject(new PostProjectReqDto(title, description,
-                    "BEGINNER", platformList, recruitmentList, regionList), member, fileName, imgUrl);
+                    Level.BEGINNER, platformList, recruitmentList, regionList), member, fileName, imgUrl);
 
-            return projectRepository.save(project);
+            projectRepository.save(project);
+
+            for(PlatformDto dto : platformList){
+                platformRepository.save(ProjectPlatform.createProjectPlatform(project,dto.getTitle()));
+            }
+            for(RecruitmentDto dto : recruitmentList){
+                recruitmentRepository.save(ProjectRecruitment.createRecruitment(project, dto.getTitle(), dto.getLanguage(), dto.getNum()));
+            }
+            for(RegionDto dto : regionList){
+                regionRepository.save(ProjectRegion.createRegion(project,dto.getTitle()));
+            }
         }
 
         private PostQuestionRes addTestQuestionData(String tag, String title, Member member) {

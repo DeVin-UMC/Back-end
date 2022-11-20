@@ -9,5 +9,4 @@ import org.springframework.data.domain.Pageable;
 public interface ProjectRepository extends JpaRepository<Project,Long>, ProjectRepositoryCustom {
 
     Page<Project> findAll(Pageable pageable);
-    Page<Project> findByTitleContaining(String keyword, Pageable pageable);
 }
