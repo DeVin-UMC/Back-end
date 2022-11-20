@@ -43,13 +43,13 @@ public class Project extends BaseEntity {
     protected Project(){ }
 
     /* 프로젝트 생성 */
-    public static Project createProject(PostProjectReqDto dto, Member member){
+    public static Project createProject(PostProjectReqDto dto, Member member, String url){
         Project newProject = new Project();
         newProject.member = member;
         newProject.title = dto.getTitle();
         newProject.des = dto.getDes();
         newProject.programLevel = ProgramLevel.valueOf(dto.getProgramLevel());
-        newProject.img = dto.getImg();
+        newProject.img = url;
 
         return newProject;
     }
