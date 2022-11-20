@@ -59,6 +59,9 @@ public class FileUploadUtil {
      * @throws BaseException IOException 발생 시, 빈 파일일 경우
      */
     public String uploadFileV1(String category, MultipartFile multipartFile) throws BaseException {
+        if (multipartFile == null || multipartFile.isEmpty()) {
+            return "";
+        }
         validateFileExists(multipartFile);
 
         String fileName = buildFileName(category, multipartFile.getOriginalFilename());

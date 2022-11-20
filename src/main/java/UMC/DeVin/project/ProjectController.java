@@ -20,6 +20,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -39,7 +40,7 @@ public class ProjectController {
      */
     @Operation(summary = "프로젝트 생성 요청", description = "프로젝트가 생성됩니다.")
     @PostMapping("/projects")
-    public BaseResponse<PostProjectResDto> createProject(@RequestBody @Valid PostProjectReqDto dto) throws BaseException {
+    public BaseResponse<PostProjectResDto> createProject(@RequestPart @Valid PostProjectReqDto dto, @RequestPart MultipartFile file) throws BaseException {
 
         // 로그인 유저
         Member loginMember = oAuthLoginUserUtil.getLoginMemberWithContext();
@@ -49,7 +50,7 @@ public class ProjectController {
             return new BaseResponse<>(BaseResponseStatus.INVALID_USER_JWT);
         }
 
-        PostProjectResDto postProjectResDto = projectService.createProject(dto, loginMember);
+        PostProjectResDto postProjectResDto = projectService.createProject(dto, loginMember ,file);
         return new BaseResponse<>(postProjectResDto);
 
     }

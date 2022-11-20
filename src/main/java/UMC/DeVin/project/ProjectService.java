@@ -1,5 +1,7 @@
 package UMC.DeVin.project;
 
+import UMC.DeVin.common.base.BaseException;
+import UMC.DeVin.file.FileUploadUtil;
 import UMC.DeVin.member.Member;
 import UMC.DeVin.project.dto.*;
 import UMC.DeVin.project.entity.Project;
@@ -15,6 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -27,11 +30,15 @@ public class ProjectService {
     private final ProjectPlatformRepository projectPlatformRepository;
     private final ProjectRecruitmentRepository projectRecruitmentRepository;
     private final ProjectRegionRepository projectRegionRepository;
+    private final FileUploadUtil fileUploadUtil;
 
-    public PostProjectResDto createProject(PostProjectReqDto dto, Member member) {
+    public PostProjectResDto createProject(PostProjectReqDto dto, Member member, MultipartFile file) throws BaseException {
+
+        // 이미지 업로드
+        String imgUrl = fileUploadUtil.uploadFileV1("project", file);
 
         // 게시글 생성
-        Project project = Project.createProject(dto,member);
+        Project project = Project.createProject(dto,member,file.getOriginalFilename(),imgUrl);
         projectRepository.save(project);
 
         // 플랫폼 생성
