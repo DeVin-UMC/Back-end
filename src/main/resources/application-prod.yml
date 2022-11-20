@@ -71,11 +71,27 @@ logging.level:
 cloud:
   aws:
     credentials:
-      access-key: ${IAM_ACCESS_KEY}
-      secret-key: ${IAM_SECRET_KEY}
+      access-key: ${iam.access.key}
+      secret-key: ${iam.secret.key}
     region:
       static: ap-northeast-2
     s3:
-      bucket: ${S3_BUCKET_NAME}
+      bucket: ${s3.bucket.name}
     stack:
       auto: false
+
+# Swagger
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    groups-order: DESC
+    operationsSorter: method
+    disable-swagger-default-url: true
+    display-request-duration: true
+  api-docs:
+    path: /api-docs
+  show-actuator: true
+  default-consumes-media-type: application/json
+  default-produces-media-type: application/json
+  paths-to-match:
+    - /**
