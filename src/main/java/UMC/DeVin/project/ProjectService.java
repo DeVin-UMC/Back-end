@@ -1,7 +1,10 @@
 package UMC.DeVin.project;
 
+import UMC.DeVin.common.Level;
+import UMC.DeVin.common.Platform;
 import UMC.DeVin.common.base.BaseException;
 import UMC.DeVin.file.FileUploadUtil;
+import UMC.DeVin.heart.entity.type.Type;
 import UMC.DeVin.member.Member;
 import UMC.DeVin.project.dto.*;
 import UMC.DeVin.project.entity.Project;
@@ -12,6 +15,9 @@ import UMC.DeVin.project.repository.ProjectPlatformRepository;
 import UMC.DeVin.project.repository.ProjectRecruitmentRepository;
 import UMC.DeVin.project.repository.ProjectRegionRepository;
 import UMC.DeVin.project.repository.ProjectRepository;
+import UMC.DeVin.qna.dto.GetQnaDto;
+import UMC.DeVin.qna.entity.Question;
+import UMC.DeVin.qna.entity.QuestionTag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -19,7 +25,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -66,15 +74,20 @@ public class ProjectService {
     }
 
     @Transactional(readOnly = true)
-    public Page<ProjectRes> findPage(ProjectSearchCondition condition, Pageable pageable) {
+    public List<ProjectRes> findPage(ProjectSearchCondition condition, Pageable pageable) {
+        // 필터링 조건이 없을 경우
+        if(condition.getLevel()==null && condition.getPlatform()==null & condition.getRegion()==null){
+            return projectRepository.findByNoCondition(pageable);
+        }
+
         return projectRepository.findPage(condition, pageable);
     }
 
+
     @Transactional(readOnly = true)
-    public List<ProjectRes> search(String keyword, Pageable pageable) {
+    public List<ProjectRes> searchProject(String keyword, Pageable pageable) {
         return projectRepository.findByKeyword(keyword, pageable);
     }
-
     
 }
 

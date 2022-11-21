@@ -1,9 +1,9 @@
 package UMC.DeVin.project.entity;
 
+import UMC.DeVin.common.Level;
 import UMC.DeVin.common.base.BaseEntity;
 import UMC.DeVin.member.Member;
 import UMC.DeVin.project.dto.PostProjectReqDto;
-import UMC.DeVin.project.entity.level.ProgramLevel;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 
@@ -34,8 +34,8 @@ public class Project extends BaseEntity {
     private String des;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "pro_level",nullable = false)
-    private ProgramLevel programLevel;
+    @Column(name = "pro_level")
+    private Level programLevel;
 
     @Column(name = "pro_img_name")
     private String imgFileName;
@@ -51,7 +51,7 @@ public class Project extends BaseEntity {
         newProject.member = member;
         newProject.title = dto.getTitle();
         newProject.des = dto.getDes();
-        newProject.programLevel = ProgramLevel.valueOf(dto.getProgramLevel());
+        newProject.programLevel = dto.getProgramLevel();
         newProject.imgFileName = filename;
         newProject.imgUrl = url;
 

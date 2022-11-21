@@ -1,5 +1,6 @@
 package UMC.DeVin.project.entity;
 
+import UMC.DeVin.common.Platform;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 
@@ -21,13 +22,14 @@ public class ProjectPlatform {
     @JsonIgnore
     private Project project;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "pla_title",nullable = false)
-    private String title;
+    private Platform title;
 
     protected ProjectPlatform(){ }
 
     /* 플랫폼 생성 */
-    public static ProjectPlatform createProjectPlatform(Project project, String title) {
+    public static ProjectPlatform createProjectPlatform(Project project, Platform title) {
         ProjectPlatform newPlatform = new ProjectPlatform();
         newPlatform.project = project;
         newPlatform.title = title;
