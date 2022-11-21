@@ -1,5 +1,6 @@
 package UMC.DeVin.project.dto;
 
+import UMC.DeVin.common.Region;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
@@ -10,5 +11,5 @@ import javax.validation.constraints.NotBlank;
 public class RegionDto {
 
     @NotBlank(message = "원하시는 지역을 입력해주세요 !")
-    private String title;
+    private Region title;
 }
