@@ -9,6 +9,10 @@ import java.util.List;
 public interface ProjectRepositoryCustom {
 
     List<ProjectRes> findPage(ProjectSearchCondition condition, Pageable pageable);
+
+    //분류, 지역, 난이도
+    List<ProjectRes> findByNoCondition(Pageable pageable);
+
     List<ProjectRes> findByKeyword(String keyword, Pageable pageable);
 
 }

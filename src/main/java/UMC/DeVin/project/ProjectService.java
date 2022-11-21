@@ -1,6 +1,7 @@
 package UMC.DeVin.project;
 
 import UMC.DeVin.common.Level;
+import UMC.DeVin.common.Platform;
 import UMC.DeVin.common.base.BaseException;
 import UMC.DeVin.file.FileUploadUtil;
 import UMC.DeVin.heart.entity.type.Type;
@@ -74,8 +75,14 @@ public class ProjectService {
 
     @Transactional(readOnly = true)
     public List<ProjectRes> findPage(ProjectSearchCondition condition, Pageable pageable) {
+        // 필터링 조건이 없을 경우
+        if(condition.getLevel()==null && condition.getPlatform()==null & condition.getRegion()==null){
+            return projectRepository.findByNoCondition(pageable);
+        }
+
         return projectRepository.findPage(condition, pageable);
     }
+
 
     @Transactional(readOnly = true)
     public List<ProjectRes> searchProject(String keyword, Pageable pageable) {
