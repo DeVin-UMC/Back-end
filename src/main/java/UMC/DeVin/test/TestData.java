@@ -1,6 +1,8 @@
 package UMC.DeVin.test;
 
 import UMC.DeVin.common.Level;
+import UMC.DeVin.common.Platform;
+import UMC.DeVin.common.Region;
 import UMC.DeVin.config.oauth.entity.ProviderType;
 import UMC.DeVin.member.Member;
 import UMC.DeVin.member.repository.MemberRepository;
@@ -84,16 +86,16 @@ public class TestData {
                     GOOGLE, "닉네임5");
 
             // 2. Test Project 데이터 삽입
-            addTestProjectData("쇼핑몰 프로젝트 팀원 모집합니다.", "같이 쇼핑몰 만들어요", "web", member1,"project/test1_1668953271103.jpg","https://devin-s3-bucket.s3.ap-northeast-2.amazonaws.com/project/test1_1668953271103.jpg");
-            addTestProjectData("스프링 프로젝트 팀원 모집합니다.", "같이 쇼핑몰 만들어요", "app", member1,"project/test2_1668953315306.jpg","https://devin-s3-bucket.s3.ap-northeast-2.amazonaws.com/project/test2_1668953315306.jpg");
-            addTestProjectData("리액트 프로젝트 팀원 모집합니다.", "같이 쇼핑몰 만들어요", "game", member1,"project/test3_1668953335143.jpg","https://devin-s3-bucket.s3.ap-northeast-2.amazonaws.com/project/test3_1668953335143.jpg");
-            addTestProjectData("쇼핑몰 프로젝트 팀원 모집해요", "같이 쇼핑몰 만들어요", "desktop-app", member2,"project/test4_1668953361255.jpg","https://devin-s3-bucket.s3.ap-northeast-2.amazonaws.com/project/test4_1668953361255.jpg");
-            addTestProjectData("쇼핑몰 만들어요", "같이 쇼핑몰 만들어요", "web", member3,"project/preview1_1668953389844.jpg","https://devin-s3-bucket.s3.ap-northeast-2.amazonaws.com/project/preview1_1668953389844.jpg");
-            addTestProjectData("프로젝트 모집 제목1", "같이 쇼핑몰 만들어요", "app", member4,"project/preview2_1668953407679.jpg","https://devin-s3-bucket.s3.ap-northeast-2.amazonaws.com/project/preview2_1668953407679.jpg");
-            addTestProjectData("프로젝트 모집 제목2", "같이 쇼핑몰 만들어요", "web", member5,"project/preview3_1668953433347.jpg","https://devin-s3-bucket.s3.ap-northeast-2.amazonaws.com/project/preview3_1668953433347.jpg");
-            addTestProjectData("프로젝트 모집 제목3", "같이 쇼핑몰 만들어요", "web", member5,"project/test1_1668953271103.jpg","https://devin-s3-bucket.s3.ap-northeast-2.amazonaws.com/project/test1_1668953271103.jpg");
-            addTestProjectData("프로젝트 모집 제목4", "같이 쇼핑몰 만들어요", "web", member2,"project/test3_1668953335143.jpg","https://devin-s3-bucket.s3.ap-northeast-2.amazonaws.com/project/test3_1668953335143.jpg");
-            addTestProjectData("프로젝트 모집 제목5", "같이 쇼핑몰 만들어요", "web", member2,"project/preview1_1668953389844.jpg","https://devin-s3-bucket.s3.ap-northeast-2.amazonaws.com/project/preview1_1668953389844.jpg");
+            addTestProjectData("쇼핑몰 프로젝트 팀원 모집합니다.", "같이 쇼핑몰 만들어요", Platform.WEB, member1,"project/test1_1668953271103.jpg","https://devin-s3-bucket.s3.ap-northeast-2.amazonaws.com/project/test1_1668953271103.jpg");
+            addTestProjectData("스프링 프로젝트 팀원 모집합니다.", "같이 쇼핑몰 만들어요", Platform.ANDROID, member1,"project/test2_1668953315306.jpg","https://devin-s3-bucket.s3.ap-northeast-2.amazonaws.com/project/test2_1668953315306.jpg");
+            addTestProjectData("리액트 프로젝트 팀원 모집합니다.", "같이 쇼핑몰 만들어요", Platform.WEB, member1,"project/test3_1668953335143.jpg","https://devin-s3-bucket.s3.ap-northeast-2.amazonaws.com/project/test3_1668953335143.jpg");
+            addTestProjectData("쇼핑몰 프로젝트 팀원 모집해요", "같이 쇼핑몰 만들어요", Platform.DESKTOP, member2,"project/test4_1668953361255.jpg","https://devin-s3-bucket.s3.ap-northeast-2.amazonaws.com/project/test4_1668953361255.jpg");
+            addTestProjectData("쇼핑몰 만들어요", "같이 쇼핑몰 만들어요", Platform.WEB, member3,"project/preview1_1668953389844.jpg","https://devin-s3-bucket.s3.ap-northeast-2.amazonaws.com/project/preview1_1668953389844.jpg");
+            addTestProjectData("프로젝트 모집 제목1", "같이 쇼핑몰 만들어요", Platform.IOS, member4,"project/preview2_1668953407679.jpg","https://devin-s3-bucket.s3.ap-northeast-2.amazonaws.com/project/preview2_1668953407679.jpg");
+            addTestProjectData("프로젝트 모집 제목2", "같이 쇼핑몰 만들어요", Platform.ETC, member5,"project/preview3_1668953433347.jpg","https://devin-s3-bucket.s3.ap-northeast-2.amazonaws.com/project/preview3_1668953433347.jpg");
+            addTestProjectData("프로젝트 모집 제목3", "같이 쇼핑몰 만들어요", Platform.WEB, member5,"project/test1_1668953271103.jpg","https://devin-s3-bucket.s3.ap-northeast-2.amazonaws.com/project/test1_1668953271103.jpg");
+            addTestProjectData("프로젝트 모집 제목4", "같이 쇼핑몰 만들어요", Platform.WEB, member2,"project/test3_1668953335143.jpg","https://devin-s3-bucket.s3.ap-northeast-2.amazonaws.com/project/test3_1668953335143.jpg");
+            addTestProjectData("프로젝트 모집 제목5", "같이 쇼핑몰 만들어요", Platform.WEB, member2,"project/preview1_1668953389844.jpg","https://devin-s3-bucket.s3.ap-northeast-2.amazonaws.com/project/preview1_1668953389844.jpg");
 
             // 3. Test Study 데이터 삽입
 
@@ -124,7 +126,7 @@ public class TestData {
             return memberRepository.save(member);
         }
 
-        private void addTestProjectData(String title, String description, String platform, Member member, String fileName, String imgUrl) {
+        private void addTestProjectData(String title, String description, Platform platform, Member member, String fileName, String imgUrl) {
             List<PlatformDto> platformList = new ArrayList<>();
             platformList.add(new PlatformDto(platform));
 
@@ -133,8 +135,8 @@ public class TestData {
             recruitmentList.add(new RecruitmentDto("back-end", "spring", 5));
 
             List<RegionDto> regionList = new ArrayList<>();
-            regionList.add(new RegionDto("서울"));
-            regionList.add(new RegionDto("인천"));
+            regionList.add(new RegionDto(Region.BUSAN));
+            regionList.add(new RegionDto(Region.CHUNGNAM));
 
             Project project = Project.createProject(new PostProjectReqDto(title, description,
                     Level.BEGINNER, platformList, recruitmentList, regionList), member, fileName, imgUrl);
