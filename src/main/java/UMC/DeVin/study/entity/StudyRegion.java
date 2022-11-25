@@ -12,14 +12,15 @@ import static javax.persistence.FetchType.LAZY;
 @Table(name = "STUDY_REGION")
 public class StudyRegion extends BaseEntity {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "reg_id", nullable = false)
-    private int id;
+    private long id;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "std_id")
+    @JoinColumn(name = "std_id", nullable = false)
     private Study study;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "reg_title", nullable = false)
     private Region region;
 

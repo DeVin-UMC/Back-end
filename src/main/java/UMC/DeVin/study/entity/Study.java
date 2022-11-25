@@ -14,9 +14,13 @@ import javax.persistence.*;
 public class Study extends BaseEntity {
 
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "std_id", nullable = false)
     private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "mbr_id")
+    private Member member;
 
     @Column(name = "std_title", nullable = false)
     private String title;
@@ -24,8 +28,8 @@ public class Study extends BaseEntity {
     @Column(name = "std_des", nullable = false, columnDefinition = "TEXT")
     private String description;
 
-    @Column(name = "std_level", nullable = false)
     @Enumerated(EnumType.STRING)
+    @Column(name = "std_level", nullable = false)
     private Level level;
 
     @Column(name = "std_rec_num", nullable = false)
@@ -34,9 +38,6 @@ public class Study extends BaseEntity {
     @Column(name = "std_img", nullable = true)
     private String imageUrl;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "mbr_id")
-    private Member member;
 
 
     protected Study() { }
@@ -61,6 +62,10 @@ public class Study extends BaseEntity {
     public static Study createStudy(PostStudyReqDTO dto, String imageUrl, Member member) {
         return new Study(dto.getTitle(), dto.getDescription(), dto.getLevel(), dto.getRecruitNumber(),
                 imageUrl, member);
+    }
+    public void updateStudy(PostStudyReqDTO postStudyReqDTO){
+        this.title = postStudyReqDTO.getTitle();
+        this.description = postStudyReqDTO.getDescription();
     }
 
 }

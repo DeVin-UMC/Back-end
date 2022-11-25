@@ -22,7 +22,6 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
-import static UMC.DeVin.common.base.Constant.PROJECT;
 import static UMC.DeVin.study.entity.StudyRegion.createStudyRegion;
 
 /**
@@ -47,13 +46,13 @@ public class StudyService {
     public PostStudyResDTO createStudy(PostStudyReqDTO dto, Member member) throws BaseException {
 
         // 0. 이미지 파일 업로드
-        String imageUrl = fileUploadUtil.uploadFileV1(PROJECT, dto.getFile());
+        String imageUrl = fileUploadUtil.uploadFileV1("PROJECT", dto.getFile());
 
         // 1. Study 엔티티 생성
         Study createdStudy = studyRepository.save(Study.createStudy(dto, imageUrl, member));
 
         // 2. StudyRegion 엔티티 생성
-        for (RegionDTO regionDTO : dto.getRegionDtos()) {
+        for (RegionDTO regionDTO : dto.getRegionDto()) {
             studyRegionRepository.save(createStudyRegion(createdStudy, regionDTO));
         }
 
@@ -67,7 +66,7 @@ public class StudyService {
      * @return 스터디 페이징 결과
      */
     public List<StudyResDTO> findPage(Pageable pageable) {
-        List<StudyResDTO> studyResDTOs = new ArrayList<>();
+        List<StudyResDTO> studyRes = new ArrayList<>();
 
         Page<Study> studies = studyRepository.findAll(pageable);
         for (Study study : studies) {
@@ -76,13 +75,17 @@ public class StudyService {
             for (StudyRegion studyRegion : regions) {
                 regionDTOs.add(new RegionDTO(studyRegion.getRegion()));
             }
-            studyResDTOs.add(new StudyResDTO(study.getId(), study.getTitle(), study.getDescription(), study.getLevel(),
+            studyRes.add(new StudyResDTO(study.getId(), study.getTitle(), study.getDescription(), study.getLevel(),
                     study.getRecruitNumber(), study.getImageUrl(), new MemberRes(study.getMember().getId(),
                     study.getMember().getEmail(),  study.getMember().getProfileImageUrl(), study.getMember().getNickname(),
                     study.getMember().getDivision(), study.getMember().getRole()), regionDTOs));
         }
 
-        return studyResDTOs;
+        return studyRes;
+    }
+    @org.springframework.transaction.annotation.Transactional(readOnly = true)
+    public List<StudyResDTO> searchStudy(String keyword, Pageable pageable) {
+        return studyRepository.findByKeyword(keyword, pageable);
     }
 
 }
