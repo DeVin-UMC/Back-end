@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ProjectRes {
 
+    private Long projectId;
     private String title;
     private String imgUrl;
     private String content;
