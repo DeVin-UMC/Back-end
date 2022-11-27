@@ -33,6 +33,7 @@ public class ProjectRepositoryImpl implements ProjectRepositoryCustom{
 
         List<ProjectRes> content = queryFactory
                 .select(Projections.fields(ProjectRes.class,
+                        project.id.as("projectId"),
                         project.title,
                         project.imgUrl,
                         project.des.as("content"),
@@ -62,6 +63,7 @@ public class ProjectRepositoryImpl implements ProjectRepositoryCustom{
 
             List<ProjectRes> content = queryFactory
                     .select(Projections.fields(ProjectRes.class,
+                            project.id.as("projectId"),
                             project.title,
                             project.imgUrl,
                             project.des.as("content"),
@@ -98,6 +100,7 @@ public class ProjectRepositoryImpl implements ProjectRepositoryCustom{
 
         List<ProjectRes> content = queryFactory
                 .select(Projections.fields(ProjectRes.class,
+                        project.id.as("projectId"),
                         project.title,
                         project.imgUrl,
                         project.des.as("content"),
