@@ -1,5 +1,6 @@
 package UMC.DeVin.project.entity;
 
+import UMC.DeVin.common.Region;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 
@@ -19,11 +20,12 @@ public class ProjectRegion {
     @JsonIgnore
     private Project project;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "rec_title",nullable = false)
-    private String title;
+    private Region title;
 
     protected ProjectRegion(){}
-    public static ProjectRegion createRegion(Project project, String title) {
+    public static ProjectRegion createRegion(Project project, Region title) {
         ProjectRegion newRegion = new ProjectRegion();
         newRegion.project = project;
         newRegion.title = title;

@@ -8,6 +8,7 @@ import java.util.List;
 @Data
 @Builder
 public class GetQnaDto {
+    private Long questionId;
     private String title;
     private String content;
     private String writer;

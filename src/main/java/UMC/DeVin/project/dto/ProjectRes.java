@@ -1,5 +1,8 @@
 package UMC.DeVin.project.dto;
 
+import UMC.DeVin.common.Level;
+import UMC.DeVin.common.Platform;
+import UMC.DeVin.common.Region;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -7,11 +10,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ProjectRes {
 
+    private Long projectId;
     private String title;
-    private String img;
+    private String imgUrl;
     private String content;
-    private String programLevel;
-    private String platform;
-    private String region;
+    private Level programLevel;
+    private Platform platform;
+    private Region region;
 
 }
