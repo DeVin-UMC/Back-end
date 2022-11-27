@@ -78,6 +78,7 @@ public class QnaService {
         for(Question question : questionList){
             qnaDtoList.add(
                     GetQnaDto.builder()
+                            .questionId(question.getId())
                             .title(question.getTitle())
                             .content(question.getContent())
                             .writer(question.getWriter().getName())
@@ -104,6 +105,7 @@ public class QnaService {
         for(Question question : questionList){
             qnaDtoList.add(
                     GetQnaDto.builder()
+                            .questionId(question.getId())
                             .title(question.getTitle())
                             .content(question.getContent())
                             .writer(question.getWriter().getName())
