@@ -4,7 +4,9 @@ import UMC.DeVin.auth.IpAddressUtil;
 import UMC.DeVin.auth.MemberRefreshToken;
 import UMC.DeVin.auth.OAuthLoginUserUtil;
 import UMC.DeVin.auth.dto.AccessTokenRes;
+import UMC.DeVin.auth.dto.GoogleLoginResDTO;
 import UMC.DeVin.auth.repository.MemberRefreshTokenRepository;
+import UMC.DeVin.auth.service.AuthService;
 import UMC.DeVin.common.base.BaseException;
 import UMC.DeVin.common.base.BaseResponse;
 import UMC.DeVin.common.base.BaseResponseStatus;
@@ -37,6 +39,7 @@ public class AuthController {
     private final MemberRefreshTokenRepository memberRefreshTokenRepository;
     private final MemberRepository memberRepository;
     private final OAuthLoginUserUtil oAuthLoginUserUtil;
+    private final AuthService authService;
 
     private final static long THREE_DAYS_MSEC = 259200000;
     private final static String REFRESH_TOKEN = "refresh_token";
@@ -172,5 +175,18 @@ public class AuthController {
         return new BaseResponse<>(new LoginMemberRes(token, loginMember.getEmail(), loginMember.getProfileImageUrl(),
                 loginMember.getNickname(), loginMember.getDivision(), loginMember.getRole()));
     }
+
+    /**
+     * 클라이언트로부터 credential 문자열을 받았을 때 이를 이용해서 로그인 객체를 내려주는 역할을 수행합니다.
+     * @param credential 클라이언트로부터 넘겨받은 credential 문자열
+     * @return 로그인된 사용자 정보 (이미 회원인지, 회원가입이 필요한 신규 회원인지 등의 정보를 포함)
+     * @throws BaseException credential 값이 잘못된 경우
+     */
+    @GetMapping("/login/google/token")
+    public BaseResponse<GoogleLoginResDTO> googleLoginByCredential(@RequestParam String credential)
+            throws BaseException {
+        return new BaseResponse<>(authService.googleLogin(credential));
+    }
+
 }
 

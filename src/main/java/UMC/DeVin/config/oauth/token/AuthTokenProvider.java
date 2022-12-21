@@ -38,9 +38,7 @@ public class AuthTokenProvider {
         return new AuthToken(token, key);
     }
 
-    public Authentication
-    getAuthentication(AuthToken authToken) {
-
+    public Authentication getAuthentication(AuthToken authToken) {
 
         if(authToken.validate()) {
 

@@ -15,5 +15,8 @@ public class MemberJoinReq {
     @NotBlank
     @Size(max = 15)
     private String nickname;
+    private String email;
+    private String name;
+    private String pictureUrl;
 
 }

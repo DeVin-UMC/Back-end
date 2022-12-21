@@ -79,7 +79,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/**/admin/**").hasAnyAuthority(MemberRole.ADMIN.getCode())
                 .antMatchers("/login/google").permitAll()
                 .antMatchers("/token/refresh").permitAll()
-                .antMatchers("/join").permitAll()
+                .antMatchers("/join/**").permitAll()
                 .antMatchers("/test").permitAll()
                 .antMatchers("/questions/**").permitAll()
 
@@ -92,6 +92,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/questions/**").permitAll()
                 .antMatchers("/answers/**").permitAll()
                 .antMatchers("/qna/**").permitAll()
+                .antMatchers("/login/google/token").permitAll()
                 // 모든 기능 개발 완료될 때까지 Spring Security 적용하지 않음
 
 

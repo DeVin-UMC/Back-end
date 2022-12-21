@@ -56,6 +56,8 @@ public enum BaseResponseStatus {
     FILE_IO_ERROR(false, 2051, HttpStatus.INTERNAL_SERVER_ERROR, "AWS bucket에 저장을 실패했습니다."),
     FILE_MAX_SIZE_EXCEEDED(false, 2052, HttpStatus.BAD_REQUEST, "20MB보다 큰 파일이 입력으로 들어왔습니다."),
 
+    INVALID_GOOGLE_CREDENTIAL(false, 2061, HttpStatus.BAD_REQUEST, "credential에 해당하는 사용자가 없습니다."),
+
 
 
 
