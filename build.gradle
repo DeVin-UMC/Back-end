@@ -81,6 +81,9 @@ dependencies {
 	// Swagger
 	implementation 'org.springdoc:springdoc-openapi-ui:1.6.12'
 	implementation 'org.springdoc:springdoc-openapi-data-rest:1.6.12'
+
+	// Google Login
+	implementation 'com.google.api-client:google-api-client:1.30.10'
 }
 
 
