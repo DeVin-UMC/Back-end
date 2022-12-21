@@ -8,12 +8,18 @@ import UMC.DeVin.config.oauth.token.AuthToken;
 import UMC.DeVin.config.oauth.token.AuthTokenProvider;
 import UMC.DeVin.config.properties.AppProperties;
 import UMC.DeVin.member.repository.MemberRepository;
+import UMC.DeVin.member.role.MemberRole;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.jackson2.JacksonFactory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.util.Collections;
 import java.util.Date;
 
 import static UMC.DeVin.member.role.MemberRole.USER;
@@ -24,13 +30,25 @@ import static UMC.DeVin.member.role.MemberRole.USER;
  * @version 1.0.0
  */
 @Service
-@RequiredArgsConstructor
 public class AuthService {
 
     private final AuthTokenProvider authTokenProvider;
     private final GoogleIdTokenVerifier verifier;
     private final MemberRepository memberRepository;
     private final AppProperties appProperties;
+
+    public AuthService(@Value("${app.google.client.id}") String googleClientId, AuthTokenProvider authTokenProvider,
+                       MemberRepository memberRepository, AppProperties appProperties) {
+        this.authTokenProvider = authTokenProvider;
+        this.memberRepository = memberRepository;
+        this.appProperties = appProperties;
+
+        NetHttpTransport transport = new NetHttpTransport();
+        JsonFactory jsonFactory = new JacksonFactory();
+        verifier = new GoogleIdTokenVerifier.Builder(transport, jsonFactory)
+                .setAudience(Collections.singletonList(googleClientId))
+                .build();
+    }
 
     /**
      * 클라이언트로부터 credential을 넘겨받았을 때 이미 있는 사용자이면 로그인을, 없는 사용자면 회원가입을 하도록 응답을 내려줍니다.
